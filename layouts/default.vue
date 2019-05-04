@@ -89,6 +89,11 @@ export default {
         },
         {
           icon: 'bubble_chart',
+          title: 'Reports',
+          to: '/reports'
+        },
+        {
+          icon: 'bubble_chart',
           title: 'Settings',
           to: '/settings'
         }
