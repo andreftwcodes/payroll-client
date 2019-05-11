@@ -11,7 +11,10 @@
         <v-layout row wrap>
           <v-flex>
             <v-avatar :size="100" color="grey lighten-4">
-              <img src="https://assets.rbl.ms/14233227/980x.png" alt="avatar" />
+              <img
+                src="https://cdn1.iconfinder.com/data/icons/avatar-vol-9/512/1-512.png"
+                alt="avatar"
+              />
             </v-avatar>
           </v-flex>
         </v-layout>
