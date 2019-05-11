@@ -30,6 +30,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
+        <Reports />
         <UserManagement />
       </v-list>
     </v-navigation-drawer>
@@ -65,9 +66,11 @@
 
 <script>
 import UserManagement from '@/components/menus/UserManagement'
+import Reports from '@/components/menus/Reports'
 export default {
   components: {
-    UserManagement
+    UserManagement,
+    Reports
   },
   data() {
     return {
@@ -89,11 +92,6 @@ export default {
           icon: 'bubble_chart',
           title: 'Attendance',
           to: '/attendance'
-        },
-        {
-          icon: 'bubble_chart',
-          title: 'Reports',
-          to: '/reports'
         },
         {
           icon: 'bubble_chart',
