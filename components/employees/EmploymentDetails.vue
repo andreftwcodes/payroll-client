@@ -25,7 +25,7 @@
                 v-model="form.schedule.start"
                 :error-messages="errors.start ? errors.start[0] : ''"
                 label="Time In"
-                prepend-icon="access_time"
+                append-icon="access_time"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -63,7 +63,7 @@
                 v-model="form.schedule.end"
                 :error-messages="errors.end ? errors.end[0] : ''"
                 label="Time Out"
-                prepend-icon="access_time"
+                append-icon="access_time"
                 readonly
                 v-on="on"
               ></v-text-field>

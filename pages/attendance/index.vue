@@ -54,8 +54,8 @@
             >
           </td>
           <td>{{ props.item.locale.name }}</td>
-          <td>{{ props.item.start }}</td>
-          <td>{{ props.item.end }}</td>
+          <td>{{ props.item.start_dsp }}</td>
+          <td>{{ props.item.end_dsp }}</td>
           <td>{{ props.item.remark }}</td>
         </template>
       </v-data-table>
@@ -73,6 +73,7 @@ import _ from 'lodash'
 import { mapActions } from 'vuex'
 import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 export default {
+  middleware: 'auth',
   components: {
     AttendanceDialogForm
   },

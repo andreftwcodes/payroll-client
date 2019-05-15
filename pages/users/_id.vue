@@ -16,6 +16,7 @@
 import { mapGetters, mapMutations } from 'vuex'
 import DetailForm from '@/components/users/DetailForm'
 export default {
+  middleware: 'auth',
   components: {
     DetailForm
   },
