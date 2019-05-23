@@ -2,7 +2,7 @@
   <v-form @submit.prevent="submit">
     <v-container fluid grid-list-md text-xs-center>
       <v-layout row wrap>
-        <v-flex md2>
+        <v-flex md3>
           <v-text-field
             v-model="form.rate"
             label="Rate"
@@ -86,7 +86,7 @@
             </v-time-picker>
           </v-dialog>
         </v-flex>
-        <v-flex md4>
+        <v-flex md3>
           <v-select
             v-model="form.locale"
             :items="locales"

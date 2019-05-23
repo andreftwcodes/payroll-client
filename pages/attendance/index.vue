@@ -33,7 +33,11 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="date" @input="filterDate"></v-date-picker>
+              <v-date-picker
+                v-model="date"
+                :max="new Date().toISOString().substr(0, 10)"
+                @input="filterDate"
+              ></v-date-picker>
             </v-menu>
           </v-flex>
         </v-layout>
@@ -126,6 +130,9 @@ export default {
       attendances: response.data
     }
   },
+  created() {
+    this.filterDate(false)
+  },
   methods: {
     ...mapActions({
       clearErrors: 'validation/clearErrors'
@@ -142,14 +149,22 @@ export default {
         attendance
       )
     },
-    async filterDate() {
+    async filterDate(loader = true) {
       this.dateMenu = false
+
+      let loading = this.$loading
+
+      if (loader) {
+        loading = this.$loading.show()
+      }
+
       try {
         const response = await this.$axios.$get('attendances', {
           params: {
             created_at: this.date
           }
         })
+        loading.hide()
         this.attendances = response.data
       } catch (error) {}
     }
