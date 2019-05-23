@@ -155,7 +155,7 @@ export default {
       let loading = this.$loading
 
       if (loader) {
-        loading = this.$loading.show()
+        loading = loading.show()
       }
 
       try {
