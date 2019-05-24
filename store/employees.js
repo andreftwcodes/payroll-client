@@ -16,7 +16,10 @@ export const mutations = {
     state.employee = employee
   },
   SET_EMPLOYMENT_DETAILS(state, extras) {
-    state.employee = _.merge(state.employee, { locale_id: extras.locale })
+    state.employee = _.merge(state.employee, {
+      schedule_id: extras.schedule,
+      locale_id: extras.locale
+    })
     state.extras = extras
   }
 }
@@ -35,7 +38,6 @@ export const actions = {
 
     dispatch('attachRate', response.data)
     dispatch('attachDeductions', response.data)
-    dispatch('attachSchedule', response.data)
     dispatch('attachOther', response.data)
 
     commit('SET_EMPLOYEE', {})
@@ -49,12 +51,6 @@ export const actions = {
   },
   async attachDeductions({ state }, employee) {
     await this.$axios.$post(`employee/deductions/${employee.id}`, state.extras)
-  },
-  async attachSchedule({ state }, employee) {
-    await this.$axios.$post(
-      `employee/schedule/${employee.id}`,
-      state.extras.schedule
-    )
   },
   async attachOther({ state }, employee) {
     await this.$axios.$post(`employee/other/${employee.id}`, state.extras.other)

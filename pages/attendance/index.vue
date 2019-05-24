@@ -159,6 +159,7 @@ export default {
       }
 
       try {
+        await this.$axios.$post('attendances')
         const response = await this.$axios.$get('attendances', {
           params: {
             created_at: this.date

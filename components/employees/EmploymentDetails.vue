@@ -11,80 +11,15 @@
           ></v-text-field>
         </v-flex>
         <v-flex md3>
-          <v-dialog
-            ref="dialog1"
-            v-model="timepicker1"
-            :return-value.sync="form.schedule.start"
-            persistent
-            lazy
-            full-width
-            width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="form.schedule.start"
-                :error-messages="errors.start ? errors.start[0] : ''"
-                label="Time In"
-                append-icon="access_time"
-                readonly
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-time-picker
-              v-if="timepicker1"
-              v-model="form.schedule.start"
-              full-width
-            >
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="timepicker1 = false"
-                >Cancel</v-btn
-              >
-              <v-btn
-                flat
-                color="primary"
-                @click="$refs.dialog1.save(form.schedule.start)"
-                >OK</v-btn
-              >
-            </v-time-picker>
-          </v-dialog>
-        </v-flex>
-        <v-flex md3>
-          <v-dialog
-            ref="dialog2"
-            v-model="timepicker2"
-            :return-value.sync="form.schedule.end"
-            persistent
-            lazy
-            full-width
-            width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="form.schedule.end"
-                :error-messages="errors.end ? errors.end[0] : ''"
-                label="Time Out"
-                append-icon="access_time"
-                readonly
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-time-picker
-              v-if="timepicker2"
-              v-model="form.schedule.end"
-              full-width
-            >
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="timepicker2 = false"
-                >Cancel</v-btn
-              >
-              <v-btn
-                flat
-                color="primary"
-                @click="$refs.dialog2.save(form.schedule.end)"
-                >OK</v-btn
-              >
-            </v-time-picker>
-          </v-dialog>
+          <v-select
+            v-model="form.schedule"
+            :items="schedules"
+            :item-text="'name'"
+            :item-value="'id'"
+            :error-messages="errors.locale ? errors.locale[0] : ''"
+            label="Schedule"
+            placeholder="Schedule"
+          ></v-select>
         </v-flex>
         <v-flex md3>
           <v-select
@@ -166,6 +101,7 @@ export default {
   computed: {
     ...mapGetters({
       deductions: 'deductions',
+      schedules: 'schedules',
       locales: 'locales'
     })
   },
@@ -179,13 +115,7 @@ export default {
         _.map(deductions, 'id')
       )
       extras = _.update(extras, 'schedule', schedule => {
-        if (schedule === null) {
-          return {
-            start: null,
-            end: null
-          }
-        }
-        return schedule
+        return schedule !== null ? schedule.id : schedule
       })
       extras = _.update(extras, 'locale', locale => {
         return locale !== null ? locale.id : locale
@@ -206,10 +136,7 @@ export default {
       try {
         await this.$axios.$post(
           'employee/employment/validate',
-          _.merge(_.cloneDeep(this.form), {
-            start: this.form.schedule.start,
-            end: this.form.schedule.end
-          })
+          _.cloneDeep(this.form)
         )
         this.$emit('saved:employment-details')
         this.setEmploymentDetails(_.cloneDeep(this.form))

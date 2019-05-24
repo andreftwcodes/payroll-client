@@ -95,6 +95,11 @@ export default {
         },
         {
           icon: 'bubble_chart',
+          title: 'Schedules',
+          to: '/schedules'
+        },
+        {
+          icon: 'bubble_chart',
           title: 'Settings',
           to: '/settings'
         }
