@@ -30,6 +30,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
+        <Settings />
         <Reports />
         <UserManagement />
       </v-list>
@@ -66,10 +67,12 @@
 
 <script>
 import UserManagement from '@/components/menus/UserManagement'
+import Settings from '@/components/menus/Settings'
 import Reports from '@/components/menus/Reports'
 export default {
   components: {
     UserManagement,
+    Settings,
     Reports
   },
   data() {
@@ -92,16 +95,6 @@ export default {
           icon: 'bubble_chart',
           title: 'Attendance',
           to: '/attendance'
-        },
-        {
-          icon: 'bubble_chart',
-          title: 'Schedules',
-          to: '/schedules'
-        },
-        {
-          icon: 'bubble_chart',
-          title: 'Settings',
-          to: '/settings'
         }
       ],
       miniVariant: false,

@@ -2,7 +2,7 @@
   <v-list-group no-action prepend-icon="account_circle">
     <template v-slot:activator>
       <v-list-tile>
-        <v-list-tile-title>User Management</v-list-tile-title>
+        <v-list-tile-title>Settings</v-list-tile-title>
       </v-list-tile>
     </template>
 
@@ -22,18 +22,18 @@ export default {
       items: [
         {
           icon: 'people_outline',
-          title: 'Users',
-          to: '/users'
+          title: 'Deductions',
+          to: '/settings/deductions'
         },
         {
-          icon: 'settings',
-          title: 'Roles',
-          to: '/roles'
+          icon: 'people_outline',
+          title: 'Schedules',
+          to: '/settings/schedules'
         },
         {
-          icon: 'settings',
-          title: 'Permissions',
-          to: '/permissions'
+          icon: 'people_outline',
+          title: 'Locales',
+          to: '/settings/daily-gross-pay'
         }
       ]
     }
