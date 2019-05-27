@@ -19,6 +19,7 @@
         <template v-slot:items="props">
           <td>{{ props.item.dateDisplay }}</td>
           <td>{{ props.item.remark }}</td>
+          <td>{{ props.item.rate }}</td>
           <td>{{ props.item.grossPay }}</td>
         </template>
       </v-data-table>
@@ -44,6 +45,12 @@ export default {
           align: 'left',
           sortable: false,
           value: 'remark'
+        },
+        {
+          text: 'Rate',
+          align: 'left',
+          sortable: false,
+          value: 'rate'
         },
         {
           text: 'Gross Pay',

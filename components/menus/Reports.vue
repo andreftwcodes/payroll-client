@@ -1,5 +1,5 @@
 <template>
-  <v-list-group no-action prepend-icon="account_circle">
+  <v-list-group no-action prepend-icon="assignment">
     <template v-slot:activator>
       <v-list-tile>
         <v-list-tile-title>Reports</v-list-tile-title>

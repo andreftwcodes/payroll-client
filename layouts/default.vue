@@ -30,8 +30,8 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <Settings />
         <Reports />
+        <Settings />
         <UserManagement />
       </v-list>
     </v-navigation-drawer>
@@ -82,23 +82,23 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'apps',
+          icon: 'dashboard',
           title: 'Dashboard',
           to: '/dashboard'
         },
         {
-          icon: 'bubble_chart',
+          icon: 'group',
           title: 'Employees',
           to: '/employees'
         },
         {
-          icon: 'bubble_chart',
+          icon: 'group_add',
           title: 'Attendance',
           to: '/attendance'
         }
       ],
       miniVariant: false,
-      title: 'Payroll System'
+      title: 'Payroll Management System'
     }
   },
   methods: {
