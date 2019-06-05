@@ -165,8 +165,8 @@ export default {
             created_at: this.date
           }
         })
-        loading.hide()
         this.attendances = response.data
+        loading.hide()
       } catch (error) {}
     }
   }

@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       clipped: false,
-      title: 'Payroll System'
+      title: 'Payroll Management System'
     }
   }
 }

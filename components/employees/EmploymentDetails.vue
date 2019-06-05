@@ -10,7 +10,7 @@
             :error-messages="errors.rate ? errors.rate[0] : ''"
           ></v-text-field>
         </v-flex>
-        <v-flex md3>
+        <v-flex md5>
           <v-select
             v-model="form.schedule"
             :items="schedules"
@@ -21,7 +21,7 @@
             placeholder="Schedule"
           ></v-select>
         </v-flex>
-        <v-flex md3>
+        <v-flex md4>
           <v-select
             v-model="form.locale"
             :items="locales"
@@ -49,6 +49,11 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
+        <v-flex md1>
+          <v-flex md4 class="premiums-flex">Premiums</v-flex>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
         <v-flex md3>
           <v-checkbox
             v-model="form.other.special_person"
@@ -67,7 +72,7 @@
           <v-checkbox
             v-model="form.other.overtime"
             color="primary"
-            label="With Overtime"
+            label="Overtime"
           ></v-checkbox>
         </v-flex>
       </v-layout>
@@ -145,3 +150,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.premiums-flex {
+  margin-bottom: -15px;
+}
+</style>

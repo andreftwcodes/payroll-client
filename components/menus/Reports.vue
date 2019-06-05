@@ -24,6 +24,11 @@ export default {
           icon: 'people_outline',
           title: 'Daily Gross Pay',
           to: '/reports/daily-gross-pay'
+        },
+        {
+          icon: 'people_outline',
+          title: 'Payslip',
+          to: '/reports/daily-gross-pay'
         }
       ]
     }
