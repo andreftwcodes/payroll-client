@@ -1,5 +1,0 @@
-<ConfirmDialog
-:dialog="open"
-@confirmed-dialog="submit"
-@canceled-dialog="open = false"
-/>

@@ -52,15 +52,7 @@
       </template>
     </v-toolbar>
     <v-content>
-      <v-container fluid>
-        <v-layout>
-          <v-flex>
-            <v-card>
-              <nuxt />
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>

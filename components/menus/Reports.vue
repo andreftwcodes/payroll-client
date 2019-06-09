@@ -28,7 +28,7 @@ export default {
         {
           icon: 'people_outline',
           title: 'Payslip',
-          to: '/reports/daily-gross-pay'
+          to: '/reports/payslip'
         }
       ]
     }
