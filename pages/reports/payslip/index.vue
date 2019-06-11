@@ -76,6 +76,9 @@
             <v-btn color="primary" block round @click.prevent="onSearch"
               >Search</v-btn
             >
+            <v-btn color="primary" block round @click.prevent="onPrint"
+              >Print</v-btn
+            >
           </v-flex>
         </v-card>
       </v-flex>
@@ -108,7 +111,8 @@ export default {
       modalFrom: false,
       modalTo: false,
       showTable: false,
-      payslip: {}
+      payslip: {},
+      extra: {}
     }
   },
   async asyncData({ app }) {
@@ -118,6 +122,41 @@ export default {
     }
   },
   methods: {
+    onPrint() {
+      this.popupDialog(this.extra.print_url)
+    },
+    popupDialog(url = '', title = 'xtf', w = 1200, h = 600) {
+      const dualScreenLeft =
+        window.screenLeft !== undefined ? window.screenLeft : screen.left
+      const dualScreenTop =
+        window.screenTop !== undefined ? window.screenTop : screen.top
+
+      const width = window.innerWidth
+        ? window.innerWidth
+        : document.documentElement.clientWidth
+        ? document.documentElement.clientWidth
+        : screen.width
+      const height = window.innerHeight
+        ? window.innerHeight
+        : document.documentElement.clientHeight
+        ? document.documentElement.clientHeight
+        : screen.height
+
+      const left = width / 2 - w / 2 + dualScreenLeft
+      const top = height / 2 - h / 2 + dualScreenTop
+      window.open(
+        url,
+        title,
+        'directories=no,toolbar=0,location=0,menubar=0,scrollbars=yes, width=' +
+          w +
+          ', height=' +
+          h +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      )
+    },
     async onSearch() {
       try {
         const response = await this.$axios.$get(
@@ -130,6 +169,7 @@ export default {
           }
         )
         this.payslip = response.data
+        this.extra = response.extra
         this.showTable = true
       } catch (error) {}
     }

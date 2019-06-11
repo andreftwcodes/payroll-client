@@ -15,11 +15,11 @@
         </tr>
         <tr>
           <td><strong>Basic Rate</strong></td>
-          <td></td>
-          <td class="text-xs-right">
+          <td style="border-top-style: hidden;"></td>
+          <td style="border-top-style: hidden;" class="text-xs-right">
             <strong>{{ payslip.basic_rate }}</strong>
           </td>
-          <td></td>
+          <td style="border-top-style: hidden;"></td>
         </tr>
         <tr>
           <td></td>
@@ -104,7 +104,7 @@ td {
 
 table.v-table tbody td,
 table.v-table tbody th {
-  height: 40px;
+  height: 35px;
 }
 
 .td__name {
