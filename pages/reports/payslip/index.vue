@@ -3,83 +3,12 @@
     <v-layout>
       <v-flex xs12 md3>
         <v-card>
-          <v-flex xs12 class="pb-0">
-            <v-select
-              v-model="employee"
-              :items="employees"
-              item-text="fullname"
-              item-value="id"
-              label="Employee"
-            ></v-select>
-          </v-flex>
-          <v-flex xs12 class="pt-0 pb-0">
-            <v-dialog
-              ref="dialog"
-              v-model="modalFrom"
-              :return-value.sync="dateFrom"
-              persistent
-              lazy
-              full-width
-              width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="dateFrom"
-                  label="Period From"
-                  append-icon="event"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker v-model="dateFrom" scrollable>
-                <v-spacer></v-spacer>
-                <v-btn flat color="primary" @click="modalFrom = false"
-                  >Cancel</v-btn
-                >
-                <v-btn flat color="primary" @click="$refs.dialog.save(dateFrom)"
-                  >OK</v-btn
-                >
-              </v-date-picker>
-            </v-dialog>
-          </v-flex>
-          <v-flex xs12 class="pt-0 pb-0">
-            <v-dialog
-              ref="dialog2"
-              v-model="modalTo"
-              :return-value.sync="dateTo"
-              persistent
-              lazy
-              full-width
-              width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="dateTo"
-                  label="To"
-                  append-icon="event"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker v-model="dateTo" scrollable>
-                <v-spacer></v-spacer>
-                <v-btn flat color="primary" @click="modalTo = false"
-                  >Cancel</v-btn
-                >
-                <v-btn flat color="primary" @click="$refs.dialog2.save(dateTo)"
-                  >OK</v-btn
-                >
-              </v-date-picker>
-            </v-dialog>
-          </v-flex>
-          <v-flex xs12 class="pt-0">
-            <v-btn color="primary" block round @click.prevent="onSearch"
-              >Search</v-btn
-            >
-            <v-btn color="primary" block round @click.prevent="onPrint"
-              >Print</v-btn
-            >
-          </v-flex>
+          <FilterPaySlip
+            :employees="employees"
+            :can-print="canPrint"
+            @pickup:payslip="pickUpPaySlip"
+            @show:popup-payslip="onPrint"
+          />
         </v-card>
       </v-flex>
       <v-flex xs12 md9>
@@ -87,6 +16,9 @@
           <v-flex xs12>
             <template v-if="showTable">
               <PaySlipTable :payslip="payslip" />
+            </template>
+            <template v-else>
+              <h1 class="text-md-center">Pay Slip Not Available</h1>
             </template>
           </v-flex>
         </v-card>
@@ -96,21 +28,19 @@
 </template>
 
 <script>
+import FilterPaySlip from '@/components/reports/payslip/FilterPaySlip'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 export default {
   middleware: 'auth',
   components: {
+    FilterPaySlip,
     PaySlipTable
   },
   data() {
     return {
       employees: [],
-      employee: 1,
-      dateFrom: new Date().toISOString().substr(0, 10),
-      dateTo: new Date().toISOString().substr(0, 10),
-      modalFrom: false,
-      modalTo: false,
       showTable: false,
+      canPrint: false,
       payslip: {},
       extra: {}
     }
@@ -157,20 +87,23 @@ export default {
           left
       )
     },
-    async onSearch() {
+    async pickUpPaySlip(item) {
+      const loading = this.$loading.show()
       try {
         const response = await this.$axios.$get(
-          `/payslip/period/${this.employee}`,
+          `/payslip/period/${item.employee_id}`,
           {
             params: {
-              from: this.dateFrom,
-              to: this.dateTo
+              from: item.dateFrom,
+              to: item.dateTo
             }
           }
         )
         this.payslip = response.data
         this.extra = response.extra
         this.showTable = true
+        this.canPrint = true
+        loading.hide()
       } catch (error) {}
     }
   }

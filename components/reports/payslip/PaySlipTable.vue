@@ -6,7 +6,7 @@
           <td colspan="2" class="td__name">
             <strong>Name:</strong> {{ payslip.fullname }}
           </td>
-          <td colspan="2" class="td__date">
+          <td colspan="2" class="td__date text-xs-right">
             <strong>Date:</strong> {{ payslip.date_issued }}
           </td>
         </tr>
@@ -83,9 +83,7 @@ export default {
   props: {
     payslip: {
       type: Object,
-      default: () => {
-        return {}
-      }
+      required: true
     }
   },
   data() {
