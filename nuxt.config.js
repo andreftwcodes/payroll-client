@@ -91,8 +91,7 @@ export default {
     },
     redirect: {
       login: '/auth/signin',
-      logout: '/',
-      callback: '/auth/signin',
+      logout: '/auth/signin',
       home: '/dashboard'
     },
     watchLoggedIn: true,

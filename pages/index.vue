@@ -1,12 +1,12 @@
 <template>
   <v-layout column justify-center align-center>
-    <h1>Home</h1>
+    <h1>Image Here</h1>
   </v-layout>
 </template>
 
 <script>
 export default {
-  layout: 'indexLayout',
+  layout: 'default',
   middleware: 'guest',
   components: {}
 }

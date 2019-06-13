@@ -36,7 +36,10 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon
+        v-if="authenticated"
+        @click.stop="drawer = !drawer"
+      ></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer />
       <template v-if="authenticated">
@@ -45,9 +48,7 @@
       </template>
       <template v-if="!authenticated">
         <div>
-          <v-btn color="primary" nuxt :to="{ name: 'auth-signin' }"
-            >SignIn</v-btn
-          >
+          <v-list-tile :to="{ name: 'auth-signin' }">Sign In</v-list-tile>
         </div>
       </template>
     </v-toolbar>
