@@ -39,6 +39,7 @@ export const actions = {
     dispatch('attachRate', response.data)
     dispatch('attachDeductions', response.data)
     dispatch('attachOther', response.data)
+    dispatch('updateAttendanceAttributes', response.data)
 
     commit('SET_EMPLOYEE', {})
     commit('SET_EMPLOYMENT_DETAILS', {})
@@ -54,5 +55,14 @@ export const actions = {
   },
   async attachOther({ state }, employee) {
     await this.$axios.$post(`employee/other/${employee.id}`, state.extras.other)
+  },
+  async updateAttendanceAttributes({ state }, employee) {
+    await this.$axios.$patch(`employee/attendance/attributes/${employee.id}`, {
+      amount: state.extras.rate,
+      schedule_id: state.extras.schedule,
+      special_person: state.extras.other.special_person,
+      night_shift: state.extras.other.night_shift,
+      overtime: state.extras.other.overtime
+    })
   }
 }
