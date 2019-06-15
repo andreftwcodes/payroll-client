@@ -2,13 +2,16 @@
   <v-form @submit.prevent="submit">
     <v-container fluid grid-list-md text-xs-center>
       <v-layout row wrap>
-        <v-flex md3>
+        <v-flex md2>
           <v-text-field
             v-model="form.rate"
             label="Rate"
             placeholder="Rate"
             :error-messages="errors.rate ? errors.rate[0] : ''"
           ></v-text-field>
+        </v-flex>
+        <v-flex md1 class="pt-3 pr-5">
+          <RateHistoryDialog />
         </v-flex>
         <v-flex md5>
           <v-select
@@ -86,7 +89,11 @@
 <script>
 import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
+import RateHistoryDialog from '@/components/employees/RateHistoryDialog'
 export default {
+  components: {
+    RateHistoryDialog
+  },
   props: {
     extras: {
       type: Object,
@@ -136,6 +143,9 @@ export default {
         return other
       })
       return extras
+    },
+    viewRateHistory() {
+      console.log(123)
     },
     async submit() {
       try {
