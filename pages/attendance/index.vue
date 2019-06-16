@@ -1,75 +1,79 @@
 <template>
-  <div>
-    <v-card>
-      <v-card-title>
-        <v-layout row wrap>
-          <v-flex md4>
-            <v-text-field
-              v-model="search"
-              append-icon="search"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-flex>
-          <v-flex md5></v-flex>
-          <v-flex md3>
-            <v-menu
-              v-model="dateMenu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
+  <v-container fluid>
+    <v-layout>
+      <v-flex>
+        <v-card>
+          <v-card-title>
+            <v-layout row wrap>
+              <v-flex md4>
                 <v-text-field
-                  v-model="date"
-                  label="Filter date"
-                  append-icon="event"
-                  readonly
-                  v-on="on"
+                  v-model="search"
+                  append-icon="search"
+                  label="Search"
+                  single-line
+                  hide-details
                 ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="date"
-                :max="new Date().toISOString().substr(0, 10)"
-                @input="filterDate"
-              ></v-date-picker>
-            </v-menu>
-          </v-flex>
-        </v-layout>
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="attendances"
-        :rows-per-page-items="rowsPerPage"
-        :search="search"
-        class="elevation-1"
-      >
-        <template v-slot:items="props">
-          <td>
-            <a
-              href="javascript:void(0);"
-              @click.prevent="showAttendanceDialogForm(props.item)"
-              >{{ props.item.employee.fullname }}</a
-            >
-          </td>
-          <td>{{ props.item.locale.name }}</td>
-          <td>{{ props.item.start_dsp }}</td>
-          <td>{{ props.item.end_dsp }}</td>
-          <td>{{ props.item.remark }}</td>
-        </template>
-      </v-data-table>
-    </v-card>
-    <AttendanceDialogForm
-      v-model="dialogForm"
-      :attendance="attendance"
-      @attendance:updated="attendanceUpdated"
-    />
-  </div>
+              </v-flex>
+              <v-flex md5></v-flex>
+              <v-flex md3>
+                <v-menu
+                  v-model="dateMenu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="date"
+                      label="Filter date"
+                      append-icon="event"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="date"
+                    :max="new Date().toISOString().substr(0, 10)"
+                    @input="filterDate"
+                  ></v-date-picker>
+                </v-menu>
+              </v-flex>
+            </v-layout>
+          </v-card-title>
+          <v-data-table
+            :headers="headers"
+            :items="attendances"
+            :rows-per-page-items="rowsPerPage"
+            :search="search"
+            class="elevation-1"
+          >
+            <template v-slot:items="props">
+              <td>
+                <a
+                  href="javascript:void(0);"
+                  @click.prevent="showAttendanceDialogForm(props.item)"
+                  >{{ props.item.employee.fullname }}</a
+                >
+              </td>
+              <td>{{ props.item.locale.name }}</td>
+              <td>{{ props.item.start_dsp }}</td>
+              <td>{{ props.item.end_dsp }}</td>
+              <td>{{ props.item.remark }}</td>
+            </template>
+          </v-data-table>
+        </v-card>
+        <AttendanceDialogForm
+          v-model="dialogForm"
+          :attendance="attendance"
+          @attendance:updated="attendanceUpdated"
+        />
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

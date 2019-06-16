@@ -18,97 +18,23 @@
                   placeholder="Locale"
                 ></v-select>
               </v-flex>
-
               <v-flex xs12 md4>
-                <v-dialog
-                  ref="dialog1"
-                  v-model="timepicker1"
-                  :return-value.sync="attendance.start"
-                  persistent
-                  lazy
-                  full-width
-                  width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      v-model="attendance.start"
-                      :error-messages="errors.start ? errors.start[0] : ''"
-                      label="Time In"
-                      append-icon="access_time"
-                      readonly
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-time-picker
-                    v-if="timepicker1"
-                    v-model="attendance.start"
-                    full-width
-                  >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      flat
-                      color="primary"
-                      :disabled="attendance.start === null"
-                      @click="attendance.start = null"
-                      >Reset</v-btn
-                    >
-                    <v-btn flat color="primary" @click="timepicker1 = false"
-                      >Cancel</v-btn
-                    >
-                    <v-btn
-                      flat
-                      color="primary"
-                      @click="$refs.dialog1.save(attendance.start)"
-                      >OK</v-btn
-                    >
-                  </v-time-picker>
-                </v-dialog>
+                <v-text-field
+                  v-model="attendance.start"
+                  type="time"
+                  label="Time In"
+                  placeholder="Placeholder"
+                  append-icon="access_time"
+                ></v-text-field>
               </v-flex>
-
               <v-flex xs12 md4>
-                <v-dialog
-                  ref="dialog2"
-                  v-model="timepicker2"
-                  :return-value.sync="attendance.end"
-                  persistent
-                  lazy
-                  full-width
-                  width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      v-model="attendance.end"
-                      :error-messages="errors.end ? errors.end[0] : ''"
-                      label="Time Out"
-                      append-icon="access_time"
-                      readonly
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-time-picker
-                    v-if="timepicker2"
-                    v-model="attendance.end"
-                    full-width
-                  >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      flat
-                      color="primary"
-                      :disabled="attendance.end === null"
-                      @click="attendance.end = null"
-                      >Reset</v-btn
-                    >
-                    <v-btn flat color="primary" @click="timepicker2 = false"
-                      >Cancel</v-btn
-                    >
-                    <v-btn
-                      flat
-                      color="primary"
-                      @click="$refs.dialog2.save(attendance.end)"
-                      >OK</v-btn
-                    >
-                  </v-time-picker>
-                </v-dialog>
+                <v-text-field
+                  v-model="attendance.end"
+                  type="time"
+                  label="Time Out"
+                  placeholder="Placeholder"
+                  append-icon="access_time"
+                ></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -146,10 +72,7 @@ export default {
     }
   },
   data() {
-    return {
-      timepicker1: false,
-      timepicker2: false
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
