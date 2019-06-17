@@ -1,47 +1,56 @@
 <template>
   <div>
-    <v-card>
-      <v-card-title>
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" nuxt :to="{ name: 'employees-create' }"
-          >Add New</v-btn
-        >
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="employees"
-        :rows-per-page-items="rowsPerPage"
-        :search="search"
-        class="elevation-1"
-      >
-        <template v-slot:items="props">
-          <td>{{ props.item.firstname }}</td>
-          <td>{{ props.item.middlename }}</td>
-          <td>{{ props.item.lastname }}</td>
-          <td>{{ props.item.gender }}</td>
-          <td>{{ props.item.age }}</td>
-          <td>{{ props.item.contact }}</td>
-          <td>{{ props.item.birthdate }}</td>
-          <td>{{ props.item.status }}</td>
-          <td>
-            <v-btn
-              small
-              color="primary"
-              nuxt
-              :to="{ name: 'employees-id', params: { id: props.item.id } }"
-              >View</v-btn
+    <v-container fluid>
+      <v-layout>
+        <v-flex>
+          <v-card>
+            <v-card-title>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" nuxt :to="{ name: 'employees-create' }"
+                >Add New</v-btn
+              >
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="employees"
+              :rows-per-page-items="rowsPerPage"
+              :search="search"
+              class="elevation-1"
             >
-          </td>
-        </template>
-      </v-data-table>
-    </v-card>
+              <template v-slot:items="props">
+                <td>{{ props.item.firstname }}</td>
+                <td>{{ props.item.middlename }}</td>
+                <td>{{ props.item.lastname }}</td>
+                <td>{{ props.item.gender }}</td>
+                <td>{{ props.item.age }}</td>
+                <td>{{ props.item.contact }}</td>
+                <td>{{ props.item.birthdate }}</td>
+                <td>{{ props.item.status }}</td>
+                <td>
+                  <v-btn
+                    small
+                    color="primary"
+                    nuxt
+                    :to="{
+                      name: 'employees-id',
+                      params: { id: props.item.id }
+                    }"
+                    >View</v-btn
+                  >
+                </td>
+              </template>
+            </v-data-table>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 

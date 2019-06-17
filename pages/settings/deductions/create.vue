@@ -1,12 +1,20 @@
 <template>
-  <DetailForm @sumbit-deduction="submit">
-    <template v-slot:buttons>
-      <v-btn color="primary" nuxt :to="{ name: 'settings-deductions' }"
-        >Back</v-btn
-      >
-      <v-btn color="primary" type="submit">Save</v-btn>
-    </template>
-  </DetailForm>
+  <v-container fluid>
+    <v-layout>
+      <v-flex>
+        <v-card>
+          <DetailForm @sumbit-deduction="submit">
+            <template v-slot:buttons>
+              <v-btn color="primary" nuxt :to="{ name: 'settings-deductions' }"
+                >Back</v-btn
+              >
+              <v-btn color="primary" type="submit">Save</v-btn>
+            </template>
+          </DetailForm>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

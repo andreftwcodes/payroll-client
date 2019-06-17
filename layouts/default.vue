@@ -21,18 +21,39 @@
       </v-container>
 
       <v-list>
-        <v-list-tile v-for="(item, i) in items" :key="i" :to="item.to" router>
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" />
-          </v-list-tile-content>
-        </v-list-tile>
+        <div v-for="(item, i) in items" :key="i">
+          <template v-if="!item.list_group">
+            <v-list-tile :to="item.to" router>
+              <v-list-tile-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="item.title" />
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+          <template v-else-if="item.list_group">
+            <v-list-group no-action :prepend-icon="item.icon">
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                </v-list-tile>
+              </template>
 
-        <Reports />
-        <Settings />
-        <UserManagement />
+              <v-list-tile
+                v-for="(children, x) in item.childrens"
+                :key="x"
+                :to="children.to"
+                router
+              >
+                <v-list-tile-title v-text="children.title"></v-list-tile-title>
+                <v-list-tile-action>
+                  <v-icon v-text="children.icon"></v-icon>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list-group>
+          </template>
+        </div>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
@@ -59,42 +80,27 @@
 </template>
 
 <script>
-import UserManagement from '@/components/menus/UserManagement'
-import Settings from '@/components/menus/Settings'
-import Reports from '@/components/menus/Reports'
 export default {
-  components: {
-    UserManagement,
-    Settings,
-    Reports
-  },
   data() {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'dashboard',
-          title: 'Dashboard',
-          to: '/dashboard'
-        },
-        {
-          icon: 'group',
-          title: 'Employees',
-          to: '/employees'
-        },
-        {
-          icon: 'group_add',
-          title: 'Attendance',
-          to: '/attendance'
-        }
-      ],
+      items: [],
       miniVariant: false,
       title: 'Payroll Management System'
     }
   },
+  created() {
+    this.getSideBarMenu()
+  },
   methods: {
+    async getSideBarMenu() {
+      try {
+        const response = await this.$axios.$get(`/sidebar/menu/${this.user.id}`)
+        this.items = response.data
+      } catch (error) {}
+    },
     logout() {
       this.$auth.logout()
     }

@@ -1,28 +1,34 @@
 <template>
   <div>
-    <v-card>
-      <v-card-title>
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="roles"
-        :rows-per-page-items="rowsPerPage"
-        :search="search"
-        class="elevation-1"
-      >
-        <template v-slot:items="props">
-          <td>{{ props.item.name }}</td>
-        </template>
-      </v-data-table>
-    </v-card>
+    <v-container fluid>
+      <v-layout>
+        <v-flex>
+          <v-card>
+            <v-card-title>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+              <v-spacer></v-spacer>
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="roles"
+              :rows-per-page-items="rowsPerPage"
+              :search="search"
+              class="elevation-1"
+            >
+              <template v-slot:items="props">
+                <td>{{ props.item.name }}</td>
+              </template>
+            </v-data-table>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 

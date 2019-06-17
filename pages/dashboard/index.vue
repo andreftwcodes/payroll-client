@@ -1,5 +1,13 @@
 <template>
-  <p>Dashboard</p>
+  <v-container fluid>
+    <v-layout>
+      <v-flex>
+        <v-card>
+          <p>Dashboard</p>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
