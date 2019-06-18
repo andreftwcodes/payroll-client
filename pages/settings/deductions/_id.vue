@@ -1,35 +1,20 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex>
-        <v-card>
-          <DetailForm
-            :single-deduction="singleDeduction"
-            @sumbit-deduction="submit"
-          >
-            <template v-slot:buttons>
-              <v-btn color="primary" @click.prevent="back">Back</v-btn>
-              <template v-if="disabled">
-                <v-btn class="primary" @click.prevent="edit">Edit</v-btn>
-              </template>
-              <template v-else>
-                <v-btn class="primary" type="submit">Update</v-btn>
-              </template>
-            </template>
-          </DetailForm>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div>
+    <template v-if="getDeductionId == 1">
+      <Contributions />
+    </template>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import DetailForm from '@/components/settings/deductions/DetailForm'
+// import DetailForm from '@/components/settings/deductions/DetailForm'
+import Contributions from '@/components/settings/deductions/partials/Contributions'
 export default {
   middleware: 'auth',
   components: {
-    DetailForm
+    // DetailForm
+    Contributions
   },
   data() {
     return {
@@ -39,7 +24,10 @@ export default {
   computed: {
     ...mapGetters({
       disabled: 'disabled'
-    })
+    }),
+    getDeductionId() {
+      return this.$route.params.id
+    }
   },
   async asyncData({ app, params }) {
     const response = await app.$axios.$get(`deductions/${params.id}`)

@@ -1,0 +1,15 @@
+<DetailForm
+v-show="false"
+:single-deduction="singleDeduction"
+@sumbit-deduction="submit"
+>
+<template v-slot:buttons>
+    <v-btn color="primary" @click.prevent="back">Back</v-btn>
+    <template v-if="disabled">
+    <v-btn class="primary" @click.prevent="edit">Edit</v-btn>
+    </template>
+    <template v-else>
+    <v-btn class="primary" type="submit">Update</v-btn>
+    </template>
+</template>
+</DetailForm>

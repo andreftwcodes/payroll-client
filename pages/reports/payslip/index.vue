@@ -3,12 +3,14 @@
     <v-layout>
       <v-flex xs12 md3>
         <v-card>
-          <FilterPaySlip
-            :employees="employees"
-            :can-print="canPrint"
-            @pickup:payslip="pickUpPaySlip"
-            @show:popup-payslip="onPrint"
-          />
+          <v-flex xs12>
+            <FilterPaySlip
+              :employees="employees"
+              :can-print="canPrint"
+              @pickup:payslip="pickUpPaySlip"
+              @show:popup-payslip="onPrint"
+            />
+          </v-flex>
         </v-card>
       </v-flex>
       <v-flex xs12 md9>
