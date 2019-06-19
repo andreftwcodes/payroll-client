@@ -1,16 +1,23 @@
 import _ from 'lodash'
 
 export const state = () => ({
+  ranges: [],
   contributions: []
 })
 
 export const getters = {
+  ranges(state) {
+    return state.ranges
+  },
   contributions(state) {
     return state.contributions
   }
 }
 
 export const mutations = {
+  SET_RANGES(state, ranges) {
+    state.ranges = ranges
+  },
   SET_CONTRIBUTIONS(state, contributions) {
     state.contributions = contributions
   },
@@ -39,6 +46,9 @@ export const mutations = {
 }
 
 export const actions = {
+  setRanges({ commit }, ranges) {
+    commit('SET_RANGES', ranges)
+  },
   appendContribution({ commit }, contribution) {
     commit('UPDATE_STATUS_TO_INACTIVE', contribution)
     commit('APPEND_CONTRIBUTION', contribution)

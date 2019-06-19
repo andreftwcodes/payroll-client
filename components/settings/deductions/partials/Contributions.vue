@@ -9,11 +9,16 @@
               <v-tab href="#pagibig">PagIbig</v-tab>
               <v-tab href="#philhealth">PhilHealth</v-tab>
             </v-tabs>
-            <ContributionTable
-              class="mt-3"
-              :contributions="contributions"
-              :tabs="tabs"
-            />
+            <template v-if="isRangesEmpty">
+              <ContributionTable
+                class="mt-3"
+                :contributions="contributions"
+                :tabs="tabs"
+              />
+            </template>
+            <template v-else>
+              <TableRanges class="mt-3" />
+            </template>
           </v-flex>
         </v-card>
       </v-flex>
@@ -22,21 +27,28 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
 import ContributionTable from '@/components/settings/deductions/partials/ContributionTable'
+import TableRanges from '@/components/settings/deductions/partials/TableRanges'
 export default {
   components: {
-    ContributionTable
+    ContributionTable,
+    TableRanges
   },
   data() {
     return {
-      tabs: null
+      tabs: 'sss'
     }
   },
   computed: {
     ...mapGetters({
+      ranges: 'contributions/ranges',
       contributions: 'contributions/contributions'
-    })
+    }),
+    isRangesEmpty() {
+      return _.isEmpty(this.ranges)
+    }
   },
   watch: {
     tabs: function(newValue, oldValue) {

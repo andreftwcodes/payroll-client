@@ -15,8 +15,13 @@
       <template v-slot:items="props">
         <td>{{ props.index + 1 }}</td>
         <td>{{ props.item.title }}</td>
-        <td>{{ props.item.status_display }}</td>
-        <td><v-btn @click="onEdit(props.item)">Edit</v-btn> | Show</td>
+        <td>
+          {{ props.item.status_display }}
+        </td>
+        <td>
+          <v-icon class="pr-2" @click="onEdit(props.item)">edit</v-icon>
+          <v-icon @click="onView(props.item)">view_module</v-icon>
+        </td>
       </template>
     </v-data-table>
     <DialogForm
@@ -30,6 +35,7 @@
 <script>
 import _ from 'lodash'
 import DialogForm from '@/components/settings/deductions/partials/DialogForm'
+import { mapActions } from 'vuex'
 export default {
   components: {
     DialogForm
@@ -67,7 +73,7 @@ export default {
           value: 'to'
         },
         {
-          text: 'Actions',
+          text: '',
           align: 'left',
           value: ''
         }
@@ -81,6 +87,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setRanges: 'contributions/setRanges'
+    }),
     addNew() {
       this.dialogForm = true
       this.contribution = {
@@ -93,6 +102,16 @@ export default {
     onEdit(contribution) {
       this.dialogForm = true
       this.contribution = _.clone(contribution)
+    },
+    async onView(contribution) {
+      const loading = this.$loading.show()
+      try {
+        const response = await this.$axios.$get(
+          `contribution-ranges/${contribution.id}`
+        )
+        loading.hide()
+        this.setRanges(response.data)
+      } catch (error) {}
     }
   }
 }
