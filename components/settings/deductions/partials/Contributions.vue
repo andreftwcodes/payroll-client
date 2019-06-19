@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 import ContributionTable from '@/components/settings/deductions/partials/ContributionTable'
 export default {
   components: {
@@ -29,9 +30,13 @@ export default {
   },
   data() {
     return {
-      tabs: null,
-      contributions: []
+      tabs: null
     }
+  },
+  computed: {
+    ...mapGetters({
+      contributions: 'contributions/contributions'
+    })
   },
   watch: {
     tabs: function(newValue, oldValue) {
@@ -42,6 +47,9 @@ export default {
     this.getContributions()
   },
   methods: {
+    ...mapMutations({
+      setContributions: 'contributions/SET_CONTRIBUTIONS'
+    }),
     async getContributions(flag = 'sss') {
       const loading = this.$loading.show()
       try {
@@ -50,8 +58,8 @@ export default {
             flag: flag
           }
         })
-        this.contributions = response.data
         loading.hide()
+        this.setContributions(response.data)
       } catch (error) {}
     }
   }

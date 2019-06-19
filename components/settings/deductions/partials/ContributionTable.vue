@@ -15,15 +15,20 @@
       <template v-slot:items="props">
         <td>{{ props.index + 1 }}</td>
         <td>{{ props.item.title }}</td>
-        <td>{{ props.item.status }}</td>
-        <td>Edit | Show</td>
+        <td>{{ props.item.status_display }}</td>
+        <td><v-btn @click="onEdit(props.item)">Edit</v-btn> | Show</td>
       </template>
     </v-data-table>
-    <DialogForm v-model="dialogForm" :title="tabs" />
+    <DialogForm
+      v-model="dialogForm"
+      :title="tabs"
+      :contribution="contribution"
+    />
   </v-card>
 </template>
 
 <script>
+import _ from 'lodash'
 import DialogForm from '@/components/settings/deductions/partials/DialogForm'
 export default {
   components: {
@@ -66,12 +71,28 @@ export default {
           align: 'left',
           value: ''
         }
-      ]
+      ],
+      contribution: {
+        id: null,
+        flag: null,
+        title: null,
+        status: true
+      }
     }
   },
   methods: {
     addNew() {
       this.dialogForm = true
+      this.contribution = {
+        id: null,
+        flag: null,
+        title: null,
+        status: true
+      }
+    },
+    onEdit(contribution) {
+      this.dialogForm = true
+      this.contribution = _.clone(contribution)
     }
   }
 }

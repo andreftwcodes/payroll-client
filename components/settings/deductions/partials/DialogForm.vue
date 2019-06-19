@@ -4,7 +4,7 @@
       <v-card>
         <v-form ref="form" @submit.prevent="submit">
           <v-card-title class="headline grey lighten-2" primary-title>
-            {{ title }}
+            {{ formattedTitle }}
           </v-card-title>
 
           <v-card-text>
@@ -28,7 +28,7 @@
             <v-btn color="primary" flat type="submit">
               Save
             </v-btn>
-            <v-btn color="primary" flat @click="show = false">
+            <v-btn color="primary" flat @click="onCancel">
               Cancel
             </v-btn>
           </v-card-actions>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     value: {
@@ -46,20 +48,28 @@ export default {
     },
     title: {
       type: String,
-      default: ''
+      default: 'sss'
+    },
+    contribution: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
     return {
-      dialog: false,
-      form: {
-        title: '',
-        satus: true
-      },
-      statusLabel: ''
+      form: this.contribution,
+      statusLabel: 'Active'
     }
   },
   computed: {
+    ...mapGetters({
+      contributions: 'contributions/contributions'
+    }),
+    formattedTitle() {
+      return _.toUpper(this.title)
+    },
     show: {
       get() {
         return this.value
@@ -72,11 +82,40 @@ export default {
   watch: {
     'form.status': function(newVal) {
       this.statusLabel = newVal === true ? 'Active' : 'Inactive'
+    },
+    title: function(newVal) {
+      this.form.flag = newVal
+    },
+    contribution: function(newVal) {
+      this.form = newVal
     }
   },
   methods: {
-    submit() {
-      console.log(this.form)
+    ...mapActions({
+      appendContribution: 'contributions/appendContribution',
+      updateContribution: 'contributions/updateContribution'
+    }),
+    onCancel() {
+      this.show = false
+    },
+    async submit() {
+      this.form.flag = this.title
+      try {
+        let response = {}
+
+        if (this.form.id === null) {
+          response = await this.$axios.$post('hdr-contributions', this.form)
+          this.appendContribution(response.data)
+        } else {
+          response = await this.$axios.$patch(
+            `hdr-contributions/${this.form.id}`,
+            this.form
+          )
+          this.updateContribution(response.data)
+        }
+
+        this.show = false
+      } catch (error) {}
     }
   }
 }
