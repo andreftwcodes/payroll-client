@@ -9,6 +9,14 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
+      <v-btn
+        color="error"
+        depressed
+        small
+        nuxt
+        :to="{ name: 'settings-deductions' }"
+        >Back</v-btn
+      >
       <v-btn color="success" depressed small @click="addNew">Add New</v-btn>
     </v-card-title>
     <v-data-table :headers="headers" :items="contributions" class="elevation-1">

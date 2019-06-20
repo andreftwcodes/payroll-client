@@ -18,6 +18,9 @@ export const mutations = {
   SET_RANGES(state, ranges) {
     state.ranges = ranges
   },
+  SET_RANGES_TABLE(state, table) {
+    state.ranges.table = table
+  },
   SET_CONTRIBUTIONS(state, contributions) {
     state.contributions = contributions
   },
@@ -48,6 +51,9 @@ export const mutations = {
 export const actions = {
   setRanges({ commit }, ranges) {
     commit('SET_RANGES', ranges)
+  },
+  setRangesTable({ commit }, table) {
+    commit('SET_RANGES_TABLE', table)
   },
   appendContribution({ commit }, contribution) {
     commit('UPDATE_STATUS_TO_INACTIVE', contribution)

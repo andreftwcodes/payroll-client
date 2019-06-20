@@ -4,7 +4,7 @@
       <h2 class="text-md-center">{{ ranges.title }}</h2>
       <v-spacer></v-spacer>
       <v-btn small color="error" @click="onBack">Back</v-btn>
-      <v-btn small color="success">Add New</v-btn>
+      <FileUploader />
     </v-card-title>
     <v-data-table :headers="headers" :items="ranges.table" class="elevation-1">
       <template v-slot:items="props">
@@ -13,14 +13,19 @@
         <td>{{ props.item.to }}</td>
         <td>{{ props.item.er }}</td>
         <td>{{ props.item.ee }}</td>
+        <td>{{ props.item.status }}</td>
       </template>
     </v-data-table>
   </v-card>
 </template>
 
 <script>
+import FileUploader from '@/components/settings/deductions/partials/FileUploader'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: {
+    FileUploader
+  },
   data() {
     return {
       headers: [
@@ -50,6 +55,12 @@ export default {
         },
         {
           text: 'Employee Share',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        {
+          text: 'Status',
           align: 'left',
           sortable: false,
           value: 'name'
