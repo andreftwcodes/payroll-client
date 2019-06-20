@@ -1,8 +1,9 @@
 <template>
   <div>
-    <input id="file" ref="file" type="file" @change="onUpload" />
-    <v-btn @click.prevent="onValidate">Validate</v-btn>
-    <v-btn @click.prevent="onSave">Save</v-btn>
+    <input v-show="false" id="file" ref="file" type="file" @change="onUpload" />
+    <v-btn small @click.prevent="$refs.file.click()">Choose File</v-btn>
+    <v-btn small @click.prevent="onValidate">Validate</v-btn>
+    <v-btn small @click.prevent="onSave">Save</v-btn>
   </div>
 </template>
 
@@ -52,6 +53,7 @@ export default {
           id: this.ranges.id,
           table: this.ranges.table
         })
+        this.file = null
         this.setRangesTable(response.data)
       } catch (error) {}
     }

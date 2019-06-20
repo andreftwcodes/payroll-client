@@ -4,16 +4,35 @@
       <h2 class="text-md-center">{{ ranges.title }}</h2>
       <v-spacer></v-spacer>
       <v-btn small color="error" @click="onBack">Back</v-btn>
+      <v-btn small color="primary" @click="onBack">Download Template</v-btn>
       <FileUploader />
     </v-card-title>
-    <v-data-table :headers="headers" :items="ranges.table" class="elevation-1">
+    <v-flex xs12>
+      <v-alert
+        v-if="errors.file"
+        :value="true"
+        class="pt-2 pb-2"
+        color="error"
+        icon="warning"
+        outline
+      >
+        {{ errors.file[0] }}
+      </v-alert>
+    </v-flex>
+    <v-data-table
+      :headers="headers"
+      :items="ranges.table"
+      hide-actions
+      class="elevation-1"
+    >
       <template v-slot:items="props">
         <td>{{ props.index + 1 }}</td>
-        <td>{{ props.item.from }}</td>
-        <td>{{ props.item.to }}</td>
-        <td>{{ props.item.er }}</td>
-        <td>{{ props.item.ee }}</td>
+        <td>{{ props.item.from_display }}</td>
+        <td>{{ props.item.to_display }}</td>
+        <td>{{ props.item.er_display }}</td>
+        <td>{{ props.item.ee_display }}</td>
         <td>{{ props.item.status }}</td>
+        <td>{{ props.item.message }}</td>
       </template>
     </v-data-table>
   </v-card>
@@ -61,6 +80,12 @@ export default {
         },
         {
           text: 'Status',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        {
+          text: 'Message',
           align: 'left',
           sortable: false,
           value: 'name'
