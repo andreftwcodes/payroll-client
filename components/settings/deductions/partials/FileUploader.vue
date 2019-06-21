@@ -1,7 +1,15 @@
 <template>
   <div>
     <input v-show="false" id="file" ref="file" type="file" @change="onUpload" />
-    <v-btn small @click.prevent="$refs.file.click()">Choose File</v-btn>
+    <v-badge v-model="badge" color="success" right overlap>
+      <template v-slot:badge>
+        <v-icon dark small>
+          done
+        </v-icon>
+      </template>
+      <v-btn small @click.prevent="$refs.file.click()">Choose File</v-btn>
+    </v-badge>
+
     <v-btn small @click.prevent="onValidate">Validate</v-btn>
     <v-btn small @click.prevent="onSave">Save</v-btn>
   </div>
@@ -12,7 +20,13 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      file: null
+      file: null,
+      badge: false
+    }
+  },
+  watch: {
+    file: function(newVal) {
+      this.badge = newVal !== null
     }
   },
   computed: {
@@ -45,7 +59,11 @@ export default {
       } catch (error) {}
     },
     onUpload() {
-      this.file = this.$refs.file.files[0]
+      if (this.$refs.file.files[0] === undefined) {
+        this.file = null
+      } else {
+        this.file = this.$refs.file.files[0]
+      }
     },
     async onSave() {
       try {
