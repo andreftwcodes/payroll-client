@@ -3,8 +3,7 @@
     <v-card-title>
       <h2 class="text-md-center">{{ ranges.title }}</h2>
       <v-spacer></v-spacer>
-      <v-btn small color="error" @click="onBack">Back</v-btn>
-      <v-btn small color="primary" @click="onBack">Download Template</v-btn>
+      <v-btn small @click="onBack">Back</v-btn>
       <FileUploader />
     </v-card-title>
     <v-flex xs12>
@@ -27,12 +26,22 @@
     >
       <template v-slot:items="props">
         <td>{{ props.index + 1 }}</td>
+        <td>
+          <v-icon>{{ props.item.status ? 'check' : 'cancel' }}</v-icon>
+        </td>
         <td>{{ props.item.from_display }}</td>
         <td>{{ props.item.to_display }}</td>
         <td>{{ props.item.er_display }}</td>
         <td>{{ props.item.ee_display }}</td>
-        <td>{{ props.item.status }}</td>
-        <td>{{ props.item.message }}</td>
+        <td>
+          <span
+            :class="{
+              'red--text': props.item.message !== null,
+              'font-weight-black': true
+            }"
+            >{{ props.item.message }}</span
+          >
+        </td>
       </template>
     </v-data-table>
   </v-card>
@@ -50,6 +59,12 @@ export default {
       headers: [
         {
           text: '#',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        {
+          text: 'Status',
           align: 'left',
           sortable: false,
           value: 'name'
@@ -79,13 +94,7 @@ export default {
           value: 'name'
         },
         {
-          text: 'Status',
-          align: 'left',
-          sortable: false,
-          value: 'name'
-        },
-        {
-          text: 'Message',
+          text: '',
           align: 'left',
           sortable: false,
           value: 'name'

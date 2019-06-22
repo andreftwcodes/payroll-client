@@ -11,6 +11,22 @@ export const getters = {
   },
   contributions(state) {
     return state.contributions
+  },
+  canSaveRanges(state) {
+    if (_.isEmpty(state.ranges.table)) {
+      return true
+    }
+
+    if (
+      _.filter(
+        state.ranges.table,
+        o => !_.has(o, 'message') || (_.has(o, 'message') && o.message !== null)
+      ).length
+    ) {
+      return true
+    }
+
+    return false
   }
 }
 

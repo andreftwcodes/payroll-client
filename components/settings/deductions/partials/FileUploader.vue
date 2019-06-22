@@ -9,30 +9,38 @@
       </template>
       <v-btn small @click.prevent="$refs.file.click()">Choose File</v-btn>
     </v-badge>
-
     <v-btn small @click.prevent="onValidate">Validate</v-btn>
-    <v-btn small @click.prevent="onSave">Save</v-btn>
+    <v-btn small :disabled="canSaveRanges" @click.prevent="confirmDialog = true"
+      >Save</v-btn
+    >
+    <ConfirmationDialog v-model="confirmDialog" @confirm-save="onSave" />
   </div>
 </template>
 
 <script>
+import ConfirmationDialog from '@/components/settings/deductions/partials/ConfirmationDialog'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: {
+    ConfirmationDialog
+  },
   data() {
     return {
       file: null,
-      badge: false
+      badge: false,
+      confirmDialog: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      ranges: 'contributions/ranges',
+      canSaveRanges: 'contributions/canSaveRanges'
+    })
   },
   watch: {
     file: function(newVal) {
       this.badge = newVal !== null
     }
-  },
-  computed: {
-    ...mapGetters({
-      ranges: 'contributions/ranges'
-    })
   },
   methods: {
     ...mapActions({
@@ -49,14 +57,20 @@ export default {
         }
       }
 
+      const loading = this.$loading.show()
+
       try {
         const response = await this.$axios.$post(
           'validate-data-ranges',
           formData,
           options
         )
+        loading.hide()
         this.setRangesTable(response)
-      } catch (error) {}
+      } catch (error) {
+        loading.hide()
+        this.setRangesTable([])
+      }
     },
     onUpload() {
       if (this.$refs.file.files[0] === undefined) {
@@ -66,11 +80,13 @@ export default {
       }
     },
     async onSave() {
+      const loading = this.$loading.show()
       try {
         const response = await this.$axios.$post('contribution-ranges', {
           id: this.ranges.id,
           table: this.ranges.table
         })
+        loading.hide()
         this.file = null
         this.setRangesTable(response.data)
       } catch (error) {}
