@@ -60,7 +60,6 @@ export const actions = {
     await this.$axios.$patch(`employee/attendance/attributes/${employee.id}`, {
       amount: state.extras.rate,
       schedule_id: state.extras.schedule,
-      special_person: state.extras.other.special_person,
       night_shift: state.extras.other.night_shift,
       overtime: state.extras.other.overtime
     })

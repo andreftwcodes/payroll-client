@@ -94,7 +94,6 @@ export default {
           schedule: null,
           locale: null,
           other: {
-            special_person: false,
             night_shift: false,
             overtime: false
           }

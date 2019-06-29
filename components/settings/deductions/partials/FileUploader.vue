@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import ConfirmationDialog from '@/components/settings/deductions/partials/ConfirmationDialog'
 import { mapGetters, mapActions } from 'vuex'
 export default {
@@ -35,7 +36,17 @@ export default {
     ...mapGetters({
       ranges: 'contributions/ranges',
       canSaveRanges: 'contributions/canSaveRanges'
-    })
+    }),
+    mappedRangesTable() {
+      return _.map(this.ranges.table, o => {
+        return {
+          to: o.to,
+          from: o.from,
+          er: o.er,
+          ee: o.ee
+        }
+      })
+    }
   },
   watch: {
     file: function(newVal) {
@@ -84,7 +95,7 @@ export default {
       try {
         const response = await this.$axios.$post('contribution-ranges', {
           id: this.ranges.id,
-          table: this.ranges.table
+          table: this.mappedRangesTable
         })
         loading.hide()
         this.file = null

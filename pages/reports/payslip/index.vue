@@ -7,7 +7,7 @@
             <FilterPaySlip
               :employees="employees"
               :can-print="canPrint"
-              @pickup:payslip="pickUpPaySlip"
+              @pickup:payslip="showDeductDialog"
               @show:popup-payslip="onPrint"
             />
           </v-flex>
@@ -25,6 +25,7 @@
           </v-flex>
         </v-card>
       </v-flex>
+      <DeductDialog v-model="deductDialog" @confirm:deduct="pickUpPaySlip" />
     </v-layout>
   </v-container>
 </template>
@@ -32,11 +33,15 @@
 <script>
 import FilterPaySlip from '@/components/reports/payslip/FilterPaySlip'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
+import DeductDialog from '@/components/reports/payslip/DeductDialog'
+import { mapActions } from 'vuex'
+import _ from 'lodash'
 export default {
   middleware: 'auth',
   components: {
     FilterPaySlip,
-    PaySlipTable
+    PaySlipTable,
+    DeductDialog
   },
   data() {
     return {
@@ -44,7 +49,9 @@ export default {
       showTable: false,
       canPrint: false,
       payslip: {},
-      extra: {}
+      extra: {},
+      deductDialog: false,
+      filters: null
     }
   },
   async asyncData({ app }) {
@@ -54,6 +61,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setFlags: 'payslip/setFlags'
+    }),
     onPrint() {
       this.popupDialog(this.extra.print_url)
     },
@@ -89,15 +99,24 @@ export default {
           left
       )
     },
-    async pickUpPaySlip(item) {
+    showDeductDialog(filters) {
+      this.filters = filters
+      this.deductDialog = true
+      this.setFlags(this.extractedFlags(filters))
+    },
+    extractedFlags(obj) {
+      return _.find(this.employees, ['id', obj.employee_id]).flags
+    },
+    async pickUpPaySlip(extraFilters) {
       const loading = this.$loading.show()
       try {
         const response = await this.$axios.$get(
-          `/payslip/period/${item.employee_id}`,
+          `/payslip/period/${this.filters.employee_id}`,
           {
             params: {
-              from: item.dateFrom,
-              to: item.dateTo
+              from: this.filters.dateFrom,
+              to: this.filters.dateTo,
+              contributions: extraFilters.contributions
             }
           }
         )

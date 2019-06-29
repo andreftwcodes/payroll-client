@@ -59,13 +59,6 @@
       <v-layout row wrap>
         <v-flex md3>
           <v-checkbox
-            v-model="form.other.special_person"
-            color="primary"
-            label="Special Person"
-          ></v-checkbox>
-        </v-flex>
-        <v-flex md3>
-          <v-checkbox
             v-model="form.other.night_shift"
             color="primary"
             label="Night Shift"
@@ -135,7 +128,6 @@ export default {
       extras = _.update(extras, 'other', other => {
         if (other === null) {
           return {
-            special_person: false,
             night_shift: false,
             overtime: false
           }
@@ -143,9 +135,6 @@ export default {
         return other
       })
       return extras
-    },
-    viewRateHistory() {
-      console.log(123)
     },
     async submit() {
       try {

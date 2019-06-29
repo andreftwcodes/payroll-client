@@ -135,7 +135,7 @@ export default {
     }
   },
   created() {
-    this.filterDate(false)
+    this.filterDate(true)
   },
   methods: {
     ...mapActions({
