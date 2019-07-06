@@ -13,17 +13,6 @@
         <v-flex md1 class="pt-3 pr-5">
           <RateHistoryDialog />
         </v-flex>
-        <v-flex md5>
-          <v-select
-            v-model="form.schedule"
-            :items="schedules"
-            :item-text="'name'"
-            :item-value="'id'"
-            :error-messages="errors.locale ? errors.locale[0] : ''"
-            label="Schedule"
-            placeholder="Schedule"
-          ></v-select>
-        </v-flex>
         <v-flex md4>
           <v-select
             v-model="form.locale"
@@ -106,7 +95,6 @@ export default {
   computed: {
     ...mapGetters({
       deductions: 'deductions',
-      schedules: 'schedules',
       locales: 'locales'
     })
   },
@@ -119,9 +107,6 @@ export default {
       extras = _.update(extras, 'deductions', deductions =>
         _.map(deductions, 'id')
       )
-      extras = _.update(extras, 'schedule', schedule => {
-        return schedule !== null ? schedule.id : schedule
-      })
       extras = _.update(extras, 'locale', locale => {
         return locale !== null ? locale.id : locale
       })

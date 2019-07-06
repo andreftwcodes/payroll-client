@@ -13,7 +13,11 @@
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="3">Overview</v-stepper-step>
+      <v-stepper-step :complete="step > 3" step="3">Scheduling</v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step step="4">Overview</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
@@ -45,10 +49,25 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <Overview>
+        <Scheduling
+          :schedules="extras.schedules"
+          @saved:scheduling="savedScheduling"
+        >
           <template v-slot:buttons>
             <v-spacer></v-spacer>
             <v-btn color="error" @click.prevent="step = 2">Back</v-btn>
+            <v-btn color="primary" type="submit">
+              Next
+            </v-btn>
+          </template>
+        </Scheduling>
+      </v-stepper-content>
+
+      <v-stepper-content step="4">
+        <Overview>
+          <template v-slot:buttons>
+            <v-spacer></v-spacer>
+            <v-btn color="error" @click.prevent="step = 3">Back</v-btn>
             <v-btn color="primary" type="submit">
               Finish
             </v-btn>
@@ -62,11 +81,13 @@
 <script>
 import PersonalDetails from '@/components/employees/PersonalDetails'
 import EmploymentDetails from '@/components/employees/EmploymentDetails'
+import Scheduling from '@/components/employees/Scheduling'
 import Overview from '@/components/employees/Overview'
 export default {
   components: {
     PersonalDetails,
     EmploymentDetails,
+    Scheduling,
     Overview
   },
   props: {
@@ -91,7 +112,71 @@ export default {
         return {
           rate: null,
           deductions: {},
-          schedule: null,
+          schedules: [
+            {
+              day: 1,
+              day_dsp: 'Monday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: true
+            },
+            {
+              day: 2,
+              day_dsp: 'Tuesday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: true
+            },
+            {
+              day: 3,
+              day_dsp: 'Wednesday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: true
+            },
+            {
+              day: 4,
+              day_dsp: 'Thursday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: true
+            },
+            {
+              day: 5,
+              day_dsp: 'Friday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: true
+            },
+            {
+              day: 6,
+              day_dsp: 'Saturday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: true
+            },
+            {
+              day: 7,
+              day_dsp: 'Sunday',
+              start_1: null,
+              end_1: null,
+              start_2: null,
+              end_2: null,
+              status: false
+            }
+          ],
           locale: null,
           other: {
             night_shift: false,
@@ -112,6 +197,9 @@ export default {
     },
     savedEmploymentDetails() {
       this.step = 3
+    },
+    savedScheduling() {
+      this.step = 4
     }
   }
 }

@@ -8,6 +8,9 @@ export const state = () => ({
 export const getters = {
   employee(state) {
     return state.employee
+  },
+  extras(state) {
+    return state.extras
   }
 }
 
@@ -17,10 +20,14 @@ export const mutations = {
   },
   SET_EMPLOYMENT_DETAILS(state, extras) {
     state.employee = _.merge(state.employee, {
-      schedule_id: extras.schedule,
       locale_id: extras.locale
     })
     state.extras = extras
+  },
+  SET_SCHEDULING(state, schedules) {
+    state.extras = _.merge(state.extras, {
+      schedules: schedules
+    })
   }
 }
 
@@ -36,6 +43,7 @@ export const actions = {
       )
     }
 
+    dispatch('attachSchedules', response.data)
     dispatch('attachRate', response.data)
     dispatch('attachDeductions', response.data)
     dispatch('attachOther', response.data)
@@ -43,8 +51,14 @@ export const actions = {
 
     commit('SET_EMPLOYEE', {})
     commit('SET_EMPLOYMENT_DETAILS', {})
+    commit('SET_SCHEDULING', {})
     this.$router.push({
       path: '/employees'
+    })
+  },
+  async attachSchedules({ state }, employee) {
+    await this.$axios.$post(`employee/schedules/${employee.id}`, {
+      schedules: state.extras.schedules
     })
   },
   async attachRate({ state }, employee) {
@@ -59,7 +73,7 @@ export const actions = {
   async updateAttendanceAttributes({ state }, employee) {
     await this.$axios.$patch(`employee/attendance/attributes/${employee.id}`, {
       amount: state.extras.rate,
-      schedule_id: state.extras.schedule,
+      schedules: state.extras.schedules,
       night_shift: state.extras.other.night_shift,
       overtime: state.extras.other.overtime
     })
