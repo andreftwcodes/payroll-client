@@ -66,7 +66,12 @@
             </template>
           </v-data-table>
         </v-card>
-        <AttendanceDialogForm
+        <!-- <AttendanceDialogForm
+          v-model="dialogForm"
+          :attendance="attendance"
+          @attendance:updated="attendanceUpdated"
+        /> -->
+        <AttendanceDialogFormV2
           v-model="dialogForm"
           :attendance="attendance"
           @attendance:updated="attendanceUpdated"
@@ -79,11 +84,13 @@
 <script>
 import _ from 'lodash'
 import { mapActions } from 'vuex'
-import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
+// import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
+import AttendanceDialogFormV2 from '@/components/attendance/AttendanceDialogFormV2'
 export default {
   middleware: 'auth',
   components: {
-    AttendanceDialogForm
+    // AttendanceDialogForm
+    AttendanceDialogFormV2
   },
   data() {
     return {
@@ -144,7 +151,20 @@ export default {
     showAttendanceDialogForm(attendance) {
       this.clearErrors()
       this.dialogForm = true
-      this.attendance = _.clone(attendance)
+      this.attendance = _.update(
+        _.cloneDeep(attendance),
+        'time_logs',
+        timeLog => {
+          return !_.isEmpty(timeLog)
+            ? timeLog
+            : [
+                {
+                  time_in: null,
+                  time_out: null
+                }
+              ]
+        }
+      )
     },
     attendanceUpdated(attendance) {
       this.attendances.splice(
