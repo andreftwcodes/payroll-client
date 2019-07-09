@@ -37,7 +37,7 @@
                   </template>
                   <v-date-picker
                     v-model="date"
-                    :max="new Date().toISOString().substr(0, 10)"
+                    :max="dateNow()"
                     @input="filterDate"
                   ></v-date-picker>
                 </v-menu>
@@ -130,7 +130,7 @@ export default {
       rowsPerPage: [5, 10, 15],
       attendances: [],
       attendance: null,
-      date: new Date().toISOString().substr(0, 10),
+      date: this.dateNow(),
       dateMenu: false,
       dialogForm: false
     }
@@ -148,6 +148,16 @@ export default {
     ...mapActions({
       clearErrors: 'validation/clearErrors'
     }),
+    dateNow() {
+      const d = new Date()
+      return (
+        d.getFullYear() +
+        '-' +
+        ('0' + (d.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + d.getDate()).slice(-2)
+      )
+    },
     showAttendanceDialogForm(attendance) {
       this.clearErrors()
       this.dialogForm = true
