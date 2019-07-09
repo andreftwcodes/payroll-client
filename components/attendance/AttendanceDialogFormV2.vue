@@ -18,10 +18,9 @@
                   placeholder="Locale"
                 ></v-select>
               </v-flex>
-              <v-flex xs12 md4>
-                <v-btn color="primary" flat @click="addRow">
-                  Add
-                </v-btn>
+              <v-spacer></v-spacer>
+              <v-flex xs12 md1>
+                <v-icon class="mt-3" medium @click="addRow">add_circle</v-icon>
               </v-flex>
             </v-layout>
             <v-layout
@@ -30,7 +29,7 @@
               row
               wrap
             >
-              <v-flex xs12 md4>
+              <v-flex xs12 md5>
                 <v-text-field
                   v-model="item.time_in"
                   type="time"
@@ -39,7 +38,7 @@
                   append-icon="access_time"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs12 md4>
+              <v-flex xs12 md5>
                 <v-text-field
                   v-model="item.time_out"
                   type="time"
@@ -48,10 +47,14 @@
                   append-icon="access_time"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs12 md2>
-                <v-btn color="primary" flat @click.prevent="onDelete(index)">
-                  X
-                </v-btn>
+              <v-flex xs12 md1></v-flex>
+              <v-flex xs12 md1>
+                <v-icon
+                  class="delete_icon"
+                  medium
+                  @click.prevent="onDelete(index)"
+                  >delete_forever</v-icon
+                >
               </v-flex>
             </v-layout>
           </v-container>
@@ -132,4 +135,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.delete_icon {
+  margin-top: 18px;
+}
+</style>

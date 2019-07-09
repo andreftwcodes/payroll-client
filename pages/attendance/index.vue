@@ -60,8 +60,8 @@
                 >
               </td>
               <td>{{ props.item.locale.name }}</td>
-              <td>{{ props.item.start_dsp }}</td>
-              <td>{{ props.item.end_dsp }}</td>
+              <td>{{ props.item.time_in }}</td>
+              <td>{{ props.item.time_out }}</td>
               <td>{{ props.item.remark }}</td>
             </template>
           </v-data-table>
