@@ -60,7 +60,7 @@ export default {
           value: 'name'
         },
         {
-          text: 'Email address',
+          text: 'Username',
           align: 'left',
           sortable: false,
           value: 'email'

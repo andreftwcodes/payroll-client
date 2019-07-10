@@ -26,8 +26,8 @@
             <v-flex md3>
               <v-text-field
                 v-model="form.email"
-                label="Email address"
-                placeholder="Email address"
+                label="Username"
+                placeholder="Username"
                 :disabled="disabled"
               ></v-text-field>
             </v-flex>

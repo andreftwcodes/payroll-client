@@ -7,8 +7,9 @@
       <v-form @submit.prevent="submit">
         <v-text-field
           v-model="form.email"
+          :error-messages="errors.email ? errors.email[0] : ''"
           prepend-icon="person"
-          label="Login"
+          label="Username"
           type="text"
         ></v-text-field>
         <v-text-field
