@@ -3,12 +3,21 @@
     <v-card v-if="attendance">
       <v-card-title class="headline grey lighten-2" primary-title>
         {{ attendance.employee.fullname }}
+        <v-spacer></v-spacer>
+        <v-chip
+          label
+          class="title chip-schedule-display"
+          color="teal"
+          text-color="white"
+          disabled
+          >{{ attendance.schedule_display }}</v-chip
+        >
       </v-card-title>
       <v-card-text>
         <v-form>
           <v-container>
             <v-layout row wrap>
-              <v-flex xs12 md4>
+              <v-flex xs12 md5>
                 <v-select
                   v-model="attendance.locale"
                   :items="locales"
@@ -138,5 +147,8 @@ export default {
 <style>
 .delete_icon {
   margin-top: 18px;
+}
+.chip-schedule-display {
+  margin: 0;
 }
 </style>
