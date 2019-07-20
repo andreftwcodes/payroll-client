@@ -116,7 +116,8 @@ export default {
             params: {
               from: this.filters.dateFrom,
               to: this.filters.dateTo,
-              contributions: extraFilters.contributions
+              contributions: extraFilters.contributions,
+              ca_amount_deductible: extraFilters.ca_amount_deductible
             }
           }
         )

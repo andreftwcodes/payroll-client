@@ -1,6 +1,6 @@
 <template>
   <div class="text-xs-center">
-    <v-dialog v-model="show" width="500">
+    <v-dialog v-model="show" width="600">
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>
           Deductions
@@ -9,13 +9,26 @@
         <v-card-text>
           <v-checkbox
             v-model="filters.contributions"
-            :disabled="flags.contributions !== true"
+            :disabled="payslipFlags.contributions !== true"
             label="Contributions (SSS, PhilHealth, PagIbig)"
           ></v-checkbox>
-          <v-checkbox
-            v-model="filters.cash_advance"
-            label="Cash advance"
-          ></v-checkbox>
+          <template v-if="payslipFlags.cash_advance">
+            <v-checkbox
+              v-model="filters.cash_advance"
+              :disabled="payslipFlags.cash_advance.disabled"
+              :label="
+                `Cash Advance | Balance: ${payslipFlags.cash_advance.balance}`
+              "
+            ></v-checkbox>
+            <v-flex class="xs12 md4">
+              <v-text-field
+                v-model="payslipFlags.cash_advance.amount_deductible"
+                :disabled="!filters.cash_advance"
+                label="Deductible Amount"
+                placeholder="Deductible Amount"
+              ></v-text-field>
+            </v-flex>
+          </template>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -36,6 +49,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 export default {
   props: {
     value: {
@@ -47,7 +61,8 @@ export default {
       filters: {
         contributions: false,
         cash_advance: false
-      }
+      },
+      payslipFlags: {}
     }
   },
   computed: {
@@ -63,9 +78,20 @@ export default {
       }
     }
   },
+  watch: {
+    show: function(newVal) {
+      this.payslipFlags = _.cloneDeep(this.flags)
+    }
+  },
   methods: {
     onConfirm() {
-      this.$emit('confirm:deduct', this.filters)
+      const filters = {
+        contributions: this.filters.contributions,
+        ca_amount_deductible: this.filters.cash_advance
+          ? this.payslipFlags.cash_advance.amount_deductible
+          : 0
+      }
+      this.$emit('confirm:deduct', filters)
       this.onClose()
     },
     onClose() {
