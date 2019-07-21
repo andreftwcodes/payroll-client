@@ -28,11 +28,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker
-          v-model="dateFrom"
-          :max="new Date().toISOString().substr(0, 10)"
-          scrollable
-        >
+        <v-date-picker v-model="dateFrom" :max="date" scrollable>
           <v-spacer></v-spacer>
           <v-btn flat color="primary" @click="modalFrom = false">Cancel</v-btn>
           <v-btn flat color="primary" @click="$refs.dialog.save(dateFrom)"
@@ -60,11 +56,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker
-          v-model="dateTo"
-          :max="new Date().toISOString().substr(0, 10)"
-          scrollable
-        >
+        <v-date-picker v-model="dateTo" :max="date" scrollable>
           <v-spacer></v-spacer>
           <v-btn flat color="primary" @click="modalTo = false">Cancel</v-btn>
           <v-btn flat color="primary" @click="$refs.dialog2.save(dateTo)"
@@ -104,13 +96,32 @@ export default {
   data() {
     return {
       employee: 1,
-      dateFrom: new Date().toISOString().substr(0, 10),
-      dateTo: new Date().toISOString().substr(0, 10),
+      dateFrom: this._date('first-month'),
+      dateTo: this._date(),
+      date: this._date(),
       modalFrom: false,
       modalTo: false
     }
   },
   methods: {
+    _date(flag) {
+      const date = new Date()
+      let d
+
+      if (flag === 'first-month') {
+        d = new Date(date.getFullYear(), date.getMonth(), 1)
+      } else {
+        d = date
+      }
+
+      return (
+        d.getFullYear() +
+        '-' +
+        ('0' + (d.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + d.getDate()).slice(-2)
+      )
+    },
     onPickUp() {
       this.$emit('pickup:payslip', {
         employee_id: this.employee,
