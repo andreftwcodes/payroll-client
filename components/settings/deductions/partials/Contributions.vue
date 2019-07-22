@@ -55,7 +55,7 @@ export default {
       this.getContributions(newValue)
     }
   },
-  created() {
+  mounted() {
     this.getContributions()
   },
   methods: {

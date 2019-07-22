@@ -8,12 +8,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-// import DetailForm from '@/components/settings/deductions/DetailForm'
 import Contributions from '@/components/settings/deductions/partials/Contributions'
 export default {
   middleware: 'auth',
   components: {
-    // DetailForm
     Contributions
   },
   data() {

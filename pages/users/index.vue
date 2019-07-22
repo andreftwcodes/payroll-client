@@ -13,8 +13,8 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-btn color="primary" nuxt :to="{ name: 'users-create' }"
-                >Add New</v-btn
+              <v-icon medium color="green darken-2" @click="onAddNew"
+                >add_circle_outline</v-icon
               >
             </v-card-title>
             <v-data-table
@@ -29,12 +29,11 @@
                 <td>{{ props.item.email }}</td>
                 <td>active</td>
                 <td>
-                  <v-btn
-                    small
-                    color="primary"
-                    nuxt
-                    :to="{ name: 'users-id', params: { id: props.item.id } }"
-                    >View</v-btn
+                  <v-icon
+                    medium
+                    color="blue darken-2"
+                    @click="onView(props.item.id)"
+                    >remove_red_eye</v-icon
                   >
                 </td>
               </template>
@@ -88,6 +87,18 @@ export default {
       users: response.data
     }
   },
-  methods: {}
+  methods: {
+    onAddNew() {
+      this.$router.push({
+        name: 'users-create'
+      })
+    },
+    onView(id) {
+      this.$router.push({
+        name: 'users-id',
+        params: { id: id }
+      })
+    }
+  }
 }
 </script>

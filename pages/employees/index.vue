@@ -13,8 +13,8 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-btn color="primary" nuxt :to="{ name: 'employees-create' }"
-                >Add New</v-btn
+              <v-icon medium color="green darken-2" @click="onAddNew"
+                >add_circle_outline</v-icon
               >
             </v-card-title>
             <v-data-table
@@ -34,15 +34,11 @@
                 <td>{{ props.item.birthdate }}</td>
                 <td>{{ props.item.status }}</td>
                 <td>
-                  <v-btn
-                    small
-                    color="primary"
-                    nuxt
-                    :to="{
-                      name: 'employees-id',
-                      params: { id: props.item.id }
-                    }"
-                    >View</v-btn
+                  <v-icon
+                    medium
+                    color="blue darken-2"
+                    @click="onView(props.item.id)"
+                    >remove_red_eye</v-icon
                   >
                 </td>
               </template>
@@ -110,10 +106,10 @@ export default {
           value: 'status'
         },
         {
-          text: 'Action',
+          text: '',
           align: 'left',
           sortable: false,
-          value: 'action'
+          value: ''
         }
       ],
       rowsPerPage: [5, 10, 15],
@@ -124,6 +120,19 @@ export default {
     const response = await app.$axios.$get('employees')
     return {
       employees: response.data
+    }
+  },
+  methods: {
+    onAddNew() {
+      this.$router.push({
+        name: 'employees-create'
+      })
+    },
+    onView(id) {
+      this.$router.push({
+        name: 'employees-id',
+        params: { id: id }
+      })
     }
   }
 }

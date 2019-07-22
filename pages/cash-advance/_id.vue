@@ -9,7 +9,9 @@
             </v-flex>
             <v-spacer></v-spacer>
 
-            <v-icon large @click.prevent="onBack">keyboard_backspace</v-icon>
+            <v-icon large color="blue darken-2" @click.prevent="onBack"
+              >keyboard_backspace</v-icon
+            >
           </v-card-title>
           <v-card-title class="pt-0 pb-0">
             <v-flex class="md2">
@@ -22,14 +24,26 @@
             </v-flex>
             <v-flex class="md2">
               <div class="ml-3">
-                <v-icon v-show="buttons.edit" @click="onEdit">edit</v-icon>
-                <v-icon v-show="buttons.saveUpdate" @click="onSaveUpdateParent"
+                <v-icon
+                  v-show="buttons.edit"
+                  color="blue darken-2"
+                  @click="onEdit"
+                  >edit</v-icon
+                >
+                <v-icon
+                  v-show="buttons.saveUpdate"
+                  color="blue darken-2"
+                  @click="onSaveUpdateParent"
                   >save</v-icon
                 >
               </div>
             </v-flex>
             <v-flex class="md8 text-xs-right">
-              <v-icon class="text-xs-right" medium @click="openCreditForm"
+              <v-icon
+                class="text-xs-right"
+                color="green darken-2"
+                medium
+                @click="openCreditForm"
                 >add_circle_outline</v-icon
               >
             </v-flex>
@@ -48,7 +62,9 @@
               <td class="text-xs-right">{{ props.item.credit }}</td>
               <td class="text-xs-right">{{ props.item.debit }}</td>
               <td class="text-xs-right">{{ props.item.balance }}</td>
-              <td class="text-xs-right"><v-icon>highlight_off</v-icon></td>
+              <td class="text-xs-right">
+                <v-icon color="red">highlight_off</v-icon>
+              </td>
               <td></td>
             </template>
           </v-data-table>

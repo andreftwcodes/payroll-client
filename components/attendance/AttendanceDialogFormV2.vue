@@ -29,7 +29,13 @@
               </v-flex>
               <v-spacer></v-spacer>
               <v-flex xs12 md1>
-                <v-icon class="mt-3" medium @click="addRow">add_circle</v-icon>
+                <v-icon
+                  class="mt-3"
+                  medium
+                  color="green darken-2"
+                  @click="addRow"
+                  >add_circle_outline</v-icon
+                >
               </v-flex>
             </v-layout>
             <v-layout
@@ -60,6 +66,7 @@
               <v-flex xs12 md1>
                 <v-icon
                   class="delete_icon"
+                  color="red"
                   medium
                   @click.prevent="onDelete(index)"
                   >delete_forever</v-icon

@@ -64,8 +64,8 @@
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer />
       <template v-if="authenticated">
-        <v-toolbar-title>{{ user.name }}</v-toolbar-title>
-        <v-btn color="error" @click.prevent="logout">Logout</v-btn>
+        <v-toolbar-title class="mr-3">{{ user.name }}</v-toolbar-title>
+        <v-icon large @click.prevent="logout">exit_to_app</v-icon>
       </template>
       <template v-if="!authenticated">
         <div>

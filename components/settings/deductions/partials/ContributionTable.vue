@@ -27,8 +27,12 @@
           {{ props.item.status_display }}
         </td>
         <td>
-          <v-icon class="pr-2" @click="onEdit(props.item)">edit</v-icon>
-          <v-icon @click="onView(props.item)">view_module</v-icon>
+          <v-icon class="pr-2" color="blue darken-2" @click="onEdit(props.item)"
+            >edit</v-icon
+          >
+          <v-icon color="blue darken-2" @click="onView(props.item)"
+            >view_module</v-icon
+          >
         </td>
       </template>
     </v-data-table>
