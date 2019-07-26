@@ -28,7 +28,12 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="dateFrom" :max="date" scrollable>
+        <v-date-picker
+          v-model="dateFrom"
+          :allowed-dates="allowedDates"
+          :max="date"
+          scrollable
+        >
           <v-spacer></v-spacer>
           <v-btn flat color="primary" @click="modalFrom = false">Cancel</v-btn>
           <v-btn flat color="primary" @click="$refs.dialog.save(dateFrom)"
@@ -56,7 +61,12 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="dateTo" :max="date" scrollable>
+        <v-date-picker
+          v-model="dateTo"
+          :allowed-dates="allowedDates"
+          :max="date"
+          scrollable
+        >
           <v-spacer></v-spacer>
           <v-btn flat color="primary" @click="modalTo = false">Cancel</v-btn>
           <v-btn flat color="primary" @click="$refs.dialog2.save(dateTo)"
@@ -66,7 +76,12 @@
       </v-dialog>
     </v-flex>
     <v-flex xs12 class="pt-0">
-      <v-btn color="primary" block round @click.prevent="onPickUp"
+      <v-btn
+        color="primary"
+        block
+        round
+        :disabled="pickUpBtn"
+        @click.prevent="onPickUp"
         >Pick Up</v-btn
       >
     </v-flex>
@@ -82,6 +97,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   props: {
     employees: {
@@ -100,10 +116,51 @@ export default {
       dateTo: this._date(),
       date: this._date(),
       modalFrom: false,
-      modalTo: false
+      modalTo: false,
+      pickUpBtn: false,
+      excludeDates: []
     }
   },
+  watch: {
+    dateFrom: function(newVal) {
+      this.pickUpBtn = !(
+        !_.includes(this.excludeDates, newVal) &&
+        !_.includes(this.excludeDates, this.dateTo)
+      )
+    },
+    dateTo: function(newVal) {
+      this.pickUpBtn = !(
+        !_.includes(this.excludeDates, newVal) &&
+        !_.includes(this.excludeDates, this.dateFrom)
+      )
+    },
+    excludeDates: function(newArr) {
+      this.pickUpBtn =
+        _.includes(newArr, this.dateFrom) && _.includes(newArr, this.dateTo)
+    }
+  },
+  mounted() {
+    this.excludeDates = this.dateRanges('2019-07-01', '2019-07-15')
+    console.log(this.excludeDates)
+  },
   methods: {
+    allowedDates(val) {
+      return this.excludeDates.indexOf(val) === -1
+    },
+    dateRanges(startDate, endDate) {
+      const dates = []
+      let currentDate = new Date(startDate)
+      const addDays = function(days) {
+        const date = new Date(this.valueOf())
+        date.setDate(date.getDate() + days)
+        return date
+      }
+      while (currentDate <= new Date(endDate)) {
+        dates.push(new Date(currentDate).toISOString().substr(0, 10))
+        currentDate = addDays.call(currentDate, 1)
+      }
+      return dates
+    },
     _date(flag) {
       const date = new Date()
       let d
