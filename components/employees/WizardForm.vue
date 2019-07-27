@@ -111,6 +111,7 @@ export default {
       default: () => {
         return {
           rate: null,
+          payment_period: null,
           deductions: {},
           schedules: [
             {

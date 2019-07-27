@@ -13,6 +13,19 @@
         <v-flex md1 class="pt-3 pr-5">
           <RateHistoryDialog />
         </v-flex>
+        <v-flex md2>
+          <v-select
+            v-model="form.payment_period"
+            :items="payment_periods"
+            :item-text="'name'"
+            :item-value="'id'"
+            :error-messages="
+              errors.payment_period ? errors.payment_period[0] : ''
+            "
+            label="Payment Period"
+            placeholder="Payment Period"
+          ></v-select>
+        </v-flex>
         <v-flex md4>
           <v-select
             v-model="form.locale"
@@ -95,7 +108,8 @@ export default {
   computed: {
     ...mapGetters({
       deductions: 'deductions',
-      locales: 'locales'
+      locales: 'locales',
+      payment_periods: 'payment_periods'
     })
   },
   methods: {

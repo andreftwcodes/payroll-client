@@ -4,7 +4,11 @@ export const state = () => ({
   deductions: [],
   schedules: [],
   locales: [],
-  edit: false
+  edit: false,
+  payment_periods: [
+    { id: 'weekly', name: 'Weekly' },
+    { id: 'monthly', name: 'Monthly' }
+  ]
 })
 
 export const getters = {
@@ -22,6 +26,9 @@ export const getters = {
   },
   edit(state) {
     return state.edit
+  },
+  payment_periods(state) {
+    return state.payment_periods
   }
 }
 
