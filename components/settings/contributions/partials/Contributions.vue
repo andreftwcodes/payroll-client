@@ -29,8 +29,8 @@
 <script>
 import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
-import ContributionTable from '@/components/settings/deductions/partials/ContributionTable'
-import TableRanges from '@/components/settings/deductions/partials/TableRanges'
+import ContributionTable from '@/components/settings/contributions/partials/ContributionTable'
+import TableRanges from '@/components/settings/contributions/partials/TableRanges'
 export default {
   components: {
     ContributionTable,

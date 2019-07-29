@@ -39,23 +39,22 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
+        <v-flex md1>
+          <v-flex md4 class="group-title">Deductions</v-flex>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
         <v-flex md3>
-          <v-select
-            v-model="form.deductions"
-            :items="deductions"
-            :item-text="'name'"
-            :item-value="'id'"
-            :error-messages="errors.deductions ? errors.deductions[0] : ''"
-            attach
-            chips
-            label="Deductions"
-            multiple
-          ></v-select>
+          <v-checkbox
+            v-model="form.other.contributions"
+            color="primary"
+            label="Contributions (SSS, Philhealth, PagIbig)"
+          ></v-checkbox>
         </v-flex>
       </v-layout>
       <v-layout row wrap>
         <v-flex md1>
-          <v-flex md4 class="premiums-flex">Premiums</v-flex>
+          <v-flex md4 class="group-title">Premiums</v-flex>
         </v-flex>
       </v-layout>
       <v-layout row wrap>
@@ -70,7 +69,7 @@
           <v-checkbox
             v-model="form.other.overtime"
             color="primary"
-            label="Overtime"
+            label="Over Time"
           ></v-checkbox>
         </v-flex>
       </v-layout>
@@ -102,14 +101,16 @@ export default {
       checkbox: true,
       timepicker1: false,
       timepicker2: false,
+      payment_periods: [
+        { id: 'weekly', name: 'Weekly' },
+        { id: 'monthly', name: 'Monthly' }
+      ],
       form: this.mappedExtras()
     }
   },
   computed: {
     ...mapGetters({
-      deductions: 'deductions',
-      locales: 'locales',
-      payment_periods: 'payment_periods'
+      locales: 'locales'
     })
   },
   methods: {
@@ -118,15 +119,13 @@ export default {
     }),
     mappedExtras() {
       let extras = _.clone(this.extras)
-      extras = _.update(extras, 'deductions', deductions =>
-        _.map(deductions, 'id')
-      )
       extras = _.update(extras, 'locale', locale => {
         return locale !== null ? locale.id : locale
       })
       extras = _.update(extras, 'other', other => {
         if (other === null) {
           return {
+            contributions: false,
             night_shift: false,
             overtime: false
           }
@@ -150,7 +149,7 @@ export default {
 </script>
 
 <style scoped>
-.premiums-flex {
+.group-title {
   margin-bottom: -15px;
 }
 </style>

@@ -112,7 +112,6 @@ export default {
         return {
           rate: null,
           payment_period: null,
-          deductions: {},
           schedules: [
             {
               day: 1,
@@ -180,6 +179,7 @@ export default {
           ],
           locale: null,
           other: {
+            contributions: false,
             night_shift: false,
             overtime: false
           }

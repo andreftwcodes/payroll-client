@@ -42,7 +42,9 @@
             <v-flex md3>
               <v-select
                 v-model="form.gender"
-                :items="['male', 'female']"
+                :items="genders"
+                :item-text="'text'"
+                :item-value="'value'"
                 label="Gender"
                 placeholder="Gender"
                 :error-messages="errors.gender ? errors.gender[0] : ''"
@@ -71,7 +73,7 @@
                   <v-text-field
                     v-model="form.birthdate"
                     label="Birthdate"
-                    prepend-icon="event"
+                    append-icon="event"
                     readonly
                     v-on="on"
                   ></v-text-field>
@@ -107,6 +109,16 @@ export default {
   },
   data() {
     return {
+      genders: [
+        {
+          value: 'male',
+          text: 'Male'
+        },
+        {
+          value: 'female',
+          text: 'Female'
+        }
+      ],
       form: this.profile,
       birthdateMenu: false
     }

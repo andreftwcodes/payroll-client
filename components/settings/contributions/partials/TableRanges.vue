@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import FileUploader from '@/components/settings/deductions/partials/FileUploader'
+import FileUploader from '@/components/settings/contributions/partials/FileUploader'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {

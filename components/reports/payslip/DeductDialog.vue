@@ -13,6 +13,11 @@
               :disabled="payslipFlags.contributions !== true"
               label="Contributions (SSS, PhilHealth, PagIbig)"
             ></v-checkbox>
+            <v-checkbox
+              v-model="sssLoan"
+              label="SSS Loan"
+              disabled
+            ></v-checkbox>
             <template v-if="payslipFlags.cash_advance">
               <v-checkbox
                 v-model="filters.cash_advance"
@@ -34,11 +39,6 @@
                   placeholder="Deductible Amount"
                 ></v-text-field>
               </v-flex>
-              <v-checkbox
-                v-model="sssLoan"
-                label="SSS Loan"
-                disabled
-              ></v-checkbox>
             </template>
           </v-flex>
         </v-card-text>

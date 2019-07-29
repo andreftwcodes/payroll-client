@@ -46,7 +46,6 @@ export const actions = {
 
     dispatch('attachSchedules', response.data)
     dispatch('attachRate', response.data)
-    dispatch('attachDeductions', response.data)
     dispatch('attachOther', response.data)
     dispatch('updateAttendanceAttributes', response.data)
 
@@ -64,9 +63,6 @@ export const actions = {
   },
   async attachRate({ state }, employee) {
     await this.$axios.$post(`employee/rate/${employee.id}`, state.extras)
-  },
-  async attachDeductions({ state }, employee) {
-    await this.$axios.$post(`employee/deductions/${employee.id}`, state.extras)
   },
   async attachOther({ state }, employee) {
     await this.$axios.$post(`employee/other/${employee.id}`, state.extras.other)

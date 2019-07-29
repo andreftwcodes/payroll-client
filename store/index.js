@@ -1,14 +1,9 @@
 export const state = () => ({
   disabled: true,
   roles: [],
-  deductions: [],
   schedules: [],
   locales: [],
-  edit: false,
-  payment_periods: [
-    { id: 'weekly', name: 'Weekly' },
-    { id: 'monthly', name: 'Monthly' }
-  ]
+  edit: false
 })
 
 export const getters = {
@@ -18,17 +13,11 @@ export const getters = {
   roles(state) {
     return state.roles
   },
-  deductions(state) {
-    return state.deductions
-  },
   locales(state) {
     return state.locales
   },
   edit(state) {
     return state.edit
-  },
-  payment_periods(state) {
-    return state.payment_periods
   }
 }
 
@@ -42,9 +31,6 @@ export const mutations = {
   SET_ROLES(state, roles) {
     state.roles = roles
   },
-  SET_DEDUCTIONS(state, deductions) {
-    state.deductions = deductions
-  },
   SET_LOCALES(state, locales) {
     state.locales = locales
   },
@@ -56,7 +42,6 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit({ commit }) {
     commit('SET_ROLES', (await this.$axios.$get('roles')).data)
-    commit('SET_DEDUCTIONS', (await this.$axios.$get('deductions')).data)
     commit('SET_LOCALES', (await this.$axios.$get('locales')).data)
   }
 }
