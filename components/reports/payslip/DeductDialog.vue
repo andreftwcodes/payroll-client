@@ -11,10 +11,12 @@
             <v-checkbox
               v-model="filters.contributions"
               :disabled="payslipFlags.contributions !== true"
+              color="error"
               label="Contributions (SSS, PhilHealth, PagIbig)"
             ></v-checkbox>
             <v-checkbox
               v-model="sssLoan"
+              color="error"
               label="SSS Loan"
               disabled
             ></v-checkbox>
@@ -22,6 +24,7 @@
               <v-checkbox
                 v-model="filters.cash_advance"
                 :disabled="payslipFlags.cash_advance.disabled"
+                color="error"
                 :label="
                   `Cash Advance | Balance: ${
                     payslipFlags.cash_advance.balance_display
@@ -75,7 +78,7 @@ export default {
         cash_advance: false
       },
       payslipFlags: {},
-      sssLoan: true
+      sssLoan: false
     }
   },
   computed: {
@@ -94,6 +97,9 @@ export default {
   watch: {
     show: function(newVal) {
       this.payslipFlags = _.cloneDeep(this.flags)
+    },
+    'filters.contributions': function(newVal) {
+      this.sssLoan = newVal
     },
     'filters.cash_advance': function(newVal) {
       if (!newVal) {

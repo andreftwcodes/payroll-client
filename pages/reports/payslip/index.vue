@@ -7,6 +7,8 @@
             <FilterPaySlip
               :employees="employees"
               :can-print="canPrint"
+              @on-changed:payment-period="onChangedPaymentPeriod"
+              @on-changed:employee="canPrint = false"
               @pickup:payslip="showDeductDialog"
               @show:popup-payslip="onPrint"
             />
@@ -62,6 +64,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      setPaymentPeriodLoading: 'payslip/setPaymentPeriodLoading',
       setFlags: 'payslip/setFlags'
     }),
     onPrint() {
@@ -98,6 +101,18 @@ export default {
           ', left=' +
           left
       )
+    },
+    async onChangedPaymentPeriod(paymentPeriod) {
+      this.canPrint = false
+      try {
+        const response = await this.$axios.$get('/reports/payslip/data', {
+          params: {
+            payment_period: paymentPeriod
+          }
+        })
+        this.employees = response.data
+        this.setPaymentPeriodLoading(false)
+      } catch (error) {}
     },
     showDeductDialog(filters) {
       this.filters = filters

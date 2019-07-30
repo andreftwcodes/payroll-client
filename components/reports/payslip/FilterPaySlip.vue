@@ -2,12 +2,24 @@
   <div>
     <v-flex xs12 class="pb-0">
       <v-select
+        v-model="payment_period"
+        :loading="payment_period_loading"
+        :items="pp_items"
+        item-text="text"
+        item-value="value"
+        label="Payment Period"
+        :readonly="disabled"
+      ></v-select>
+    </v-flex>
+    <v-flex xs12 class="pt-0 pb-0">
+      <v-autocomplete
         v-model="employee"
         :items="employees"
         item-text="fullname"
         item-value="id"
         label="Employee"
-      ></v-select>
+        :disabled="disabled"
+      ></v-autocomplete>
     </v-flex>
     <v-flex xs12 class="pt-0 pb-0">
       <v-dialog
@@ -25,6 +37,8 @@
             label="Period From"
             append-icon="event"
             readonly
+            :disabled="disabled"
+            :error-messages="errors.from ? errors.from[0] : ''"
             v-on="on"
           ></v-text-field>
         </template>
@@ -53,6 +67,8 @@
             label="To"
             append-icon="event"
             readonly
+            :disabled="disabled"
+            :error-messages="errors.to ? errors.to[0] : ''"
             v-on="on"
           ></v-text-field>
         </template>
@@ -66,7 +82,12 @@
       </v-dialog>
     </v-flex>
     <v-flex xs12 class="pt-0">
-      <v-btn color="primary" block round @click.prevent="onPickUp"
+      <v-btn
+        color="primary"
+        block
+        round
+        :disabled="disabled"
+        @click.prevent="onPickUp"
         >Pick Up</v-btn
       >
     </v-flex>
@@ -81,6 +102,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     employees: {
@@ -94,7 +117,22 @@ export default {
   },
   data() {
     return {
-      employee: 1,
+      payment_period: 'all',
+      pp_items: [
+        {
+          value: 'all',
+          text: 'All'
+        },
+        {
+          value: 'weekly',
+          text: 'Weekly'
+        },
+        {
+          value: 'monthly',
+          text: 'Monthly'
+        }
+      ],
+      employee: null,
       dateFrom: this._date('first-month'),
       dateTo: this._date(),
       date: this._date(),
@@ -102,7 +140,33 @@ export default {
       modalTo: false
     }
   },
+  computed: {
+    ...mapGetters({
+      payment_period_loading: 'payslip/payment_period_loading',
+      disabled: 'payslip/disabled'
+    })
+  },
+  watch: {
+    employees: {
+      handler: function(newValue) {
+        this.employee = !_.isEmpty(newValue) ? _.head(newValue).id : null
+      },
+      immediate: true
+    },
+    payment_period: function(newValue) {
+      this.setPaymentPeriodLoading(true)
+      this.$emit('on-changed:payment-period', newValue)
+    },
+    employee: function() {
+      this.$emit('on-changed:employee')
+    }
+  },
   methods: {
+    ...mapActions({
+      setErrors: 'validation/setErrors',
+      clearErrors: 'validation/clearErrors',
+      setPaymentPeriodLoading: 'payslip/setPaymentPeriodLoading'
+    }),
     _date(flag) {
       const date = new Date()
       let d
@@ -121,7 +185,20 @@ export default {
         ('0' + d.getDate()).slice(-2)
       )
     },
+    periodNotInRange() {
+      return new Date(this.dateFrom) > new Date(this.dateTo)
+    },
     onPickUp() {
+      this.clearErrors()
+
+      if (this.periodNotInRange()) {
+        this.setErrors({
+          from: ['Invalid date range.'],
+          to: ['Invalid date range.']
+        })
+        return false
+      }
+
       this.$emit('pickup:payslip', {
         employee_id: this.employee,
         dateFrom: this.dateFrom,

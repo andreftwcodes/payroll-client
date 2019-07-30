@@ -27,7 +27,9 @@
       <template v-slot:items="props">
         <td>{{ props.index + 1 }}</td>
         <td>
-          <v-icon>{{ props.item.status ? 'check' : 'cancel' }}</v-icon>
+          <v-icon :color="props.item.status ? 'green darken-2' : 'red'">{{
+            props.item.status ? 'check' : 'cancel'
+          }}</v-icon>
         </td>
         <td>{{ props.item.from_display }}</td>
         <td>{{ props.item.to_display }}</td>
