@@ -44,7 +44,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
-        <v-flex md3>
+        <v-flex md12>
           <v-checkbox
             v-model="form.other.contributions"
             color="primary"

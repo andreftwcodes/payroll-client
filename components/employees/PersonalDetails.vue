@@ -85,6 +85,16 @@
                 ></v-date-picker>
               </v-menu>
             </v-flex>
+            <v-flex md3>
+              <v-select
+                v-model="form.status"
+                :items="statuses"
+                :item-text="'text'"
+                :item-value="'value'"
+                label="Status"
+                placeholder="Status"
+              ></v-select>
+            </v-flex>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -117,6 +127,16 @@ export default {
         {
           value: 'female',
           text: 'Female'
+        }
+      ],
+      statuses: [
+        {
+          value: 1,
+          text: 'Active'
+        },
+        {
+          value: 0,
+          text: 'Inactive'
         }
       ],
       form: this.profile,

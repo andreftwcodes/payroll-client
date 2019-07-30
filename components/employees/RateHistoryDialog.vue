@@ -4,6 +4,7 @@
       <template v-slot:activator="{ on }">
         <v-icon
           large
+          color="primary"
           :disabled="canViewRateHistory"
           @click.prevent="viewRateHistory"
           v-on="on"

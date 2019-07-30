@@ -102,7 +102,7 @@ export default {
           gender: null,
           contact: null,
           birthdate: new Date().toISOString().substr(0, 10),
-          status: null
+          status: 1
         }
       }
     },

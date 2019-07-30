@@ -32,7 +32,14 @@
                 <td>{{ props.item.age }}</td>
                 <td>{{ props.item.contact }}</td>
                 <td>{{ props.item.birthdate }}</td>
-                <td>{{ props.item.status }}</td>
+                <td>
+                  <v-switch
+                    v-model="props.item.status"
+                    color="success"
+                    hide-details
+                    @change="onChangedStatus(props.item.id, $event)"
+                  ></v-switch>
+                </td>
                 <td>
                   <v-icon
                     medium
@@ -127,6 +134,13 @@ export default {
       this.$router.push({
         name: 'employees-create'
       })
+    },
+    async onChangedStatus(employeeId, status) {
+      try {
+        await this.$axios.patch(`employee/status/${employeeId}`, {
+          status: status
+        })
+      } catch (error) {}
     },
     onView(id) {
       this.$router.push({
