@@ -38,8 +38,8 @@
 
 <script>
 import _ from 'lodash'
-import DialogForm from '@/components/settings/contributions/partials/DialogForm'
 import { mapActions } from 'vuex'
+import DialogForm from '@/components/settings/contributions/partials/DialogForm'
 export default {
   components: {
     DialogForm

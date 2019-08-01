@@ -17,7 +17,7 @@
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="4">Overview</v-stepper-step>
+      <v-stepper-step step="4">Finish</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
@@ -64,7 +64,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="4">
-        <Overview>
+        <Finish>
           <template v-slot:buttons>
             <v-spacer></v-spacer>
             <v-btn color="error" @click.prevent="step = 3">Back</v-btn>
@@ -72,7 +72,7 @@
               Finish
             </v-btn>
           </template>
-        </Overview>
+        </Finish>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -82,13 +82,13 @@
 import PersonalDetails from '@/components/employees/PersonalDetails'
 import EmploymentDetails from '@/components/employees/EmploymentDetails'
 import Scheduling from '@/components/employees/Scheduling'
-import Overview from '@/components/employees/Overview'
+import Finish from '@/components/employees/Finish'
 export default {
   components: {
     PersonalDetails,
     EmploymentDetails,
     Scheduling,
-    Overview
+    Finish
   },
   props: {
     profile: {

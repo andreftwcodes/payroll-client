@@ -41,11 +41,8 @@
                   ></v-switch>
                 </td>
                 <td>
-                  <v-icon
-                    medium
-                    color="blue darken-2"
-                    @click="onView(props.item.id)"
-                    >remove_red_eye</v-icon
+                  <v-icon color="blue darken-2" @click="onView(props.item.id)"
+                    >launch</v-icon
                   >
                 </td>
               </template>

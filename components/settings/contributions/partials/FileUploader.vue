@@ -19,8 +19,8 @@
 
 <script>
 import _ from 'lodash'
-import ConfirmationDialog from '@/components/settings/contributions/partials/ConfirmationDialog'
 import { mapGetters, mapActions } from 'vuex'
+import ConfirmationDialog from '@/components/settings/contributions/partials/ConfirmationDialog'
 export default {
   components: {
     ConfirmationDialog

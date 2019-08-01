@@ -33,11 +33,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import _ from 'lodash'
 import FilterPaySlip from '@/components/reports/payslip/FilterPaySlip'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 import DeductDialog from '@/components/reports/payslip/DeductDialog'
-import { mapActions } from 'vuex'
-import _ from 'lodash'
 export default {
   middleware: 'auth',
   components: {

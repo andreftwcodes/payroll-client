@@ -65,7 +65,7 @@
       <v-spacer />
       <template v-if="authenticated">
         <v-toolbar-title class="mr-3">{{ user.name }}</v-toolbar-title>
-        <v-icon large @click.prevent="logout">exit_to_app</v-icon>
+        <v-icon large @click.prevent="sodVisibility = true">exit_to_app</v-icon>
       </template>
       <template v-if="!authenticated">
         <div>
@@ -76,11 +76,16 @@
     <v-content>
       <nuxt />
     </v-content>
+    <SignOutDialog v-model="sodVisibility" />
   </v-app>
 </template>
 
 <script>
+import SignOutDialog from '@/components/globals/SignOutDialog'
 export default {
+  components: {
+    SignOutDialog
+  },
   data() {
     return {
       clipped: false,
@@ -88,7 +93,8 @@ export default {
       fixed: false,
       items: [],
       miniVariant: false,
-      title: 'Payroll Management System'
+      title: 'Payroll Management System',
+      sodVisibility: false
     }
   },
   created() {
@@ -100,9 +106,6 @@ export default {
         const response = await this.$axios.$get(`/sidebar/menu/${this.user.id}`)
         this.items = response.data
       } catch (error) {}
-    },
-    logout() {
-      this.$auth.logout()
     }
   }
 }

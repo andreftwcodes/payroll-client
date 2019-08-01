@@ -26,9 +26,7 @@
                 :disabled="payslipFlags.cash_advance.disabled"
                 color="error"
                 :label="
-                  `Cash Advance | Balance: ${
-                    payslipFlags.cash_advance.balance_display
-                  }`
+                  `Cash Advance | Balance: ${payslipFlags.cash_advance.balance_display}`
                 "
               ></v-checkbox>
               <v-flex class="xs12 md7">
