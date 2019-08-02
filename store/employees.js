@@ -21,6 +21,7 @@ export const mutations = {
   SET_EMPLOYMENT_DETAILS(state, extras) {
     state.employee = _.merge(state.employee, {
       locale_id: extras.locale,
+      rate: extras.rate,
       payment_period: extras.payment_period
     })
     state.extras = extras
@@ -45,8 +46,8 @@ export const actions = {
     }
 
     dispatch('attachSchedules', response.data)
-    dispatch('attachRate', response.data)
     dispatch('attachOther', response.data)
+    dispatch('attachRateHistory', response.data)
     dispatch('updateAttendanceAttributes', response.data)
 
     commit('SET_EMPLOYEE', {})
@@ -61,11 +62,13 @@ export const actions = {
       schedules: state.extras.schedules
     })
   },
-  async attachRate({ state }, employee) {
-    await this.$axios.$post(`employee/rate/${employee.id}`, state.extras)
-  },
   async attachOther({ state }, employee) {
     await this.$axios.$post(`employee/other/${employee.id}`, state.extras.other)
+  },
+  async attachRateHistory({ state }, employee) {
+    await this.$axios.$post(`employee/rate-history/${employee.id}`, {
+      rate: state.employee.rate
+    })
   },
   async updateAttendanceAttributes({ state }, employee) {
     await this.$axios.$patch(`employee/attendance/attributes/${employee.id}`, {

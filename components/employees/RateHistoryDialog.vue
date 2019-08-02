@@ -83,7 +83,7 @@ export default {
       const loading = this.$loading.show()
       try {
         const response = await this.$axios.$get(
-          `rate/history/${this.$route.params.id}`
+          `employee/rate-histories/${this.$route.params.id}`
         )
         this.rate_history = response.data
         this.show = true
