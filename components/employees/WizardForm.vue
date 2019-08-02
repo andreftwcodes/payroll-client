@@ -50,7 +50,7 @@
 
       <v-stepper-content step="3">
         <Scheduling
-          :schedules="extras.schedules"
+          :schedules-prop="extras.schedules"
           @saved:scheduling="savedScheduling"
         >
           <template v-slot:buttons>
@@ -112,71 +112,7 @@ export default {
         return {
           rate: null,
           payment_period: null,
-          schedules: [
-            {
-              day: 1,
-              day_dsp: 'Monday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: true
-            },
-            {
-              day: 2,
-              day_dsp: 'Tuesday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: true
-            },
-            {
-              day: 3,
-              day_dsp: 'Wednesday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: true
-            },
-            {
-              day: 4,
-              day_dsp: 'Thursday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: true
-            },
-            {
-              day: 5,
-              day_dsp: 'Friday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: true
-            },
-            {
-              day: 6,
-              day_dsp: 'Saturday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: true
-            },
-            {
-              day: 7,
-              day_dsp: 'Sunday',
-              start_1: null,
-              end_1: null,
-              start_2: null,
-              end_2: null,
-              status: false
-            }
-          ],
+          schedules: [],
           locale: null,
           other: {
             contributions: false,
