@@ -14,8 +14,8 @@
                   hide-details
                 ></v-text-field>
               </v-flex>
-              <v-flex md5></v-flex>
-              <v-flex md3>
+              <v-spacer></v-spacer>
+              <v-flex md2>
                 <v-menu
                   v-model="dateMenu"
                   :close-on-content-click="false"
@@ -93,31 +93,31 @@ export default {
           text: 'Fullname',
           align: 'left',
           sortable: false,
-          value: 'fullname'
+          value: 'employee.fullname'
         },
         {
           text: 'Locale',
           align: 'left',
           sortable: false,
-          value: 'locale'
+          value: 'locale.name'
         },
         {
           text: 'Time In',
           align: 'left',
           sortable: false,
-          value: 'lastname'
+          value: 'time_in'
         },
         {
           text: 'Time Out',
           align: 'left',
           sortable: false,
-          value: 'gender'
+          value: 'time_out'
         },
         {
           text: 'Remark',
           align: 'left',
           sortable: false,
-          value: 'gender'
+          value: 'remark'
         }
       ],
       rowsPerPage: [5, 10, 15],

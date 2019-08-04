@@ -10,17 +10,18 @@
                 label="Schedules"
                 placeholder="Select a schedule"
                 :items="schedule_presets"
+                @change="onChangedSchedule"
               ></v-autocomplete>
             </v-flex>
             <v-spacer />
             <v-btn
-              v-show="undoBtnVisibility"
+              v-show="resetBtnVisibility"
               small
               round
               color="info"
               class="mt-4"
-              @click="onUndo"
-              >Undo</v-btn
+              @click="onReset"
+              >Reset</v-btn
             >
           </v-layout>
           <template v-if="schedules">
@@ -133,35 +134,31 @@ export default {
           text: '08:00 AM - 05:00 PM'
         }
       ],
-      undoBtnVisibility: false
+      resetBtnVisibility: false
     }
   },
   watch: {
-    schedule: function(newValue) {
-      const schedules = []
-      const schedule = _.find(this.schedule_presets, ['value', newValue])
-      for (let day = 1; day <= 7; day++) {
-        schedules.push({
-          day: day,
-          day_dsp: this.dayInWords(day),
-          start_1: schedule.start_1,
-          end_1: schedule.end_1,
-          start_2: schedule.start_2,
-          end_2: schedule.end_2,
-          status: day !== 7
-        })
-      }
-      this.schedules = schedules
-    },
-    schedules: function(newValue, oldValue) {
-      this.undoBtnVisibility =
-        !_.isEmpty(this.schedulesProp) && !_.eq(oldValue, newValue)
+    schedules: {
+      handler: function(newValue) {
+        this.resetBtnVisibility = !_.isEqual(
+          this.schedulesWatchMapper(newValue),
+          this.schedulesWatchMapper(this.schedulesProp)
+        )
+      },
+      deep: true
     }
   },
   methods: {
     ...mapMutations({
       setScheduling: 'employees/SET_SCHEDULING'
     }),
+    schedulesWatchMapper(collection) {
+      return _.map(collection, o => {
+        if (_.has(o, 'id')) delete o.id
+        o.status = o.status === 1 || o.status === true
+        return o
+      })
+    },
     dayInWords(key) {
       const days = [
         {
@@ -196,9 +193,26 @@ export default {
 
       return _.find(days, ['key', key]).text
     },
-    onUndo() {
+    onChangedSchedule(value) {
+      const schedules = []
+      const schedule = _.find(this.schedule_presets, ['value', value])
+      for (let day = 1; day <= 7; day++) {
+        schedules.push({
+          day: day,
+          day_dsp: this.dayInWords(day),
+          start_1: schedule.start_1,
+          end_1: schedule.end_1,
+          start_2: schedule.start_2,
+          end_2: schedule.end_2,
+          status: day !== 7
+        })
+      }
+      this.schedules = schedules
+    },
+    onReset() {
+      this.schedule = null
+      this.resetBtnVisibility = false
       this.schedules = _.cloneDeep(this.schedulesProp)
-      this.undoBtnVisibility = false
     },
     submit() {
       this.$emit('saved:scheduling')
