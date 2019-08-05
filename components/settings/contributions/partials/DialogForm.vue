@@ -3,7 +3,7 @@
     <v-dialog v-model="show" width="500">
       <v-card>
         <v-form ref="form" @submit.prevent="submit">
-          <v-card-title class="headline grey lighten-2" primary-title>
+          <v-card-title class="headline grey lighten-2">
             {{ formattedTitle }}
           </v-card-title>
 

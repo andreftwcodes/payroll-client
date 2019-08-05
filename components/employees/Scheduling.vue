@@ -4,11 +4,13 @@
       <v-layout row wrap>
         <v-flex xs12>
           <v-layout row wrap>
-            <v-flex xs12 md4>
+            <v-flex xs12 md3>
               <v-autocomplete
                 v-model="schedule"
                 label="Schedules"
                 placeholder="Select a schedule"
+                :item-text="'description'"
+                :item-value="'id'"
                 :items="schedule_presets"
                 @change="onChangedSchedule"
               ></v-autocomplete>
@@ -94,7 +96,7 @@
 
 <script>
 import _ from 'lodash'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   props: {
     schedulesProp: {
@@ -116,26 +118,13 @@ export default {
       ],
       schedules: _.cloneDeep(this.schedulesProp),
       schedule: null,
-      schedule_presets: [
-        {
-          start_1: null,
-          end_1: null,
-          start_2: null,
-          end_2: null,
-          value: 1,
-          text: 'Custom'
-        },
-        {
-          start_1: '08:00:00',
-          end_1: '12:00:00',
-          start_2: '13:00:00',
-          end_2: '17:00:00',
-          value: 2,
-          text: '08:00 AM - 05:00 PM'
-        }
-      ],
       resetBtnVisibility: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      schedule_presets: 'schedules'
+    })
   },
   watch: {
     schedules: {
@@ -193,9 +182,9 @@ export default {
 
       return _.find(days, ['key', key]).text
     },
-    onChangedSchedule(value) {
+    onChangedSchedule(id) {
       const schedules = []
-      const schedule = _.find(this.schedule_presets, ['value', value])
+      const schedule = _.find(this.schedule_presets, ['id', id])
       for (let day = 1; day <= 7; day++) {
         schedules.push({
           day: day,

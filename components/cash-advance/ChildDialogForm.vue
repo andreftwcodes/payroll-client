@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" persistent width="800">
     <v-card>
-      <v-card-title class="headline grey lighten-2" primary-title>
+      <v-card-title class="headline grey lighten-2">
         Credit
       </v-card-title>
       <v-card-text>

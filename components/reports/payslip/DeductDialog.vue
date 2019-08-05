@@ -2,7 +2,7 @@
   <div class="text-xs-center">
     <v-dialog v-model="show" width="600" persistent>
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
+        <v-card-title class="headline grey lighten-2">
           Deductions
         </v-card-title>
 
@@ -26,7 +26,9 @@
                 :disabled="payslipFlags.cash_advance.disabled"
                 color="error"
                 :label="
-                  `Cash Advance | Balance: ${payslipFlags.cash_advance.balance_display}`
+                  `Cash Advance | Balance: ${
+                    payslipFlags.cash_advance.balance_display
+                  }`
                 "
               ></v-checkbox>
               <v-flex class="xs12 md7">

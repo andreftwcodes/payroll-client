@@ -2,7 +2,7 @@
   <div class="text-xs-center">
     <v-dialog v-model="show" width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
+        <v-card-title class="headline grey lighten-2">
           Confirmation
         </v-card-title>
 

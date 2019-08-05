@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" persistent width="1000">
     <v-card v-if="attendance">
-      <v-card-title class="headline grey lighten-2" primary-title>
+      <v-card-title class="headline grey lighten-2">
         {{ attendance.employee.fullname }}
         <v-spacer></v-spacer>
         <v-chip

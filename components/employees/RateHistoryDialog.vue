@@ -16,7 +16,7 @@
 
     <v-dialog v-model="show" persistent width="1000">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
+        <v-card-title class="headline grey lighten-2">
           {{ cardTitle }}
         </v-card-title>
         <v-card-text>
