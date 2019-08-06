@@ -21,13 +21,7 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>
-                <a
-                  href="javascript:void(0);"
-                  @click.prevent="onShow(props.item.id)"
-                  >{{ props.item.fullname }}</a
-                >
-              </td>
+              <td>{{ props.item.fullname }}</td>
               <template v-if="props.item.parent !== null">
                 <td>{{ props.item.parent.amount_deductible }}</td>
                 <td>{{ props.item.parent.balance }}</td>
@@ -36,6 +30,11 @@
                 <td>NA</td>
                 <td>NA</td>
               </template>
+              <td>
+                <v-icon color="blue darken-2" @click="onShow(props.item.id)"
+                  >launch</v-icon
+                >
+              </td>
             </template>
           </v-data-table>
         </v-card>
@@ -66,6 +65,12 @@ export default {
         },
         {
           text: 'Balance',
+          align: 'left',
+          sortable: false,
+          value: ''
+        },
+        {
+          text: '',
           align: 'left',
           sortable: false,
           value: ''

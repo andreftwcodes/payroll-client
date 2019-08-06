@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -70,6 +71,9 @@ export default {
     }),
     cardTitle() {
       const employee = this.employee
+
+      if (_.isEmpty(employee)) return
+
       return (
         employee.firstname + ' ' + employee.lastname + "'s - " + 'Rate history'
       )

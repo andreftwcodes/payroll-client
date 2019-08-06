@@ -85,7 +85,8 @@ export default {
       form: {
         ca_parents_id: this.parent.id,
         date: this.dateNow(),
-        credit: null
+        credit: null,
+        debit: null
       },
       dateMenu: false
     }
@@ -114,7 +115,13 @@ export default {
     async onSaveUpdate() {
       const response = await this.$axios.$post('cash-advance/store', this.form)
       this.show = false
-      this.$emit('save-update:child', response.data)
+      this.form = {
+        ca_parents_id: this.parent.id,
+        date: this.dateNow(),
+        credit: null,
+        debit: null
+      }
+      this.$emit('save-update:child', response)
     }
   }
 }

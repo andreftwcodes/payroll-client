@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" persistent width="1000">
+  <v-dialog v-model="show" persistent width="850">
     <v-card v-if="attendance">
       <v-card-title class="headline grey lighten-2">
         {{ attendance.employee.fullname }}

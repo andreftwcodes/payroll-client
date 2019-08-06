@@ -6,14 +6,32 @@
           <v-card-title>
             <v-layout row wrap>
               <v-flex md4>
-                <v-text-field
-                  v-model="search"
-                  append-icon="search"
-                  label="Search"
-                  single-line
-                  hide-details
-                ></v-text-field>
+                <template v-if="swap">
+                  <v-autocomplete
+                    :items="employees"
+                    item-text="fullname"
+                    item-value="id"
+                    label="Select"
+                    @change="onChangedEmployee"
+                  ></v-autocomplete>
+                </template>
+                <template v-else>
+                  <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </template>
               </v-flex>
+              <v-icon
+                large
+                class="ml-3"
+                :color="swap ? 'blue darken-2' : ''"
+                @click="onSwap"
+                >swap_horiz</v-icon
+              >
               <v-spacer></v-spacer>
               <v-flex md2>
                 <v-menu
@@ -52,21 +70,24 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>
-                <a
-                  href="javascript:void(0);"
-                  @click.prevent="showAttendanceDialogForm(props.item)"
-                  >{{ props.item.employee.fullname }}</a
-                >
-              </td>
+              <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.locale.name }}</td>
               <td>{{ props.item.time_in }}</td>
               <td>{{ props.item.time_out }}</td>
               <td>{{ props.item.remark }}</td>
+              <td>
+                <v-icon
+                  class="mr-3"
+                  color="blue darken-2"
+                  @click="showAttendanceDialogForm(props.item)"
+                  >edit</v-icon
+                >
+                <v-icon color="red">highlight_off</v-icon>
+              </td>
             </template>
           </v-data-table>
         </v-card>
-        <AttendanceDialogFormV2
+        <AttendanceDialogForm
           v-model="dialogForm"
           :attendance="attendance"
           @attendance:updated="attendanceUpdated"
@@ -78,12 +99,12 @@
 
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
-import AttendanceDialogFormV2 from '@/components/attendance/AttendanceDialogFormV2'
+import { mapGetters, mapActions } from 'vuex'
+import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 export default {
   middleware: 'auth',
   components: {
-    AttendanceDialogFormV2
+    AttendanceDialogForm
   },
   data() {
     return {
@@ -118,15 +139,27 @@ export default {
           align: 'left',
           sortable: false,
           value: 'remark'
+        },
+        {
+          text: '',
+          align: 'left',
+          sortable: false,
+          value: ''
         }
       ],
-      rowsPerPage: [5, 10, 15],
+      rowsPerPage: [10, 15, 20],
       attendances: [],
       attendance: null,
       date: this.dateNow(),
       dateMenu: false,
-      dialogForm: false
+      dialogForm: false,
+      swap: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      employees: 'employees'
+    })
   },
   async asyncData({ app }) {
     const response = await app.$axios.$get('attendances')
@@ -150,6 +183,13 @@ export default {
         '-' +
         ('0' + d.getDate()).slice(-2)
       )
+    },
+    onSwap() {
+      this.swap = !this.swap
+      this.search = null
+    },
+    onChangedEmployee(id) {
+      alert(id)
     },
     showAttendanceDialogForm(attendance) {
       this.clearErrors()

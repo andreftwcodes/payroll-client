@@ -56,13 +56,12 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>
-                <a href="javascript:void(0);">{{ props.item.date }}</a>
-              </td>
+              <td>{{ props.item.date }}</td>
               <td class="text-xs-right">{{ props.item.credit }}</td>
               <td class="text-xs-right">{{ props.item.debit }}</td>
               <td class="text-xs-right">{{ props.item.balance }}</td>
               <td class="text-xs-right">
+                <v-icon class="mr-3" color="blue darken-2">edit</v-icon>
                 <v-icon color="red">highlight_off</v-icon>
               </td>
               <td></td>
@@ -80,6 +79,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import ChildDialogForm from '@/components/cash-advance/ChildDialogForm'
 export default {
   middleware: 'auth',
@@ -169,7 +169,8 @@ export default {
     openCreditForm() {
       this.creditDF = true
     },
-    saveUpdateChild(child) {
+    saveUpdateChild(response) {
+      const child = _.merge(response.data, response.meta)
       this.parent.children.push(child)
     }
   }
