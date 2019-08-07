@@ -99,7 +99,7 @@
 
 <script>
 import _ from 'lodash'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 export default {
   middleware: 'auth',
@@ -108,6 +108,7 @@ export default {
   },
   data() {
     return {
+      employees: [],
       search: '',
       headers: [
         {
@@ -156,11 +157,6 @@ export default {
       swap: false
     }
   },
-  computed: {
-    ...mapGetters({
-      employees: 'employees'
-    })
-  },
   async asyncData({ app }) {
     const response = await app.$axios.$get('attendances')
     return {
@@ -189,7 +185,7 @@ export default {
       this.search = null
     },
     onChangedEmployee(id) {
-      alert(id)
+      this.showAttendanceDialogForm(_.find(this.employees, ['id', id]))
     },
     showAttendanceDialogForm(attendance) {
       this.clearErrors()
@@ -226,7 +222,7 @@ export default {
       }
 
       try {
-        await this.$axios.$post('attendances', {
+        const employees = await this.$axios.$get('attendances/get-employees', {
           created_at: this.date
         })
         const response = await this.$axios.$get('attendances', {
@@ -234,6 +230,7 @@ export default {
             created_at: this.date
           }
         })
+        this.employees = employees.data
         this.attendances = response.data
         loading.hide()
       } catch (error) {}

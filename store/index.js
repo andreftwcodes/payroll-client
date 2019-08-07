@@ -1,11 +1,8 @@
-import _ from 'lodash'
-
 export const state = () => ({
   disabled: true,
   roles: [],
   schedules: [],
   locales: [],
-  employees: [],
   edit: false
 })
 
@@ -18,9 +15,6 @@ export const getters = {
   },
   locales(state) {
     return state.locales
-  },
-  employees(state) {
-    return state.employees
   },
   schedules(state) {
     return state.schedules
@@ -40,9 +34,6 @@ export const mutations = {
   SET_ROLES(state, roles) {
     state.roles = roles
   },
-  SET_EMPLOYEES(state, employees) {
-    state.employees = employees
-  },
   SET_LOCALES(state, locales) {
     state.locales = locales
   },
@@ -59,17 +50,5 @@ export const actions = {
     commit('SET_ROLES', (await this.$axios.$get('roles')).data)
     commit('SET_LOCALES', (await this.$axios.$get('locales')).data)
     commit('SET_SCHEDULES', (await this.$axios.$get('schedules')).data)
-    dispatch('mappedEmployees', (await this.$axios.$get('employees')).data)
-  },
-  mappedEmployees({ commit }, employees) {
-    commit(
-      'SET_EMPLOYEES',
-      _.map(employees, o => {
-        return {
-          id: o.id,
-          fullname: o.firstname + ' ' + o.lastname
-        }
-      })
-    )
   }
 }
