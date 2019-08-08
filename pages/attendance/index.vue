@@ -8,6 +8,7 @@
               <v-flex md4>
                 <template v-if="swap">
                   <v-autocomplete
+                    v-model="employee"
                     :items="employees"
                     item-text="fullname"
                     item-value="id"
@@ -91,6 +92,8 @@
           v-model="dialogForm"
           :attendance="attendance"
           @attendance:updated="attendanceUpdated"
+          @attendance:saved="attendanceSaved"
+          @attendance:closed="employee = null"
         />
       </v-flex>
     </v-layout>
@@ -109,6 +112,7 @@ export default {
   data() {
     return {
       employees: [],
+      employee: null,
       search: '',
       headers: [
         {
@@ -185,7 +189,11 @@ export default {
       this.search = null
     },
     onChangedEmployee(id) {
-      this.showAttendanceDialogForm(_.find(this.employees, ['id', id]))
+      const mergedData = _.merge(_.find(this.employees, ['id', id]), {
+        attended_at: this.date
+      })
+      const attendance = _.omit(mergedData, ['id', 'fullname'])
+      this.showAttendanceDialogForm(attendance)
     },
     showAttendanceDialogForm(attendance) {
       this.clearErrors()
@@ -206,11 +214,16 @@ export default {
       )
     },
     attendanceUpdated(attendance) {
+      this.employee = null
       this.attendances.splice(
         _.findIndex(this.attendances, o => o.id === attendance.id),
         1,
         attendance
       )
+    },
+    attendanceSaved(attendance) {
+      this.employee = null
+      this.attendances.push(attendance)
     },
     async filterDate(loader = true) {
       this.dateMenu = false
@@ -222,16 +235,14 @@ export default {
       }
 
       try {
-        const employees = await this.$axios.$get('attendances/get-employees', {
-          created_at: this.date
-        })
-        const response = await this.$axios.$get('attendances', {
+        this.employees = (await this.$axios.$get(
+          'attendances/get-employees'
+        )).data
+        this.attendances = (await this.$axios.$get('attendances', {
           params: {
             created_at: this.date
           }
-        })
-        this.employees = employees.data
-        this.attendances = response.data
+        })).data
         loading.hide()
       } catch (error) {}
     }

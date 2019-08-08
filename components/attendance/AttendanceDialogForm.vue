@@ -69,7 +69,7 @@
                   color="red"
                   medium
                   @click.prevent="onDelete(index)"
-                  >delete_forever</v-icon
+                  >highlight_off</v-icon
                 >
               </v-flex>
             </v-layout>
@@ -82,9 +82,9 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" flat @click.prevent="saveUpdateTimeLogs">
-          Update
+          {{ hasId ? 'Update' : 'Save' }}
         </v-btn>
-        <v-btn color="primary" flat @click="show = false">
+        <v-btn color="primary" flat @click="onCancel">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -121,6 +121,9 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    hasId() {
+      return _.has(this.attendance, 'id')
     }
   },
   methods: {
@@ -134,17 +137,32 @@ export default {
     onDelete(indexOfItem) {
       this.attendance.time_logs.splice(indexOfItem, 1)
     },
+    onCancel() {
+      this.show = false
+      this.$emit('attendance:closed')
+    },
     async saveUpdateTimeLogs() {
       try {
-        const response = await this.$axios.$patch(
-          `attendances/${this.attendance.id}`,
-          {
+        if (this.hasId) {
+          const response = await this.$axios.$patch(
+            `attendances/${this.attendance.id}`,
+            {
+              locale_id: this.mappedLocale(),
+              time_logs: this.attendance.time_logs
+            }
+          )
+          this.$emit('attendance:updated', response.data)
+        } else {
+          const response = await this.$axios.$post('attendances', {
+            employee_id: this.attendance.employee.id,
+            attended_at: this.attendance.attended_at,
             locale_id: this.mappedLocale(),
             time_logs: this.attendance.time_logs
-          }
-        )
+          })
+          this.$emit('attendance:saved', response.data)
+        }
+
         this.show = false
-        this.$emit('attendance:updated', response.data)
       } catch (error) {}
     }
   }
