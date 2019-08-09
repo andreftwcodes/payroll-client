@@ -65,6 +65,7 @@
               <v-flex xs12 md1></v-flex>
               <v-flex xs12 md1>
                 <v-icon
+                  v-show="attendance.time_logs.length > 1"
                   class="delete_icon"
                   color="red"
                   medium

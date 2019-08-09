@@ -3,22 +3,22 @@
     <v-dialog v-model="show" persistent width="500">
       <v-card>
         <v-card-title class="headline grey lighten-2">
-          Confirmation
+          Error
         </v-card-title>
 
         <v-card-text class="subheading">
-          Do you really want to sign out ?
+          <span class="font-weight-black">{{ data.fullname }}</span> has
+          attended this following date
+          <span class="font-weight-black">{{ data.attended_at }}</span
+          >.
         </v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="onSignOut">
-            Continue
-          </v-btn>
-          <v-btn color="primary" flat @click="show = false">
-            Cancel
+          <v-btn color="primary" flat @click="onClose">
+            Close
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -31,6 +31,12 @@ export default {
   props: {
     value: {
       type: Boolean
+    },
+    data: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
@@ -47,9 +53,9 @@ export default {
     }
   },
   methods: {
-    onSignOut() {
+    onClose() {
       this.show = false
-      this.$auth.logout()
+      this.$emit('msg-dialog:closed')
     }
   }
 }

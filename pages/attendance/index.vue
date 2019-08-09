@@ -57,7 +57,7 @@
                   <v-date-picker
                     v-model="date"
                     :max="dateNow()"
-                    @input="filterDate"
+                    @input="onChangedDate"
                   ></v-date-picker>
                 </v-menu>
               </v-flex>
@@ -88,6 +88,11 @@
             </template>
           </v-data-table>
         </v-card>
+        <MessageDialog
+          v-model="msgDialog"
+          :data="msgDialogData"
+          @msg-dialog:closed="employee = null"
+        />
         <AttendanceDialogForm
           v-model="dialogForm"
           :attendance="attendance"
@@ -103,10 +108,12 @@
 <script>
 import _ from 'lodash'
 import { mapActions } from 'vuex'
+import MessageDialog from '@/components/attendance/MessageDialog'
 import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 export default {
   middleware: 'auth',
   components: {
+    MessageDialog,
     AttendanceDialogForm
   },
   data() {
@@ -157,6 +164,8 @@ export default {
       attendance: null,
       date: this.dateNow(),
       dateMenu: false,
+      msgDialog: false,
+      msgDialogData: {},
       dialogForm: false,
       swap: false
     }
@@ -168,7 +177,7 @@ export default {
     }
   },
   mounted() {
-    this.filterDate(true)
+    this.onChangedDate(true)
   },
   methods: {
     ...mapActions({
@@ -188,11 +197,24 @@ export default {
       this.swap = !this.swap
       this.search = null
     },
+    hasAttended(id) {
+      return !_.isEmpty(_.find(this.attendances, ['employee.id', id]))
+    },
     onChangedEmployee(id) {
       const mergedData = _.merge(_.find(this.employees, ['id', id]), {
         attended_at: this.date
       })
       const attendance = _.omit(mergedData, ['id', 'fullname'])
+
+      if (this.hasAttended(id)) {
+        this.msgDialog = true
+        this.msgDialogData = {
+          fullname: attendance.employee.fullname,
+          attended_at: this.date
+        }
+        return
+      }
+
       this.showAttendanceDialogForm(attendance)
     },
     showAttendanceDialogForm(attendance) {
@@ -225,7 +247,7 @@ export default {
       this.employee = null
       this.attendances.push(attendance)
     },
-    async filterDate(loader = true) {
+    async onChangedDate(loader = true) {
       this.dateMenu = false
 
       let loading = this.$loading
