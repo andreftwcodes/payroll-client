@@ -29,11 +29,14 @@ export const mutations = {
 }
 
 export const actions = {
-  setPaymentPeriodLoading({ commit }, payload) {
-    commit('SET_DISABLED', payload)
+  setPaymentPeriodLoading({ commit, dispatch }, payload) {
+    dispatch('setDisabled', payload)
     commit('SET_PAYMENT_PERIOD_LOADING', payload)
   },
   setFlags({ commit }, flags) {
     commit('SET_FLAGS', flags)
+  },
+  setDisabled({ commit }, payload) {
+    commit('SET_DISABLED', payload)
   }
 }
