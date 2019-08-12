@@ -4,13 +4,15 @@
       <v-flex>
         <v-card>
           <v-card-title>
-            <v-text-field
-              v-model="search"
-              append-icon="search"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
+            <v-flex md4>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-flex>
             <v-spacer></v-spacer>
           </v-card-title>
           <v-data-table

@@ -16,16 +16,13 @@
         </v-card>
       </v-flex>
       <v-flex xs12 md9>
-        <v-card>
-          <v-flex xs12>
-            <template v-if="showTable">
+        <template v-if="showTable">
+          <v-card>
+            <v-flex xs12>
               <PaySlipTable :payslip="payslip" />
-            </template>
-            <template v-else>
-              <h1 class="text-md-center">Pay Slip Not Available</h1>
-            </template>
-          </v-flex>
-        </v-card>
+            </v-flex>
+          </v-card>
+        </template>
       </v-flex>
       <DeductDialog v-model="deductDialog" @confirm:deduct="pickUpPaySlip" />
     </v-layout>

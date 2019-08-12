@@ -48,6 +48,7 @@ export const actions = {
     dispatch('attachSchedules', response.data)
     dispatch('attachOther', response.data)
     dispatch('attachRateHistory', response.data)
+    dispatch('attachLedger', response.data)
     dispatch('updateAttendanceAttributes', response.data)
 
     commit('SET_EMPLOYEE', {})
@@ -69,6 +70,9 @@ export const actions = {
     await this.$axios.$post(`employee/rate-history/${employee.id}`, {
       rate: state.employee.rate
     })
+  },
+  async attachLedger({ state }, employee) {
+    await this.$axios.$post(`cash-advance/attach_ledger/${employee.id}`)
   },
   async updateAttendanceAttributes({ state }, employee) {
     await this.$axios.$patch(`employee/attendance/attributes/${employee.id}`, {

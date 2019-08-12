@@ -38,6 +38,12 @@
           <td></td>
         </tr>
         <tr>
+          <td><strong>Undertime | Hours</strong></td>
+          <td class="text-xs-right">- {{ payslip.undertime.hours }}</td>
+          <td class="text-xs-right">- {{ payslip.undertime.amount }}</td>
+          <td></td>
+        </tr>
+        <tr>
           <td><strong>GROSS SALARY</strong></td>
           <td></td>
           <td></td>

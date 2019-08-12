@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 import ChildDialogForm from '@/components/cash-advance/ChildDialogForm'
 export default {
   middleware: 'auth',
@@ -170,8 +170,8 @@ export default {
       this.creditDF = true
     },
     saveUpdateChild(response) {
-      const child = _.merge(response.data, response.meta)
-      this.parent.children.push(child)
+      // const child = _.merge(response.data, response.meta)
+      this.parent.children = response.data
     }
   }
 }
