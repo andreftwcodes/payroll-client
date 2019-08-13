@@ -262,7 +262,7 @@ export default {
         )).data
         this.attendances = (await this.$axios.$get('attendances', {
           params: {
-            created_at: this.date
+            attended_at: this.date
           }
         })).data
         loading.hide()
