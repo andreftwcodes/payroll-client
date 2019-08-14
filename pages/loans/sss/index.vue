@@ -27,13 +27,16 @@
               <td>
                 {{ props.item.loan_no }}
               </td>
-              <td>{{ props.item.fullname }}</td>
-              <td>{{ props.item.loaned_amount }}</td>
+              <td>{{ props.item.employee.fullname }}</td>
+              <td>{{ props.item.amount }}</td>
               <td>{{ props.item.balance }}</td>
               <td>{{ props.item.progress }}</td>
-              <td>{{ props.item.loaned_date }}</td>
+              <td>{{ props.item.loaned_at }}</td>
               <td>
-                <v-icon class="mr-3" color="blue darken-2" @click="onShow(1)"
+                <v-icon
+                  class="mr-3"
+                  color="blue darken-2"
+                  @click="onShow(props.item.id)"
                   >launch</v-icon
                 >
                 <v-icon color="red" @click="onDelete">highlight_off</v-icon>
@@ -48,7 +51,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import FormDialog from '@/components/loans/sss/FormDialog'
 export default {
   components: {
@@ -68,13 +70,13 @@ export default {
           text: 'Fullname',
           align: 'left',
           sortable: false,
-          value: 'fullname'
+          value: 'employee.fullname'
         },
         {
           text: 'Loaned Amount',
           align: 'left',
           sortable: false,
-          value: 'loaned_amount'
+          value: 'amount'
         },
         {
           text: 'Balance',
@@ -92,7 +94,7 @@ export default {
           text: 'Loaned Date',
           align: 'left',
           sortable: false,
-          value: 'loaned_date'
+          value: 'loaned_at'
         },
         {
           text: '',
@@ -102,8 +104,13 @@ export default {
         }
       ],
       rowsPerPage: [10, 15, 20],
-      loans: this.mappedLoans(),
       formDialogVisibility: false
+    }
+  },
+  async asyncData({ app }) {
+    const response = await app.$axios.$get('sss-loan')
+    return {
+      loans: response.data
     }
   },
   methods: {
@@ -118,206 +125,6 @@ export default {
     },
     onDelete() {
       console.log('Delete')
-    },
-    mappedLoans() {
-      const loans = [
-        {
-          loan_no: null,
-          fullname: 'Emma Isabella',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-05-10'
-        },
-        {
-          loan_no: null,
-          fullname: 'Abigail Scarlett',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-06-15'
-        },
-        {
-          loan_no: null,
-          fullname: 'Penelope Eleanor',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-07-03'
-        },
-        {
-          loan_no: null,
-          fullname: 'Madison Grace',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-03-09'
-        },
-        {
-          loan_no: null,
-          fullname: 'Zoey Charlotte',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-01-27'
-        },
-        {
-          loan_no: null,
-          fullname: 'Sophia Aurora',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-05-19'
-        },
-        {
-          loan_no: null,
-          fullname: 'Emma Isabella',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-05-10'
-        },
-        {
-          loan_no: null,
-          fullname: 'Abigail Scarlett',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-06-15'
-        },
-        {
-          loan_no: null,
-          fullname: 'Penelope Eleanor',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-07-03'
-        },
-        {
-          loan_no: null,
-          fullname: 'Madison Grace',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-03-09'
-        },
-        {
-          loan_no: null,
-          fullname: 'Zoey Charlotte',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-01-27'
-        },
-        {
-          loan_no: null,
-          fullname: 'Sophia Aurora',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-05-19'
-        },
-        {
-          loan_no: null,
-          fullname: 'Emma Isabella',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-05-10'
-        },
-        {
-          loan_no: null,
-          fullname: 'Abigail Scarlett',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-06-15'
-        },
-        {
-          loan_no: null,
-          fullname: 'Penelope Eleanor',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-07-03'
-        },
-        {
-          loan_no: null,
-          fullname: 'Madison Grace',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-03-09'
-        },
-        {
-          loan_no: null,
-          fullname: 'Zoey Charlotte',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-01-27'
-        },
-        {
-          loan_no: null,
-          fullname: 'Sophia Aurora',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-05-19'
-        },
-        {
-          loan_no: null,
-          fullname: 'Emma Isabella',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-05-10'
-        },
-        {
-          loan_no: null,
-          fullname: 'Abigail Scarlett',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-06-15'
-        },
-        {
-          loan_no: null,
-          fullname: 'Penelope Eleanor',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-07-03'
-        },
-        {
-          loan_no: null,
-          fullname: 'Madison Grace',
-          loaned_amount: 18000,
-          balance: 15000,
-          progress: 30,
-          loaned_date: '2019-03-09'
-        },
-        {
-          loan_no: null,
-          fullname: 'Zoey Charlotte',
-          loaned_amount: 25000,
-          balance: 12000,
-          progress: 80,
-          loaned_date: '2019-01-27'
-        },
-        {
-          loan_no: null,
-          fullname: 'Sophia Aurora',
-          loaned_amount: 28000,
-          balance: 80000,
-          progress: 50,
-          loaned_date: '2019-05-19'
-        }
-      ]
-
-      return _.forEach(loans, function(value, key) {
-        value.loan_no = Math.floor(Math.random() * Math.floor(Date.now()))
-      })
     }
   }
 }

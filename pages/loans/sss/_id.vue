@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title class="headline pb-2">
             <v-flex>
-              #201030507080 - Jose Rizal
+              {{ parent.loan_no }} - {{ parent.employee.fullname }}
             </v-flex>
             <v-spacer></v-spacer>
             <v-icon large color="blue darken-2" class="mr-3" @click="onBack"
@@ -20,7 +20,7 @@
                 <v-card color="teal lighten-1" class="white--text">
                   <v-card-title class="pt-2 pb-2">
                     <div>
-                      <div class="headline">2018-07-25</div>
+                      <div class="headline">{{ parent.loaned_at }}</div>
                       <div class="font-weight-black">Loaned Date</div>
                     </div>
                   </v-card-title>
@@ -30,7 +30,7 @@
                 <v-card color="teal lighten-1" class="white--text">
                   <v-card-title class="pt-2 pb-2">
                     <div>
-                      <div class="headline">10,000</div>
+                      <div class="headline">{{ parent.amount }}</div>
                       <div class="font-weight-black">Loaned Amount</div>
                     </div>
                   </v-card-title>
@@ -40,7 +40,7 @@
                 <v-card color="teal lighten-1" class="white--text">
                   <v-card-title class="pt-2 pb-2">
                     <div>
-                      <div class="headline">7,000</div>
+                      <div class="headline">{{ parent.balance }}</div>
                       <div class="font-weight-black">Balance</div>
                     </div>
                   </v-card-title>
@@ -50,7 +50,7 @@
                 <v-card color="teal lighten-1" class="white--text">
                   <v-card-title class="pt-2 pb-2">
                     <div>
-                      <div class="headline">60%</div>
+                      <div class="headline">{{ parent.progress }}</div>
                       <div class="font-weight-black">Progress</div>
                     </div>
                   </v-card-title>
@@ -61,7 +61,7 @@
           <v-divider class="mt-3"></v-divider>
           <v-data-table
             :headers="headers"
-            :items="payments"
+            :items="parent.payments"
             hide-actions
             class="elevation-1"
           >
@@ -69,8 +69,19 @@
               <td>
                 {{ props.index + 1 }}
               </td>
-              <td>{{ props.item.date }}</td>
-              <td>{{ props.item.remarks }}</td>
+              <td>{{ props.item.paid_at }}</td>
+              <td>{{ props.item.paid_by }}</td>
+              <td>
+                <v-icon
+                  class="mr-3"
+                  color="blue darken-2"
+                  @click="onEditPayment(props.item.id)"
+                  >edit</v-icon
+                >
+                <v-icon color="red" @click="onDelete(props.item.id)"
+                  >highlight_off</v-icon
+                >
+              </td>
             </template>
           </v-data-table>
         </v-card>
@@ -91,19 +102,30 @@ export default {
           value: 'no'
         },
         {
-          text: 'Date',
+          text: 'Paid at',
           align: 'left',
           sortable: false,
-          value: 'date'
+          value: 'paid_at'
         },
         {
-          text: 'Remarks',
+          text: 'Paid by',
           align: 'left',
           sortable: false,
-          value: 'remarks'
+          value: 'paid_by'
+        },
+        {
+          text: '',
+          align: 'left',
+          sortable: false,
+          value: ''
         }
-      ],
-      payments: this.mappedPayments()
+      ]
+    }
+  },
+  async asyncData({ app, params }) {
+    const response = await app.$axios.$get(`sss-loan/show/${params.id}`)
+    return {
+      parent: response.data
     }
   },
   methods: {
@@ -115,18 +137,8 @@ export default {
     onEdit() {
       console.log('Edit')
     },
-    mappedPayments() {
-      const payments = []
-
-      for (let index = 1; index <= 24; index++) {
-        payments.push({
-          date: '2019-08-05',
-          remarks: 'Paid'
-        })
-      }
-
-      return payments
-    }
+    onEditPayment(id) {},
+    onDelete(id) {}
   }
 }
 </script>
