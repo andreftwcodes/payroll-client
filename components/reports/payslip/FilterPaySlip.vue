@@ -18,6 +18,7 @@
         item-text="fullname"
         item-value="id"
         label="Employee"
+        :error-messages="errors.employee ? errors.employee[0] : ''"
         :disabled="disabled"
       ></v-autocomplete>
     </v-flex>
@@ -103,7 +104,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 import MessageDialog from '@/components/reports/payslip/MessageDialog'
 export default {
@@ -154,13 +154,8 @@ export default {
     })
   },
   watch: {
-    employees: {
-      handler: function(newValue) {
-        this.employee = !_.isEmpty(newValue) ? _.head(newValue).id : null
-      },
-      immediate: true
-    },
     payment_period: function(newValue) {
+      this.employee = null
       this.setPaymentPeriodLoading(true)
       this.$emit('on-changed:payment-period', newValue)
     },
@@ -198,6 +193,13 @@ export default {
     },
     async onPickUp() {
       this.clearErrors()
+
+      if (this.employee === null) {
+        this.setErrors({
+          employee: ['Please select a employee.']
+        })
+        return false
+      }
 
       if (this.periodNotInRange()) {
         this.setErrors({

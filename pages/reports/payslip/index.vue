@@ -25,6 +25,11 @@
         </template>
       </v-flex>
       <DeductDialog v-model="deductDialog" @confirm:deduct="pickUpPaySlip" />
+      <ConfirmationDialog
+        v-model="closePeriodConfirm"
+        :filter-params="filter_params"
+        @closed:period="onClosedPeriod"
+      />
     </v-layout>
   </v-container>
 </template>
@@ -35,12 +40,14 @@ import _ from 'lodash'
 import FilterPaySlip from '@/components/reports/payslip/FilterPaySlip'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 import DeductDialog from '@/components/reports/payslip/DeductDialog'
+import ConfirmationDialog from '@/components/reports/payslip/ConfirmationDialog'
 export default {
   middleware: 'auth',
   components: {
     FilterPaySlip,
     PaySlipTable,
-    DeductDialog
+    DeductDialog,
+    ConfirmationDialog
   },
   data() {
     return {
@@ -50,7 +57,9 @@ export default {
       payslip: {},
       extra: {},
       deductDialog: false,
-      filters: null
+      closePeriodConfirm: false,
+      filters: null,
+      filter_params: {}
     }
   },
   async asyncData({ app }) {
@@ -65,6 +74,19 @@ export default {
       setFlags: 'payslip/setFlags'
     }),
     onPrint() {
+      this.closePeriodConfirm = true
+      this.filter_params = _.merge(this.filter_params, {
+        employee_id: this.filters.employee_id
+      })
+    },
+    onClosedPeriod(employee) {
+      this.employees.splice(
+        _.findIndex(this.employees, o => o.id === employee.id),
+        1,
+        employee
+      )
+      this.canPrint = false
+      this.showTable = false
       this.popupDialog(this.extra.print_url)
     },
     popupDialog(url = '', title = 'xtf', w = 1200, h = 600) {
@@ -121,16 +143,18 @@ export default {
     },
     async pickUpPaySlip(extraFilters) {
       const loading = this.$loading.show()
+      this.filter_params = {
+        from: this.filters.dateFrom,
+        to: this.filters.dateTo,
+        contributions: extraFilters.contributions,
+        ca_amount_deductible: extraFilters.ca_amount_deductible,
+        sss_loan_id: extraFilters.sss_loan_id
+      }
       try {
         const response = await this.$axios.$get(
           `/payslip/period/${this.filters.employee_id}`,
           {
-            params: {
-              from: this.filters.dateFrom,
-              to: this.filters.dateTo,
-              contributions: extraFilters.contributions,
-              ca_amount_deductible: extraFilters.ca_amount_deductible
-            }
+            params: this.filter_params
           }
         )
         this.payslip = response.data

@@ -14,12 +14,22 @@
               color="error"
               label="Contributions (SSS, PhilHealth, PagIbig)"
             ></v-checkbox>
-            <v-checkbox
-              v-model="sssLoan"
-              color="error"
-              label="SSS Loan"
-              disabled
-            ></v-checkbox>
+            <template v-if="payslipFlags.sss_loan">
+              <v-checkbox
+                v-model="sssLoan"
+                color="error"
+                :label="`SSS Loan | #${payslipFlags.sss_loan.loan_no}`"
+                disabled
+              ></v-checkbox>
+            </template>
+            <template v-else>
+              <v-checkbox
+                v-model="sssLoan"
+                color="error"
+                label="SSS Loan | NA"
+                disabled
+              ></v-checkbox>
+            </template>
             <template v-if="payslipFlags.cash_advance">
               <v-checkbox
                 v-model="filters.cash_advance"
@@ -124,7 +134,10 @@ export default {
         contributions: this.filters.contributions,
         ca_amount_deductible: this.filters.cash_advance
           ? this.payslipFlags.cash_advance.amount_deductible
-          : 0
+          : 0,
+        sss_loan_id: !_.isNull(this.payslipFlags.sss_loan)
+          ? this.payslipFlags.sss_loan.id
+          : null
       }
 
       try {
