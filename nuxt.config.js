@@ -40,6 +40,7 @@ export default {
    */
   plugins: [
     '@/plugins/vuetify',
+    '@/plugins/mixins/global.js',
     '@/plugins/mixins/user.js',
     '@/plugins/mixins/validation.js',
     '@/plugins/axios',

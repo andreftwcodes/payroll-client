@@ -36,19 +36,21 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import _ from 'lodash'
 import FilterPaySlip from '@/components/reports/payslip/FilterPaySlip'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 import DeductDialog from '@/components/reports/payslip/DeductDialog'
 import ConfirmationDialog from '@/components/reports/payslip/ConfirmationDialog'
 export default {
-  middleware: 'auth',
   components: {
     FilterPaySlip,
     PaySlipTable,
     DeductDialog,
     ConfirmationDialog
   },
+  mixins: [payslipMixin],
+  middleware: 'auth',
   data() {
     return {
       employees: [],
@@ -87,39 +89,7 @@ export default {
       )
       this.canPrint = false
       this.showTable = false
-      this.popupDialog(this.extra.print_url)
-    },
-    popupDialog(url = '', title = 'xtf', w = 1200, h = 600) {
-      const dualScreenLeft =
-        window.screenLeft !== undefined ? window.screenLeft : screen.left
-      const dualScreenTop =
-        window.screenTop !== undefined ? window.screenTop : screen.top
-
-      const width = window.innerWidth
-        ? window.innerWidth
-        : document.documentElement.clientWidth
-        ? document.documentElement.clientWidth
-        : screen.width
-      const height = window.innerHeight
-        ? window.innerHeight
-        : document.documentElement.clientHeight
-        ? document.documentElement.clientHeight
-        : screen.height
-
-      const left = width / 2 - w / 2 + dualScreenLeft
-      const top = height / 2 - h / 2 + dualScreenTop
-      window.open(
-        url,
-        title,
-        'directories=no,toolbar=0,location=0,menubar=0,scrollbars=yes, width=' +
-          w +
-          ', height=' +
-          h +
-          ', top=' +
-          top +
-          ', left=' +
-          left
-      )
+      this.payslipDialog(this.extra.print_url)
     },
     async onChangedPaymentPeriod(paymentPeriod) {
       this.canPrint = false

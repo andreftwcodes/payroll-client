@@ -56,7 +56,7 @@
                   </template>
                   <v-date-picker
                     v-model="date"
-                    :max="dateNow()"
+                    :max="now()"
                     @input="onChangedDate"
                   ></v-date-picker>
                 </v-menu>
@@ -162,7 +162,7 @@ export default {
       rowsPerPage: [10, 15, 20],
       attendances: [],
       attendance: null,
-      date: this.dateNow(),
+      date: this.now(),
       dateMenu: false,
       msgDialog: false,
       msgDialogData: {},
@@ -183,16 +183,6 @@ export default {
     ...mapActions({
       clearErrors: 'validation/clearErrors'
     }),
-    dateNow() {
-      const d = new Date()
-      return (
-        d.getFullYear() +
-        '-' +
-        ('0' + (d.getMonth() + 1)).slice(-2) +
-        '-' +
-        ('0' + d.getDate()).slice(-2)
-      )
-    },
     onSwap() {
       this.swap = !this.swap
       this.search = null

@@ -31,7 +31,7 @@
                 <v-icon
                   class="mr-3"
                   color="blue darken-2"
-                  @click="onShowPaySlip(props.item)"
+                  @click="onShowPaySlip(props.item.print_url)"
                   >receipt</v-icon
                 >
                 <v-icon color="green" @click="onOpenPeriod(props.item)"
@@ -53,11 +53,13 @@
 
 <script>
 import _ from 'lodash'
+import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import OpenPeriodDialog from '@/components/payroll-periods/OpenPeriodDialog'
 export default {
   components: {
     OpenPeriodDialog
   },
+  mixins: [payslipMixin],
   data() {
     return {
       search: '',
@@ -99,8 +101,8 @@ export default {
     }
   },
   methods: {
-    onShowPaySlip(payroll) {
-      console.log(payroll)
+    onShowPaySlip(url) {
+      this.payslipDialog(url)
     },
     onOpenPeriod(payroll) {
       this.opd = true

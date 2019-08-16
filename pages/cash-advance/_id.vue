@@ -43,7 +43,7 @@
                 class="text-xs-right"
                 color="green darken-2"
                 medium
-                @click="openCreditForm"
+                @click="openCashAdvanceChildForm(null)"
                 >add_circle_outline</v-icon
               >
             </v-flex>
@@ -56,22 +56,37 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>{{ props.item.date }}</td>
-              <td class="text-xs-right">{{ props.item.credit }}</td>
-              <td class="text-xs-right">{{ props.item.debit }}</td>
+              <td>{{ props.item.date_dsp }}</td>
+              <td>{{ props.item.transact_by }}</td>
+              <td class="text-xs-right">{{ props.item.credit_dsp }}</td>
+              <td class="text-xs-right">{{ props.item.debit_dsp }}</td>
               <td class="text-xs-right">{{ props.item.balance }}</td>
               <td class="text-xs-right">
-                <v-icon class="mr-3" color="blue darken-2">edit</v-icon>
-                <v-icon color="red">highlight_off</v-icon>
+                <template v-if="!props.item.is_payroll">
+                  <v-icon
+                    class="mr-3"
+                    color="blue darken-2"
+                    @click="openCashAdvanceChildForm(props.item)"
+                    >edit</v-icon
+                  >
+                  <v-icon color="red" @click="onDelete(props.item)"
+                    >highlight_off</v-icon
+                  >
+                </template>
               </td>
               <td></td>
             </template>
           </v-data-table>
         </v-card>
         <ChildDialogForm
-          v-model="creditDF"
-          :parent="parent"
+          v-model="childDialogFrm"
+          :child="child"
           @save-update:child="saveUpdateChild"
+        />
+        <DltChildDialog
+          v-model="dltChildDialog"
+          :child="child"
+          @deleted:ca-child="deletedCaChild"
         />
       </v-flex>
     </v-layout>
@@ -79,19 +94,29 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import ChildDialogForm from '@/components/cash-advance/ChildDialogForm'
+import DltChildDialog from '@/components/cash-advance/DltChildDialog'
 export default {
   middleware: 'auth',
   components: {
-    ChildDialogForm
+    ChildDialogForm,
+    DltChildDialog
   },
   data() {
     return {
       parent: null,
+      child: null,
       search: '',
       headers: [
         {
           text: 'Date',
+          align: 'left',
+          sortable: false,
+          value: ''
+        },
+        {
+          text: 'Transact by',
           align: 'left',
           sortable: false,
           value: ''
@@ -132,7 +157,8 @@ export default {
         edit: true,
         saveUpdate: false
       },
-      creditDF: false
+      childDialogFrm: false,
+      dltChildDialog: false
     }
   },
   async asyncData({ app, params }) {
@@ -165,11 +191,32 @@ export default {
         this.buttons.saveUpdate = false
       } catch (error) {}
     },
-    openCreditForm() {
-      this.creditDF = true
-    },
     saveUpdateChild(response) {
       this.parent.children = response.data
+    },
+    openCashAdvanceChildForm(payload = null) {
+      let child = payload
+
+      if (_.isNull(child)) {
+        child = {
+          date: this.now(),
+          credit: null,
+          debit: null
+        }
+      }
+
+      this.child = _.merge(_.clone(child), {
+        ca_parents_id: this.parent.id
+      })
+
+      this.childDialogFrm = true
+    },
+    onDelete(child) {
+      this.child = child
+      this.dltChildDialog = true
+    },
+    deletedCaChild(children) {
+      this.parent.children = children
     }
   }
 }

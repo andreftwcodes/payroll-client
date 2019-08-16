@@ -70,7 +70,7 @@
                 {{ props.index + 1 }}
               </td>
               <td>{{ props.item.paid_at }}</td>
-              <td>{{ props.item.paid_by }}</td>
+              <td>{{ props.item.processed_by }}</td>
               <td>
                 <v-icon
                   class="mr-3"
@@ -108,7 +108,7 @@ export default {
           value: 'paid_at'
         },
         {
-          text: 'Paid by',
+          text: 'Processed by',
           align: 'left',
           sortable: false,
           value: 'paid_by'

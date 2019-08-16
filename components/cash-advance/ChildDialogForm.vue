@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="show" persistent width="800">
-    <v-card>
+    <v-card v-if="child">
       <v-card-title class="headline grey lighten-2">
-        Credit
+        Credit / Debit
       </v-card-title>
       <v-card-text>
         <v-form ref="form">
@@ -21,7 +21,7 @@
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      v-model="form.date"
+                      v-model="child.date"
                       label="Date"
                       append-icon="event"
                       readonly
@@ -29,24 +29,28 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="form.date"
-                    :max="dateNow()"
+                    v-model="child.date"
+                    :max="now()"
                     @input="dateMenu = false"
                   ></v-date-picker>
                 </v-menu>
               </v-flex>
               <v-flex xs12 md4>
                 <v-text-field
-                  v-model="form.credit"
+                  v-model="child.credit"
                   label="Credit"
+                  append-icon="money"
                   placeholder="Credit"
+                  :error-messages="errors.credit ? errors.credit[0] : ''"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
                 <v-text-field
-                  v-model="form.debit"
+                  v-model="child.debit"
                   label="Debit"
+                  append-icon="money"
                   placeholder="Debit"
+                  :error-messages="errors.debit ? errors.debit[0] : ''"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -57,9 +61,9 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" flat @click="onSaveUpdate">
-          Save
+          {{ hasId ? 'Update' : 'Save' }}
         </v-btn>
-        <v-btn color="primary" flat @click="show = false">
+        <v-btn color="primary" flat @click="onCancel">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -68,12 +72,14 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapActions } from 'vuex'
 export default {
   props: {
     value: {
       type: Boolean
     },
-    parent: {
+    child: {
       type: Object,
       default: () => {
         return {}
@@ -82,12 +88,6 @@ export default {
   },
   data() {
     return {
-      form: {
-        ca_parents_id: this.parent.id,
-        date: this.dateNow(),
-        credit: null,
-        debit: null
-      },
       dateMenu: false
     }
   },
@@ -99,29 +99,35 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    hasId() {
+      return _.has(this.child, ['id'])
     }
   },
   methods: {
-    dateNow() {
-      const d = new Date()
-      return (
-        d.getFullYear() +
-        '-' +
-        ('0' + (d.getMonth() + 1)).slice(-2) +
-        '-' +
-        ('0' + d.getDate()).slice(-2)
-      )
-    },
+    ...mapActions({
+      clearErrors: 'validation/clearErrors'
+    }),
     async onSaveUpdate() {
-      const response = await this.$axios.$post('cash-advance/store', this.form)
+      let response = null
+
+      try {
+        if (this.hasId) {
+          response = await this.$axios.$patch(
+            `cash-advance/update/${this.child.id}`,
+            this.child
+          )
+        } else {
+          response = await this.$axios.$post('cash-advance/store', this.child)
+        }
+
+        this.show = false
+        this.$emit('save-update:child', response)
+      } catch (error) {}
+    },
+    onCancel() {
       this.show = false
-      this.form = {
-        ca_parents_id: this.parent.id,
-        date: this.dateNow(),
-        credit: null,
-        debit: null
-      }
-      this.$emit('save-update:child', response)
+      this.clearErrors()
     }
   }
 }
