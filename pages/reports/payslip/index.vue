@@ -36,8 +36,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import _ from 'lodash'
+import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import FilterPaySlip from '@/components/reports/payslip/FilterPaySlip'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 import DeductDialog from '@/components/reports/payslip/DeductDialog'
