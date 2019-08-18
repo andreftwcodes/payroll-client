@@ -7,10 +7,7 @@
         </v-card-title>
 
         <v-card-text class="subheading">
-          <span class="font-weight-black">{{ data.fullname }}</span> has
-          attended this following date
-          <span class="font-weight-black">{{ data.attended_at }}</span
-          >.
+          {{ errors.employee ? errors.employee[0] : '' }}
         </v-card-text>
 
         <v-divider></v-divider>
@@ -31,12 +28,6 @@ export default {
   props: {
     value: {
       type: Boolean
-    },
-    data: {
-      type: Object,
-      default: () => {
-        return {}
-      }
     }
   },
   data() {

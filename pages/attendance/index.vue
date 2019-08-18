@@ -13,6 +13,8 @@
                     item-text="fullname"
                     item-value="id"
                     label="Select"
+                    :loading="employee_autocomplete_loading"
+                    :readonly="employee_autocomplete"
                     @change="onChangedEmployee"
                   ></v-autocomplete>
                 </template>
@@ -30,13 +32,15 @@
                 large
                 class="ml-3"
                 :color="swap ? 'blue darken-2' : ''"
+                :disabled="swap_btn"
                 @click="onSwap"
                 >swap_horiz</v-icon
               >
               <v-spacer></v-spacer>
-              <v-flex md2>
+              <v-flex md3>
                 <v-menu
                   v-model="dateMenu"
+                  :disabled="date_picker"
                   :close-on-content-click="false"
                   :nudge-right="40"
                   lazy
@@ -77,20 +81,24 @@
               <td>{{ props.item.time_out }}</td>
               <td>{{ props.item.remark }}</td>
               <td>
-                <v-icon
-                  class="mr-3"
-                  color="blue darken-2"
-                  @click="showAttendanceDialogForm(props.item)"
-                  >edit</v-icon
-                >
-                <v-icon color="red">highlight_off</v-icon>
+                <template v-if="props.item.status">
+                  <v-icon
+                    class="mr-3"
+                    color="blue darken-2"
+                    @click="showAttendanceDialogForm(props.item)"
+                    >edit</v-icon
+                  >
+                  <v-icon color="red">highlight_off</v-icon>
+                </template>
+                <template v-else>
+                  <v-chip small color="red" text-color="white">Closed</v-chip>
+                </template>
               </td>
             </template>
           </v-data-table>
         </v-card>
         <MessageDialog
           v-model="msgDialog"
-          :data="msgDialogData"
           @msg-dialog:closed="employee = null"
         />
         <AttendanceDialogForm
@@ -121,6 +129,8 @@ export default {
       employees: [],
       employee: null,
       search: '',
+      employee_autocomplete: false,
+      employee_autocomplete_loading: false,
       headers: [
         {
           text: 'Fullname',
@@ -165,9 +175,18 @@ export default {
       date: this.now(),
       dateMenu: false,
       msgDialog: false,
-      msgDialogData: {},
       dialogForm: false,
-      swap: false
+      swap: false,
+      swap_btn: false,
+      date_picker: false
+    }
+  },
+  watch: {
+    'errors.employee': function(newValue) {
+      if (!_.isEmpty(newValue)) {
+        this.msgDialog = true
+        this.employee_autocomplete_loading = false
+      }
     }
   },
   async asyncData({ app }) {
@@ -187,25 +206,34 @@ export default {
       this.swap = !this.swap
       this.search = null
     },
-    hasAttended(id) {
-      return !_.isEmpty(_.find(this.attendances, ['employee.id', id]))
-    },
-    onChangedEmployee(id) {
-      const mergedData = _.merge(_.find(this.employees, ['id', id]), {
-        attended_at: this.date
-      })
-      const attendance = _.omit(mergedData, ['id', 'fullname'])
-
-      if (this.hasAttended(id)) {
-        this.msgDialog = true
-        this.msgDialogData = {
-          fullname: attendance.employee.fullname,
+    async onChangedEmployee(id) {
+      this.swap_btn = true
+      this.date_picker = true
+      this.employee_autocomplete = true
+      this.employee_autocomplete_loading = true
+      const attendance = _.omit(
+        _.merge(_.find(this.employees, ['id', id]), {
           attended_at: this.date
-        }
-        return
+        }),
+        ['id', 'fullname']
+      )
+      try {
+        await this.$axios.$get(`attendances/verify-employee/${id}`, {
+          params: {
+            attended_at: this.date
+          }
+        })
+        this.swap_btn = false
+        this.date_picker = false
+        this.employee_autocomplete = false
+        this.employee_autocomplete_loading = false
+        this.showAttendanceDialogForm(attendance)
+      } catch (error) {
+        this.swap_btn = false
+        this.date_picker = false
+        this.employee_autocomplete = false
+        this.employee_autocomplete_loading = false
       }
-
-      this.showAttendanceDialogForm(attendance)
     },
     showAttendanceDialogForm(attendance) {
       this.clearErrors()
@@ -235,6 +263,10 @@ export default {
     },
     attendanceSaved(attendance) {
       this.employee = null
+      this.employees.splice(
+        _.findIndex(this.employees, ['id', attendance.employee.id]),
+        1
+      )
       this.attendances.push(attendance)
     },
     async onChangedDate(loader = true) {
@@ -247,9 +279,11 @@ export default {
       }
 
       try {
-        this.employees = (await this.$axios.$get(
-          'attendances/get-employees'
-        )).data
+        this.employees = (await this.$axios.$get('attendances/get-employees', {
+          params: {
+            attended_at: this.date
+          }
+        })).data
         this.attendances = (await this.$axios.$get('attendances', {
           params: {
             attended_at: this.date
