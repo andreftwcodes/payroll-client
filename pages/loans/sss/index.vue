@@ -44,13 +44,14 @@
             </template>
           </v-data-table>
         </v-card>
-        <FormDialog v-model="formDialogVisibility" />
+        <FormDialog v-model="formDialogVisibility" :sss-loan="sssLoan" />
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import _ from 'lodash'
 import FormDialog from '@/components/loans/sss/FormDialog'
 export default {
   components: {
@@ -104,7 +105,8 @@ export default {
         }
       ],
       rowsPerPage: [10, 15, 20],
-      formDialogVisibility: false
+      formDialogVisibility: false,
+      sssLoan: {}
     }
   },
   async asyncData({ app }) {
@@ -114,8 +116,10 @@ export default {
     }
   },
   methods: {
-    onAddNew() {
+    onAddNew(obj = null) {
       this.formDialogVisibility = true
+      const sssLoan = _.clone(obj)
+      this.sssLoan = !_.isNull(sssLoan) ? sssLoan : {}
     },
     onShow(id) {
       this.$router.push({
