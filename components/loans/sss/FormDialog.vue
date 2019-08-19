@@ -31,15 +31,55 @@
                 </v-flex>
                 <v-flex xs12 md3>
                   <v-text-field
-                    label="Loan Amount"
-                    placeholder="Loan Amount"
+                    label="Loaned Amount"
+                    placeholder="Loaned Amount"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 md3>
                   <v-text-field
-                    label="Loan Date"
-                    placeholder="Loan Date"
+                    label="Amortization Amount"
+                    placeholder="Amortization Amount"
                   ></v-text-field>
+                </v-flex>
+                <v-flex xs12 md3>
+                  <v-select
+                    :items="[
+                      { value: 12, text: '12 Months' },
+                      { value: 24, text: '24 Months' }
+                    ]"
+                    item-text="text"
+                    item-value="value"
+                    label="Payment Terms"
+                    placeholder="Payment Terms"
+                    :disabled="disabled"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 md3>
+                  <v-menu
+                    v-model="dateMenu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="loan_date"
+                        label="Loan Date"
+                        append-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="loan_date"
+                      :max="now()"
+                      @input="dateMenu = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -70,7 +110,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      dateMenu: false,
+      loan_date: this.now()
+    }
   },
   computed: {
     show: {
