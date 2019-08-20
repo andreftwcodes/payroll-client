@@ -28,10 +28,10 @@
                 {{ props.item.loan_no }}
               </td>
               <td>{{ props.item.employee.fullname }}</td>
-              <td>{{ props.item.amount }}</td>
+              <td>{{ props.item.amount_loaned }}</td>
               <td>{{ props.item.balance }}</td>
               <td>{{ props.item.progress }}</td>
-              <td>{{ props.item.loaned_at }}</td>
+              <td>{{ props.item.date_loaned }}</td>
               <td>
                 <v-icon
                   class="mr-3"
@@ -74,10 +74,10 @@ export default {
           value: 'employee.fullname'
         },
         {
-          text: 'Loaned Amount',
+          text: 'Amount Loaned',
           align: 'left',
           sortable: false,
-          value: 'amount'
+          value: 'amount_loaned'
         },
         {
           text: 'Balance',
@@ -92,10 +92,10 @@ export default {
           value: 'progress'
         },
         {
-          text: 'Loaned Date',
+          text: 'Date Loaned',
           align: 'left',
           sortable: false,
-          value: 'loaned_at'
+          value: 'date_loaned'
         },
         {
           text: '',

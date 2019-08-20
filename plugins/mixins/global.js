@@ -4,8 +4,16 @@ const Globals = {
   install(Vue, options) {
     Vue.mixin({
       methods: {
-        now() {
-          const d = new Date()
+        _now(flag) {
+          const date = new Date()
+          let d
+
+          if (flag === 'first-month') {
+            d = new Date(date.getFullYear(), date.getMonth(), 1)
+          } else {
+            d = date
+          }
+
           return (
             d.getFullYear() +
             '-' +

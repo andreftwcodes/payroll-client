@@ -33,9 +33,9 @@
                 </v-flex>
                 <v-flex xs12 md4>
                   <v-text-field
-                    v-model="sssLoan.loan_amount"
+                    v-model="sssLoan.amount_loaned"
                     :error-messages="
-                      errors.loan_amount ? errors.loan_amount[0] : ''
+                      errors.amount_loaned ? errors.amount_loaned[0] : ''
                     "
                     label="Loaned Amount"
                     placeholder="Loaned Amount"
@@ -86,7 +86,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        v-model="sssLoan.loaned_date"
+                        v-model="sssLoan.date_loaned"
                         label="Loaned Date"
                         append-icon="event"
                         readonly
@@ -94,11 +94,11 @@
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      v-model="sssLoan.loaned_date"
+                      v-model="sssLoan.date_loaned"
                       :error-messages="
-                        errors.loaned_date ? errors.loaned_date[0] : ''
+                        errors.date_loaned ? errors.date_loaned[0] : ''
                       "
-                      :max="now()"
+                      :max="_now()"
                       @input="dateMenu = false"
                     ></v-date-picker>
                   </v-menu>
@@ -140,8 +140,7 @@ export default {
   data() {
     return {
       employees: [],
-      dateMenu: false,
-      loan_date: this.now()
+      dateMenu: false
     }
   },
   computed: {

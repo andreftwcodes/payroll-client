@@ -80,7 +80,7 @@
                 </template>
                 <v-date-picker
                   v-model="form.birthdate"
-                  :max="new Date().toISOString().substr(0, 10)"
+                  :max="_now()"
                   @input="birthdateMenu = false"
                 ></v-date-picker>
               </v-menu>

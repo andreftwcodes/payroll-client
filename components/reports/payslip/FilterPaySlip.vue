@@ -138,9 +138,9 @@ export default {
         }
       ],
       employee: null,
-      dateFrom: this._date('first-month'),
-      dateTo: this._date(),
-      date: this._date(),
+      dateFrom: this._now('first-month'),
+      dateTo: this._now(),
+      date: this._now(),
       modalFrom: false,
       modalTo: false,
       msgDialog: false,
@@ -170,24 +170,6 @@ export default {
       setDisabled: 'payslip/setDisabled',
       setPaymentPeriodLoading: 'payslip/setPaymentPeriodLoading'
     }),
-    _date(flag) {
-      const date = new Date()
-      let d
-
-      if (flag === 'first-month') {
-        d = new Date(date.getFullYear(), date.getMonth(), 1)
-      } else {
-        d = date
-      }
-
-      return (
-        d.getFullYear() +
-        '-' +
-        ('0' + (d.getMonth() + 1)).slice(-2) +
-        '-' +
-        ('0' + d.getDate()).slice(-2)
-      )
-    },
     periodNotInRange() {
       return new Date(this.dateFrom) > new Date(this.dateTo)
     },

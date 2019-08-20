@@ -199,7 +199,7 @@ export default {
 
       if (_.isNull(child)) {
         child = {
-          date: this.now(),
+          date: this._now(),
           credit: null,
           debit: null
         }

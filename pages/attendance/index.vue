@@ -60,7 +60,7 @@
                   </template>
                   <v-date-picker
                     v-model="date"
-                    :max="now()"
+                    :max="_now()"
                     @input="onChangedDate"
                   ></v-date-picker>
                 </v-menu>
@@ -172,7 +172,7 @@ export default {
       rowsPerPage: [10, 15, 20],
       attendances: [],
       attendance: null,
-      date: this.now(),
+      date: this._now(),
       dateMenu: false,
       msgDialog: false,
       dialogForm: false,

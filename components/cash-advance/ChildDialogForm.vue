@@ -30,7 +30,7 @@
                   </template>
                   <v-date-picker
                     v-model="child.date"
-                    :max="now()"
+                    :max="_now()"
                     @input="dateMenu = false"
                   ></v-date-picker>
                 </v-menu>

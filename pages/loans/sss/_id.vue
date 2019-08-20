@@ -20,7 +20,7 @@
                 <v-card color="teal lighten-1" class="white--text">
                   <v-card-title class="pt-2 pb-2">
                     <div>
-                      <div class="headline">{{ parent.loaned_at }}</div>
+                      <div class="headline">{{ parent.date_loaned }}</div>
                       <div class="font-weight-black">Loaned Date</div>
                     </div>
                   </v-card-title>
@@ -30,7 +30,7 @@
                 <v-card color="teal lighten-1" class="white--text">
                   <v-card-title class="pt-2 pb-2">
                     <div>
-                      <div class="headline">{{ parent.amount }}</div>
+                      <div class="headline">{{ parent.amount_loaned }}</div>
                       <div class="font-weight-black">Loaned Amount</div>
                     </div>
                   </v-card-title>
