@@ -1,9 +1,11 @@
 <template>
   <div class="text-xs-center">
-    <v-dialog v-model="show" width="1000">
+    <v-dialog v-model="show" width="1000" persistent>
       <v-card>
         <v-card-title class="headline grey lighten-2">
-          Add Loan
+          {{
+            loanExists ? 'Update Loan - ' + sssLoan.loan_no_dsp : 'Save Loan'
+          }}
         </v-card-title>
 
         <v-card-text>
@@ -13,7 +15,9 @@
                 <v-flex xs12 md4>
                   <v-autocomplete
                     v-model="sssLoan.employee_id"
-                    :error-messages="errors.employee ? errors.employee[0] : ''"
+                    :error-messages="
+                      errors.employee_id ? errors.employee_id[0] : ''
+                    "
                     :items="employees"
                     item-text="fullname"
                     item-value="id"
@@ -89,15 +93,15 @@
                         v-model="sssLoan.date_loaned"
                         label="Loaned Date"
                         append-icon="event"
+                        :error-messages="
+                          errors.date_loaned ? errors.date_loaned[0] : ''
+                        "
                         readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
                     <v-date-picker
                       v-model="sssLoan.date_loaned"
-                      :error-messages="
-                        errors.date_loaned ? errors.date_loaned[0] : ''
-                      "
                       :max="_now()"
                       @input="dateMenu = false"
                     ></v-date-picker>
@@ -113,9 +117,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" flat @click="onSaveUpdate">
-            Save
+            {{ loanExists ? 'Update' : 'Save' }}
           </v-btn>
-          <v-btn color="primary" flat @click="show = false">
+          <v-btn color="primary" flat @click="onClose">
             Close
           </v-btn>
         </v-card-actions>
@@ -125,6 +129,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapActions } from 'vuex'
 export default {
   props: {
     value: {
@@ -135,11 +141,16 @@ export default {
       default: () => {
         return {}
       }
+    },
+    employees: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
     return {
-      employees: [],
       dateMenu: false
     }
   },
@@ -151,17 +162,41 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    loanExists() {
+      return _.has(this.sssLoan, 'id')
     }
   },
-  created() {
-    this.getEmployees()
-  },
   methods: {
-    async getEmployees() {
-      this.employees = (await this.$axios.$get('sss-loan/get-employees')).data
+    ...mapActions({
+      clearErrors: 'validation/clearErrors'
+    }),
+    async onSaveUpdate() {
+      const data = _.omit(this.sssLoan, [
+        'balance',
+        'employee',
+        'progress',
+        'loan_no_dsp'
+      ])
+      try {
+        let response = {}
+
+        if (this.loanExists) {
+          response = await this.$axios.$patch(
+            `sss-loan/resource/${data.id}`,
+            data
+          )
+        } else {
+          response = await this.$axios.$post('sss-loan/resource', data)
+        }
+
+        this.show = false
+        this.$emit('saved-updated:loan', response.data)
+      } catch (error) {}
     },
-    onSaveUpdate() {
-      console.log(this.sssLoan)
+    onClose() {
+      this.show = false
+      this.clearErrors()
     }
   }
 }

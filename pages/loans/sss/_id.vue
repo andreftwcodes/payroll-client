@@ -8,10 +8,9 @@
               {{ parent.loan_no }} - {{ parent.employee.fullname }}
             </v-flex>
             <v-spacer></v-spacer>
-            <v-icon large color="blue darken-2" class="mr-3" @click="onBack"
+            <v-icon large color="blue darken-2" @click="onBack"
               >keyboard_backspace</v-icon
             >
-            <v-icon medium color="blue darken-2" @click="onEdit">edit</v-icon>
           </v-card-title>
           <v-divider class="mb-3"></v-divider>
           <v-card-title class="pt-0 pb-0">
@@ -70,17 +69,19 @@
                 {{ props.index + 1 }}
               </td>
               <td>{{ props.item.paid_at }}</td>
-              <td>{{ props.item.processed_by }}</td>
+              <td>{{ props.item.transact_by }}</td>
               <td>
-                <v-icon
-                  class="mr-3"
-                  color="blue darken-2"
-                  @click="onEditPayment(props.item.id)"
-                  >edit</v-icon
-                >
-                <v-icon color="red" @click="onDelete(props.item.id)"
-                  >highlight_off</v-icon
-                >
+                <template v-if="!props.item.is_payroll">
+                  <v-icon
+                    class="mr-3"
+                    color="blue darken-2"
+                    @click="onEditPayment(props.item.id)"
+                    >edit</v-icon
+                  >
+                  <v-icon color="red" @click="onDelete(props.item.id)"
+                    >highlight_off</v-icon
+                  >
+                </template>
               </td>
             </template>
           </v-data-table>
@@ -108,10 +109,10 @@ export default {
           value: 'paid_at'
         },
         {
-          text: 'Processed by',
+          text: 'Transact by',
           align: 'left',
           sortable: false,
-          value: 'paid_by'
+          value: 'transact_by'
         },
         {
           text: '',
@@ -123,7 +124,7 @@ export default {
     }
   },
   async asyncData({ app, params }) {
-    const response = await app.$axios.$get(`sss-loan/show/${params.id}`)
+    const response = await app.$axios.$get(`sss-loan/resource/${params.id}`)
     return {
       parent: response.data
     }

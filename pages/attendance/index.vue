@@ -279,17 +279,19 @@ export default {
       }
 
       try {
-        this.employees = (await this.$axios.$get('attendances/get-employees', {
+        // this.employees = (await this.$axios.$get('attendances/get-employees', {
+        //   params: {
+        //     attended_at: this.date
+        //   }
+        // })).data
+        const response = await this.$axios.$get('attendances', {
           params: {
             attended_at: this.date
           }
-        })).data
-        this.attendances = (await this.$axios.$get('attendances', {
-          params: {
-            attended_at: this.date
-          }
-        })).data
+        })
         loading.hide()
+        this.attendances = response.data
+        this.employees = response.employees
       } catch (error) {}
     }
   }

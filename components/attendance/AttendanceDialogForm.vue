@@ -4,14 +4,16 @@
       <v-card-title class="headline grey lighten-2">
         {{ attendance.employee.fullname }}
         <v-spacer></v-spacer>
-        <v-chip
-          label
-          class="title chip-schedule-display"
-          color="teal"
-          text-color="white"
-          disabled
-          >{{ attendance.schedule_display }}</v-chip
-        >
+        <template v-if="attendance.schedule_display">
+          <v-chip
+            label
+            class="title chip-schedule-display"
+            color="teal"
+            text-color="white"
+            disabled
+            >{{ attendance.schedule_display }}</v-chip
+          >
+        </template>
       </v-card-title>
       <v-card-text>
         <v-form>
