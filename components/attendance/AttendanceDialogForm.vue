@@ -1,98 +1,118 @@
 <template>
-  <v-dialog v-model="show" persistent width="850">
-    <v-card v-if="attendance">
-      <v-card-title class="headline grey lighten-2">
-        {{ attendance.employee.fullname }}
-        <v-spacer></v-spacer>
-        <template v-if="attendance.schedule_display">
-          <v-chip
-            label
-            class="title chip-schedule-display"
-            color="teal"
-            text-color="white"
-            disabled
-            >{{ attendance.schedule_display }}</v-chip
-          >
-        </template>
-      </v-card-title>
-      <v-card-text>
-        <v-form>
-          <v-container>
-            <v-layout row wrap>
-              <v-flex xs12 md5>
-                <v-select
-                  v-model="attendance.locale"
-                  :items="locales"
-                  :item-text="'name'"
-                  :item-value="'id'"
-                  label="Locale"
-                  placeholder="Locale"
-                ></v-select>
-              </v-flex>
-              <v-spacer></v-spacer>
-              <v-flex xs12 md1>
-                <v-icon
-                  class="mt-3"
-                  medium
-                  color="green darken-2"
-                  @click="addRow"
-                  >add_circle_outline</v-icon
-                >
-              </v-flex>
-            </v-layout>
-            <v-layout
-              v-for="(item, index) in attendance.time_logs"
-              :key="item.id"
-              row
-              wrap
+  <div v-if="attendance">
+    <v-dialog
+      v-model="show"
+      persistent
+      :width="attendance.schedule_display ? 850 : 500"
+    >
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          {{ attendance.employee.fullname }}
+          <v-spacer></v-spacer>
+          <template v-if="attendance.schedule_display">
+            <v-chip
+              label
+              class="title chip-schedule-display"
+              color="teal"
+              text-color="white"
+              disabled
+              >{{ attendance.schedule_display }}</v-chip
             >
-              <v-flex xs12 md5>
-                <v-text-field
-                  v-model="item.time_in"
-                  type="time"
-                  label="Time In"
-                  placeholder="Placeholder"
-                  append-icon="access_time"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 md5>
-                <v-text-field
-                  v-model="item.time_out"
-                  type="time"
-                  label="Time Out"
-                  placeholder="Placeholder"
-                  append-icon="access_time"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 md1></v-flex>
-              <v-flex xs12 md1>
-                <v-icon
-                  v-show="attendance.time_logs.length > 1"
-                  class="delete_icon"
-                  color="red"
-                  medium
-                  @click.prevent="onDelete(index)"
-                  >highlight_off</v-icon
+          </template>
+        </v-card-title>
+        <v-card-text>
+          <template v-if="attendance.schedule_display">
+            <v-form>
+              <v-container>
+                <v-layout row wrap>
+                  <v-flex xs12 md5>
+                    <v-select
+                      v-model="attendance.locale"
+                      :items="locales"
+                      :item-text="'name'"
+                      :item-value="'id'"
+                      label="Locale"
+                      placeholder="Locale"
+                    ></v-select>
+                  </v-flex>
+                  <v-spacer></v-spacer>
+                  <v-flex xs12 md1>
+                    <v-icon
+                      class="mt-3"
+                      medium
+                      color="green darken-2"
+                      @click="addRow"
+                      >add_circle_outline</v-icon
+                    >
+                  </v-flex>
+                </v-layout>
+                <v-layout
+                  v-for="(item, index) in attendance.time_logs"
+                  :key="item.id"
+                  row
+                  wrap
                 >
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-form>
-      </v-card-text>
+                  <v-flex xs12 md5>
+                    <v-text-field
+                      v-model="item.time_in"
+                      type="time"
+                      label="Time In"
+                      placeholder="Placeholder"
+                      append-icon="access_time"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 md5>
+                    <v-text-field
+                      v-model="item.time_out"
+                      type="time"
+                      label="Time Out"
+                      placeholder="Placeholder"
+                      append-icon="access_time"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 md1></v-flex>
+                  <v-flex xs12 md1>
+                    <v-icon
+                      v-show="attendance.time_logs.length > 1"
+                      class="delete_icon"
+                      color="red"
+                      medium
+                      @click.prevent="onDelete(index)"
+                      >highlight_off</v-icon
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-form>
+          </template>
+          <template v-else>
+            <p class="text-md-center font-weight-black ma-0">
+              No schedule was assigned accordingly for the given day.
+            </p>
+          </template>
+        </v-card-text>
 
-      <v-divider></v-divider>
+        <v-divider></v-divider>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click.prevent="saveUpdateTimeLogs">
-          {{ hasId ? 'Update' : 'Save' }}
-        </v-btn>
-        <v-btn color="primary" flat @click="onCancel">
-          Cancel
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <template v-if="attendance.schedule_display">
+            <v-btn color="primary" flat @click.prevent="saveUpdateTimeLogs">
+              {{ hasId ? 'Update' : 'Save' }}
+            </v-btn>
+            <v-btn color="primary" flat @click="onCancel">
+              Cancel
+            </v-btn>
+          </template>
+          <template v-else>
+            <v-btn color="primary" flat @click="onCancel">
+              Close
+            </v-btn>
+          </template>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
