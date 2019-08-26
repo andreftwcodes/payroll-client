@@ -9,15 +9,40 @@
 
           <v-card-text>
             <v-flex xs12>
-              <v-text-field v-model="form.title" label="Title"></v-text-field>
+              <v-text-field
+                v-model="form.title"
+                :error-messages="errors.title ? errors.title[0] : ''"
+                label="Title"
+              ></v-text-field>
             </v-flex>
-            <v-flex xs12>
-              <v-switch
-                v-model="form.status"
-                :label="statusLabel"
-                color="success"
-                hide-details
-              ></v-switch>
+            <v-flex>
+              <v-menu
+                v-model="dateMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                lazy
+                transition="scale-transition"
+                offset-y
+                full-width
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="form.used_at"
+                    label="Date use"
+                    append-icon="event"
+                    :error-messages="errors.used_at ? errors.used_at[0] : ''"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="form.used_at"
+                  type="month"
+                  :max="_now()"
+                  @input="dateMenu = false"
+                ></v-date-picker>
+              </v-menu>
             </v-flex>
           </v-card-text>
 
@@ -26,7 +51,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" flat type="submit">
-              Save
+              {{ hasExists ? 'Update' : 'Save' }}
             </v-btn>
             <v-btn color="primary" flat @click="onCancel">
               Cancel
@@ -60,13 +85,16 @@ export default {
   data() {
     return {
       form: this.contribution,
-      statusLabel: 'Active'
+      dateMenu: false
     }
   },
   computed: {
     ...mapGetters({
       contributions: 'contributions/contributions'
     }),
+    hasExists() {
+      return _.has(this.form, ['id'])
+    },
     formattedTitle() {
       return _.toUpper(this.title)
     },
@@ -80,9 +108,6 @@ export default {
     }
   },
   watch: {
-    'form.status': function(newVal) {
-      this.statusLabel = newVal === true ? 'Active' : 'Inactive'
-    },
     title: function(newVal) {
       this.form.flag = newVal
     },
@@ -92,26 +117,28 @@ export default {
   },
   methods: {
     ...mapActions({
+      clearErrors: 'validation/clearErrors',
       appendContribution: 'contributions/appendContribution',
       updateContribution: 'contributions/updateContribution'
     }),
     onCancel() {
       this.show = false
+      this.clearErrors()
     },
     async submit() {
       this.form.flag = this.title
       try {
         let response = {}
 
-        if (this.form.id === null) {
-          response = await this.$axios.$post('hdr-contributions', this.form)
-          this.appendContribution(response.data)
-        } else {
+        if (this.hasExists) {
           response = await this.$axios.$patch(
             `hdr-contributions/${this.form.id}`,
             this.form
           )
           this.updateContribution(response.data)
+        } else {
+          response = await this.$axios.$post('hdr-contributions', this.form)
+          this.appendContribution(response.data)
         }
 
         this.show = false

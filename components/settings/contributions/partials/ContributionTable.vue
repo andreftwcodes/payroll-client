@@ -15,9 +15,7 @@
       <template v-slot:items="props">
         <td>{{ props.index + 1 }}</td>
         <td>{{ props.item.title }}</td>
-        <td>
-          {{ props.item.status_display }}
-        </td>
+        <td>{{ props.item.used_at_dsp }}</td>
         <td>
           <v-icon class="pr-2" color="blue darken-2" @click="onEdit(props.item)"
             >edit</v-icon
@@ -72,9 +70,9 @@ export default {
           value: 'from'
         },
         {
-          text: 'Status',
+          text: 'Date used',
           align: 'left',
-          value: 'to'
+          value: 'used_at'
         },
         {
           text: '',
@@ -83,10 +81,9 @@ export default {
         }
       ],
       contribution: {
-        id: null,
         flag: null,
         title: null,
-        status: true
+        used_at: this._now().substr(0, 7)
       }
     }
   },
@@ -97,10 +94,9 @@ export default {
     addNew() {
       this.dialogForm = true
       this.contribution = {
-        id: null,
         flag: null,
         title: null,
-        status: true
+        used_at: this._now().substr(0, 7)
       }
     },
     onEdit(contribution) {
