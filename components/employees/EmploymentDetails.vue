@@ -61,7 +61,6 @@
         <v-flex md3>
           <v-checkbox
             v-model="form.other.night_shift"
-            :disabled="true"
             color="primary"
             label="Night Shift"
           ></v-checkbox>
