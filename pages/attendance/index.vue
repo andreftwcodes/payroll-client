@@ -83,12 +83,10 @@
               <td>
                 <template v-if="props.item.status">
                   <v-icon
-                    class="mr-3"
                     color="blue darken-2"
                     @click="showAttendanceDialogForm(props.item)"
                     >edit</v-icon
                   >
-                  <v-icon color="red">highlight_off</v-icon>
                 </template>
                 <template v-else>
                   <v-chip small color="red" text-color="white">Closed</v-chip>

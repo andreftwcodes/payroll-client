@@ -142,7 +142,7 @@
 
 <script>
 import _ from 'lodash'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     value: {
@@ -175,6 +175,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      clearErrors: 'validation/clearErrors'
+    }),
     mappedLocale() {
       const locale = this.attendance.locale
       return _.isObject(locale) ? locale.id : locale
@@ -183,6 +186,11 @@ export default {
       this.attendance.time_logs.push({ time_in: null, time_out: null })
     },
     onDelete(indexOfItem) {
+      if (_.has(this.errors, ['index'])) {
+        if (indexOfItem === this.errors.index) {
+          this.clearErrors()
+        }
+      }
       this.attendance.time_logs.splice(indexOfItem, 1)
     },
     onCancel() {
