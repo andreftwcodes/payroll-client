@@ -242,14 +242,7 @@ export default {
         _.cloneDeep(attendance),
         'time_logs',
         timeLog => {
-          return !_.isEmpty(timeLog)
-            ? timeLog
-            : [
-                {
-                  time_in: null,
-                  time_out: null
-                }
-              ]
+          return !_.isEmpty(timeLog) ? timeLog : []
         }
       )
     },

@@ -48,7 +48,9 @@
                   @click="sssLoanDialogForm(props.item)"
                   >edit</v-icon
                 >
-                <v-icon color="red" @click="onDelete">highlight_off</v-icon>
+                <v-icon color="red" @click="onDelete(props.item)"
+                  >highlight_off</v-icon
+                >
               </td>
             </template>
           </v-data-table>
@@ -59,6 +61,7 @@
           :employees="employees"
           @saved-updated:loan="savedUpdatedLoan"
         />
+        <DltDialog v-model="dltDialog" @loan-deleted="loanDeleted" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -66,10 +69,13 @@
 
 <script>
 import _ from 'lodash'
+import { mapActions } from 'vuex'
 import FormDialog from '@/components/loans/sss/FormDialog'
+import DltDialog from '@/components/loans/sss/DltDialog'
 export default {
   components: {
-    FormDialog
+    FormDialog,
+    DltDialog
   },
   data() {
     return {
@@ -120,7 +126,8 @@ export default {
       ],
       rowsPerPage: [10, 15, 20],
       formDialogVisibility: false,
-      sssLoan: {}
+      sssLoan: {},
+      dltDialog: false
     }
   },
   async asyncData({ app }) {
@@ -131,6 +138,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setLoan: 'sss-loan/setLoan',
+      clearLoan: 'sss-loan/clearLoan'
+    }),
     sssLoanDialogForm(obj = null) {
       this.formDialogVisibility = true
       const sssLoan = _.clone(obj)
@@ -158,8 +169,13 @@ export default {
         params: { id: id }
       })
     },
-    onDelete() {
-      console.log('Delete')
+    onDelete(loan) {
+      this.dltDialog = true
+      this.setLoan(loan)
+    },
+    loanDeleted(id) {
+      this.clearLoan()
+      this.loans.splice(_.findIndex(this.loans, o => o.id === id), 1)
     }
   }
 }

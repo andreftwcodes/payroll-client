@@ -46,42 +46,67 @@
                     >
                   </v-flex>
                 </v-layout>
-                <v-layout
-                  v-for="(item, index) in attendance.time_logs"
-                  :key="item.id"
-                  row
-                  wrap
-                >
-                  <v-flex xs12 md5>
-                    <v-text-field
-                      v-model="item.time_in"
-                      type="time"
-                      label="Time In"
-                      placeholder="Placeholder"
-                      append-icon="access_time"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 md5>
-                    <v-text-field
-                      v-model="item.time_out"
-                      type="time"
-                      label="Time Out"
-                      placeholder="Placeholder"
-                      append-icon="access_time"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 md1></v-flex>
-                  <v-flex xs12 md1>
-                    <v-icon
-                      v-show="attendance.time_logs.length > 1"
-                      class="delete_icon"
-                      color="red"
-                      medium
-                      @click.prevent="onDelete(index)"
-                      >highlight_off</v-icon
-                    >
-                  </v-flex>
-                </v-layout>
+                <template v-if="attendance.time_logs.length">
+                  <v-layout
+                    v-for="(item, index) in attendance.time_logs"
+                    :key="item.id"
+                    row
+                    wrap
+                  >
+                    <v-flex xs12 md5>
+                      <v-text-field
+                        v-model="item.time_in"
+                        :error-messages="
+                          errors
+                            ? errors.index === index
+                              ? errors.time_in
+                                ? errors.time_in[0]
+                                : ''
+                              : ''
+                            : ''
+                        "
+                        type="time"
+                        label="Time In"
+                        placeholder="Placeholder"
+                        append-icon="access_time"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 md5>
+                      <v-text-field
+                        v-model="item.time_out"
+                        :error-messages="
+                          errors
+                            ? errors.index === index
+                              ? errors.time_out
+                                ? errors.time_out[0]
+                                : ''
+                              : ''
+                            : ''
+                        "
+                        type="time"
+                        label="Time Out"
+                        placeholder="Placeholder"
+                        append-icon="access_time"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 md1></v-flex>
+                    <v-flex xs12 md1>
+                      <v-icon
+                        class="delete_icon"
+                        color="red"
+                        medium
+                        @click.prevent="onDelete(index)"
+                        >highlight_off</v-icon
+                      >
+                    </v-flex>
+                  </v-layout>
+                </template>
+                <template v-else>
+                  <p class="ma-0">
+                    <strong>NOTE</strong>: Click the <kbd>Plus Button</kbd> to
+                    add a datetime field.
+                  </p>
+                </template>
               </v-container>
             </v-form>
           </template>
