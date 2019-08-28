@@ -54,7 +54,7 @@
                     wrap
                   >
                     <v-flex xs12 md5>
-                      <v-text-field
+                      <v-datetime-picker
                         v-model="item.time_in"
                         :error-messages="
                           errors
@@ -65,14 +65,16 @@
                               : ''
                             : ''
                         "
-                        type="time"
+                        :min="'2019-08-28'"
+                        :max="'2019-08-30'"
                         label="Time In"
                         placeholder="Placeholder"
                         append-icon="access_time"
-                      ></v-text-field>
+                      >
+                      </v-datetime-picker>
                     </v-flex>
                     <v-flex xs12 md5>
-                      <v-text-field
+                      <v-datetime-picker
                         v-model="item.time_out"
                         :error-messages="
                           errors
@@ -83,11 +85,13 @@
                               : ''
                             : ''
                         "
-                        type="time"
+                        :min="'2019-08-28'"
+                        :max="'2019-08-30'"
                         label="Time Out"
                         placeholder="Placeholder"
                         append-icon="access_time"
-                      ></v-text-field>
+                      >
+                      </v-datetime-picker>
                     </v-flex>
                     <v-flex xs12 md1></v-flex>
                     <v-flex xs12 md1>

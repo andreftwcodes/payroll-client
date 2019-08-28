@@ -40,6 +40,7 @@ export default {
    */
   plugins: [
     '@/plugins/vuetify',
+    '@/plugins/mixins/custom-datetime-picker.js',
     '@/plugins/mixins/global.js',
     '@/plugins/mixins/system-theme.js',
     '@/plugins/mixins/user.js',
