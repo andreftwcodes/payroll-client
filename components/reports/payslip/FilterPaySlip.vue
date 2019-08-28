@@ -192,7 +192,6 @@ export default {
       }
 
       this.setDisabled(true)
-      this.$emit('on-changed:employee')
 
       const data = {
         employee_id: this.employee,

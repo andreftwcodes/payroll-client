@@ -62,14 +62,14 @@
           <v-checkbox
             v-model="form.other.night_shift"
             color="primary"
-            label="Night Shift"
+            label="Night Shift + 130%"
           ></v-checkbox>
         </v-flex>
         <v-flex md3>
           <v-checkbox
             v-model="form.other.overtime"
             color="primary"
-            label="Overtime"
+            label="Overtime + 10%"
           ></v-checkbox>
         </v-flex>
       </v-layout>

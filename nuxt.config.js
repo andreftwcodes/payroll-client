@@ -33,7 +33,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/style/app.styl'],
+  css: ['~/assets/style/app.styl', '~/assets/css/main.css'],
 
   /*
    ** Plugins to load before mounting the App
@@ -41,6 +41,7 @@ export default {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/mixins/global.js',
+    '@/plugins/mixins/system-theme.js',
     '@/plugins/mixins/user.js',
     '@/plugins/mixins/validation.js',
     '@/plugins/axios',

@@ -3,7 +3,8 @@ export const state = () => ({
   roles: [],
   schedules: [],
   locales: [],
-  edit: false
+  edit: false,
+  systemTheme: []
 })
 
 export const getters = {
@@ -21,6 +22,9 @@ export const getters = {
   },
   edit(state) {
     return state.edit
+  },
+  system_theme(state) {
+    return state.systemTheme
   }
 }
 
@@ -42,11 +46,18 @@ export const mutations = {
   },
   IS_EDIT(state, edit) {
     state.edit = edit
+  },
+  SET_SYSTEM_THEME(state, systemTheme) {
+    state.systemTheme = systemTheme
   }
 }
 
 export const actions = {
   async nuxtServerInit({ commit, dispatch }) {
+    commit(
+      'SET_SYSTEM_THEME',
+      (await this.$axios.$get('system-theme/theme-data')).data
+    )
     commit('SET_ROLES', (await this.$axios.$get('roles')).data)
     commit('SET_LOCALES', (await this.$axios.$get('locales')).data)
     commit('SET_SCHEDULES', (await this.$axios.$get('schedules')).data)

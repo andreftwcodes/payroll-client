@@ -103,7 +103,9 @@ export default {
   methods: {
     async getSideBarMenu() {
       try {
-        const response = await this.$axios.$get(`/sidebar/menu/${this.user.id}`)
+        const response = await this.$axios.$get(
+          `system-theme/theme-menu/${this.user.id}`
+        )
         this.items = response.data
       } catch (error) {}
     }

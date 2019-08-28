@@ -14,6 +14,7 @@
         ></v-text-field>
         <v-text-field
           v-model="form.password"
+          :error-messages="errors.password ? errors.password[0] : ''"
           prepend-icon="lock"
           label="Password"
           type="password"
