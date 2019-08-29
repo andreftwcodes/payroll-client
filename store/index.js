@@ -60,6 +60,9 @@ export const actions = {
     )
     commit('SET_ROLES', (await this.$axios.$get('roles')).data)
     commit('SET_LOCALES', (await this.$axios.$get('locales')).data)
-    commit('SET_SCHEDULES', (await this.$axios.$get('schedules')).data)
+    commit(
+      'SET_SCHEDULES',
+      (await this.$axios.$get('employee/dropdown-schedules')).data
+    )
   }
 }

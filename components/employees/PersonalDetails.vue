@@ -4,10 +4,7 @@
       <v-layout row wrap>
         <v-flex md3>
           <v-avatar :size="130" color="grey lighten-4" class="mt-3">
-            <img
-              src="http://icons.iconarchive.com/icons/diversity-avatars/avatars/1024/batman-icon.png"
-              alt="avatar"
-            />
+            <img src="/employee-avatar.png" alt="avatar" />
           </v-avatar>
           <div class="mt-3">
             <v-btn small>Upload</v-btn>
