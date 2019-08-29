@@ -13,9 +13,6 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-btn color="primary" nuxt :to="{ name: 'schedules-create' }"
-                >Add New</v-btn
-              >
             </v-card-title>
             <v-data-table
               :headers="headers"
@@ -27,7 +24,6 @@
               <template v-slot:items="props">
                 <td>{{ props.item.first_quarter }}</td>
                 <td>{{ props.item.second_quarter }}</td>
-                <td>{{ props.item.shift }}</td>
                 <td>{{ props.item.status }}</td>
               </template>
             </v-data-table>
@@ -49,19 +45,13 @@ export default {
           text: '1st Quarter',
           align: 'left',
           sortable: false,
-          value: 'firstname'
+          value: 'first_quarter'
         },
         {
           text: '2nd Quarter',
           align: 'left',
           sortable: false,
-          value: 'firstname'
-        },
-        {
-          text: 'Shift',
-          align: 'left',
-          sortable: false,
-          value: 'firstname'
+          value: 'second_quarter'
         },
         {
           text: 'Status',

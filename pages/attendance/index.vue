@@ -198,7 +198,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      clearErrors: 'validation/clearErrors'
+      clearErrors: 'validation/clearErrors',
+      setSelectedDate: 'attendances/setSelectedDate'
     }),
     onSwap() {
       this.swap = !this.swap
@@ -270,17 +271,13 @@ export default {
       }
 
       try {
-        // this.employees = (await this.$axios.$get('attendances/get-employees', {
-        //   params: {
-        //     attended_at: this.date
-        //   }
-        // })).data
         const response = await this.$axios.$get('attendances', {
           params: {
             attended_at: this.date
           }
         })
         loading.hide()
+        this.setSelectedDate(this.date)
         this.attendances = response.data
         this.employees = response.employees
       } catch (error) {}

@@ -65,8 +65,9 @@
                               : ''
                             : ''
                         "
-                        :min="'2019-08-28'"
-                        :max="'2019-08-30'"
+                        :min="minimum_datetime"
+                        :max="maximum_datetime"
+                        display-format="MMMM Do YYYY, h:mm A"
                         label="Time In"
                         placeholder="Placeholder"
                         append-icon="access_time"
@@ -85,8 +86,9 @@
                               : ''
                             : ''
                         "
-                        :min="'2019-08-28'"
-                        :max="'2019-08-30'"
+                        :min="minimum_datetime"
+                        :max="maximum_datetime"
+                        display-format="MMMM Do YYYY, h:mm A"
                         label="Time Out"
                         placeholder="Placeholder"
                         append-icon="access_time"
@@ -125,6 +127,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
+
           <template v-if="attendance.schedule_display">
             <v-btn color="primary" flat @click.prevent="saveUpdateTimeLogs">
               {{ hasId ? 'Update' : 'Save' }}
@@ -146,6 +149,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
@@ -164,7 +168,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      locales: 'locales'
+      locales: 'locales',
+      selected_date: 'attendances/selected_date'
     }),
     show: {
       get() {
@@ -176,6 +181,14 @@ export default {
     },
     hasId() {
       return _.has(this.attendance, 'id')
+    },
+    minimum_datetime() {
+      return moment(this.selected_date).format('YYYY-MM-DD')
+    },
+    maximum_datetime() {
+      return moment(this.minimum_datetime)
+        .add(1, 'days')
+        .format('YYYY-MM-DD')
     }
   },
   methods: {

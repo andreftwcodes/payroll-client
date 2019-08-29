@@ -98,7 +98,11 @@ export default {
       type: Number,
       default: 340
     },
-    format: {
+    valueFormat: {
+      type: String,
+      default: 'YYYY-MM-DD HH:mm:ss'
+    },
+    displayFormat: {
       type: String,
       default: 'YYYY-MM-DD HH:mm:ss'
     },
@@ -220,7 +224,9 @@ export default {
       }
     },
     formattedDatetime() {
-      return this.datetime ? moment(this.datetime).format(this.format) : ''
+      return this.datetime
+        ? moment(this.datetime).format(this.displayFormat)
+        : ''
     }
   },
   created() {
@@ -231,7 +237,7 @@ export default {
       this.datetime instanceof String
     ) {
       // see https://stackoverflow.com/a/9436948
-      this.selectedDatetime = moment(this.datetime, this.format)
+      this.selectedDatetime = moment(this.datetime, this.valueFormat)
     }
   },
   methods: {
@@ -240,7 +246,12 @@ export default {
       this.activeTab = 0
       this.$refs.timer.selectingHour = true
 
-      this.$emit('input', moment(this.selectedDatetime).format(this.format))
+      const input =
+        this.selectedDatetime !== null
+          ? moment(this.selectedDatetime).format(this.valueFormat)
+          : ''
+
+      this.$emit('input', input)
     },
     clearHandler() {
       this.display = false

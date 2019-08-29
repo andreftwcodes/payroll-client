@@ -28,9 +28,9 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="form.used_at"
                     label="Date use"
                     append-icon="event"
+                    :value="usedAtDisplay"
                     :error-messages="errors.used_at ? errors.used_at[0] : ''"
                     readonly
                     v-on="on"
@@ -65,6 +65,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
@@ -97,6 +98,9 @@ export default {
     },
     formattedTitle() {
       return _.toUpper(this.title)
+    },
+    usedAtDisplay() {
+      return moment(this.form.used_at).format('MMMM YYYY')
     },
     show: {
       get() {

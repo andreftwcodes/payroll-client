@@ -36,6 +36,7 @@
                 v-model="form.password"
                 label="Password"
                 placeholder="Password"
+                :disabled="disabled"
               ></v-text-field>
             </v-flex>
           </v-layout>
