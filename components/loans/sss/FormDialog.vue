@@ -42,7 +42,7 @@
                       errors.amount_loaned ? errors.amount_loaned[0] : ''
                     "
                     label="Loaned Amount"
-                    placeholder="Loaned Amount"
+                    placeholder="00.00"
                     append-icon="money"
                   ></v-text-field>
                 </v-flex>
@@ -55,7 +55,7 @@
                         : ''
                     "
                     label="Amortization Amount"
-                    placeholder="Amortization Amount"
+                    placeholder="00.00"
                     append-icon="money"
                   ></v-text-field>
                 </v-flex>

@@ -6,7 +6,7 @@
           <v-text-field
             v-model="form.rate"
             label="Rate"
-            placeholder="Rate"
+            placeholder="00.00"
             :error-messages="errors.rate ? errors.rate[0] : ''"
           ></v-text-field>
         </v-flex>

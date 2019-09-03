@@ -40,7 +40,7 @@
                   v-model="child.credit"
                   label="Credit"
                   append-icon="money"
-                  placeholder="Credit"
+                  placeholder="00.00"
                   :error-messages="errors.credit ? errors.credit[0] : ''"
                 ></v-text-field>
               </v-flex>
@@ -49,7 +49,7 @@
                   v-model="child.debit"
                   label="Debit"
                   append-icon="money"
-                  placeholder="Debit"
+                  placeholder="00.00"
                   :error-messages="errors.debit ? errors.debit[0] : ''"
                 ></v-text-field>
               </v-flex>
