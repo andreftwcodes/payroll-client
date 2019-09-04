@@ -56,15 +56,14 @@
               ></v-text-field>
             </v-flex>
             <v-flex md3>
-              <v-menu
+              <v-dialog
+                ref="dialog"
                 v-model="birthdateMenu"
-                :close-on-content-click="false"
-                :nudge-right="40"
+                :return-value.sync="form.birthdate"
+                persistent
                 lazy
-                transition="scale-transition"
-                offset-y
                 full-width
-                min-width="290px"
+                width="290px"
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
@@ -78,9 +77,20 @@
                 <v-date-picker
                   v-model="form.birthdate"
                   :max="_now()"
-                  @input="birthdateMenu = false"
-                ></v-date-picker>
-              </v-menu>
+                  scrollable
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="birthdateMenu = false"
+                    >Cancel</v-btn
+                  >
+                  <v-btn
+                    flat
+                    color="primary"
+                    @click="$refs.dialog.save(form.birthdate)"
+                    >OK</v-btn
+                  >
+                </v-date-picker>
+              </v-dialog>
             </v-flex>
             <v-flex md3>
               <v-select

@@ -37,6 +37,40 @@
             placeholder="Locale"
           ></v-select>
         </v-flex>
+        <v-flex md2>
+          <v-dialog
+            ref="dialog"
+            v-model="hired_at_dialog"
+            :return-value.sync="form.hired_at"
+            persistent
+            lazy
+            full-width
+            width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="form.hired_at"
+                :error-messages="errors.hired_at ? errors.hired_at[0] : ''"
+                label="Date Hired"
+                append-icon="event"
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="form.hired_at" :max="_now()" scrollable>
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="hired_at_dialog = false"
+                >Cancel</v-btn
+              >
+              <v-btn
+                flat
+                color="primary"
+                @click="$refs.dialog.save(form.hired_at)"
+                >OK</v-btn
+              >
+            </v-date-picker>
+          </v-dialog>
+        </v-flex>
       </v-layout>
       <v-layout row wrap>
         <v-flex md1>
@@ -105,6 +139,7 @@ export default {
         { id: 'weekly', name: 'Weekly' },
         { id: 'monthly', name: 'Monthly' }
       ],
+      hired_at_dialog: false,
       form: this.mappedExtras()
     }
   },

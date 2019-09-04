@@ -25,13 +25,12 @@
               class="elevation-1"
             >
               <template v-slot:items="props">
-                <td>{{ props.item.firstname }}</td>
-                <td>{{ props.item.middlename }}</td>
-                <td>{{ props.item.lastname }}</td>
+                <td>{{ props.item.fullname }}</td>
                 <td>{{ props.item.gender }}</td>
                 <td>{{ props.item.age }}</td>
                 <td>{{ props.item.contact }}</td>
                 <td>{{ props.item.birthdate }}</td>
+                <td>{{ props.item.hired_at }}</td>
                 <td>
                   <v-switch
                     v-model="props.item.status"
@@ -62,22 +61,10 @@ export default {
       search: '',
       headers: [
         {
-          text: 'Firstname',
+          text: 'Fullname',
           align: 'left',
           sortable: false,
-          value: 'firstname'
-        },
-        {
-          text: 'Middlename',
-          align: 'left',
-          sortable: false,
-          value: 'middlename'
-        },
-        {
-          text: 'Lastname',
-          align: 'left',
-          sortable: false,
-          value: 'lastname'
+          value: 'fullname'
         },
         {
           text: 'Gender',
@@ -102,6 +89,12 @@ export default {
           align: 'left',
           sortable: false,
           value: 'birthdate'
+        },
+        {
+          text: 'Hired at',
+          align: 'left',
+          sortable: false,
+          value: 'hired_at'
         },
         {
           text: 'Status',

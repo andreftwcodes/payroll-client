@@ -22,7 +22,8 @@ export const mutations = {
     state.employee = _.merge(state.employee, {
       locale_id: extras.locale,
       rate: extras.rate,
-      payment_period: extras.payment_period
+      payment_period: extras.payment_period,
+      hired_at: extras.hired_at
     })
     state.extras = extras
   },
