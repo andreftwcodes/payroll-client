@@ -13,6 +13,42 @@
                 hide-details
               ></v-text-field>
             </v-flex>
+            <v-spacer></v-spacer>
+            <v-flex md2>
+              <v-dialog
+                ref="dialog"
+                v-model="yearMonthPicker"
+                :return-value.sync="year_month"
+                persistent
+                lazy
+                full-width
+                width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    :value="yearMonthDateFormatted"
+                    label="Filter by Year and Month"
+                    append-icon="event"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="year_month"
+                  :max="_now()"
+                  type="month"
+                  scrollable
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="yearMonthPicker = false"
+                    >Cancel</v-btn
+                  >
+                  <v-btn flat color="primary" @click="onPickedYearMonth($refs)"
+                    >OK</v-btn
+                  >
+                </v-date-picker>
+              </v-dialog>
+            </v-flex>
           </v-card-title>
           <v-data-table
             :headers="headers"
@@ -26,6 +62,7 @@
                 {{ props.item.period_dsp }}
               </td>
               <td>{{ props.item.employee.fullname }}</td>
+              <td>{{ props.item.employee.locale.name }}</td>
               <td>{{ props.item.created_at }}</td>
               <td>
                 <v-icon
@@ -53,6 +90,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import OpenPeriodDialog from '@/components/payroll-periods/OpenPeriodDialog'
 export default {
@@ -77,6 +115,12 @@ export default {
           value: 'employee.fullname'
         },
         {
+          text: 'Locale',
+          align: 'left',
+          sortable: false,
+          value: 'employee.locale.name'
+        },
+        {
           text: 'Created at',
           align: 'left',
           sortable: false,
@@ -90,8 +134,15 @@ export default {
         }
       ],
       rowsPerPage: [10, 15, 20],
+      yearMonthPicker: false,
+      year_month: this._now(),
       opd: false,
       payroll: {}
+    }
+  },
+  computed: {
+    yearMonthDateFormatted() {
+      return this.year_month ? moment(this.year_month).format('MMMM YYYY') : ''
     }
   },
   async asyncData({ app }) {
@@ -101,6 +152,19 @@ export default {
     }
   },
   methods: {
+    async onPickedYearMonth(refs) {
+      refs.dialog.save(this.year_month)
+      const loading = this.$loading.show()
+      try {
+        const response = await this.$axios.$get('payroll-periods', {
+          params: {
+            year_month: this.year_month
+          }
+        })
+        loading.hide()
+        this.payroll_periods = response.data
+      } catch (error) {}
+    },
     onShowPaySlip(url) {
       this.payslipDialog(url)
     },

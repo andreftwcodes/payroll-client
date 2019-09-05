@@ -37,7 +37,7 @@
                 >swap_horiz</v-icon
               >
               <v-spacer></v-spacer>
-              <v-flex md3>
+              <v-flex md2>
                 <v-menu
                   v-model="dateMenu"
                   :disabled="date_picker"
@@ -51,7 +51,7 @@
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      v-model="date"
+                      :value="attendedAtDateFormatted"
                       label="Filter date"
                       append-icon="event"
                       readonly
@@ -113,6 +113,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import { mapActions } from 'vuex'
 import MessageDialog from '@/components/attendance/MessageDialog'
 import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
@@ -177,6 +178,11 @@ export default {
       swap: false,
       swap_btn: false,
       date_picker: false
+    }
+  },
+  computed: {
+    attendedAtDateFormatted() {
+      return this.date ? moment(this.date).format('MMMM Do YYYY') : ''
     }
   },
   watch: {
