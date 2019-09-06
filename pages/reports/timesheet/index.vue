@@ -13,7 +13,7 @@
                   label="Fullname"
                 ></v-text-field>
               </v-flex>
-              <v-flex md2>
+              <v-flex md3>
                 <v-text-field
                   v-model="timesheet.period"
                   readonly

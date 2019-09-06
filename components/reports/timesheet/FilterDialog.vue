@@ -147,13 +147,17 @@ export default {
       clearErrors: 'validation/clearErrors'
     }),
     async onFilter() {
+      const loading = this.$loading.show()
       try {
         const response = await this.$axios.$get(`reports/get-timesheet`, {
           params: this.filters
         })
+        loading.hide()
         this.show = false
         this.$emit('filtered:timesheet', response.data)
-      } catch (error) {}
+      } catch (error) {
+        loading.hide()
+      }
     },
     onCancel() {
       this.show = false

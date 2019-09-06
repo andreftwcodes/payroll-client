@@ -4,19 +4,21 @@
       <v-flex>
         <v-card>
           <v-card-title>
-            <v-flex md4>
-              <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-              ></v-text-field>
-            </v-flex>
-            <v-spacer></v-spacer>
-            <v-icon medium color="blue darken-2" @click.prevent="onShowFilters"
-              >settings_input_component</v-icon
-            >
+            <v-layout row wrap>
+              <v-flex md4>
+                <v-text-field
+                  v-model="search"
+                  append-icon="search"
+                  label="Search"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-flex>
+              <v-spacer></v-spacer>
+              <v-icon color="blue darken-2" @click.prevent="onShowFilters"
+                >settings_input_component</v-icon
+              >
+            </v-layout>
           </v-card-title>
           <v-data-table
             :headers="headers"
