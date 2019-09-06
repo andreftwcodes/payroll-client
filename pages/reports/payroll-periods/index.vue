@@ -14,41 +14,9 @@
               ></v-text-field>
             </v-flex>
             <v-spacer></v-spacer>
-            <v-flex md2>
-              <v-dialog
-                ref="dialog"
-                v-model="yearMonthPicker"
-                :return-value.sync="year_month"
-                persistent
-                lazy
-                full-width
-                width="290px"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-text-field
-                    :value="yearMonthDateFormatted"
-                    label="Filter by Year and Month"
-                    append-icon="event"
-                    readonly
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="year_month"
-                  :max="_now()"
-                  type="month"
-                  scrollable
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="yearMonthPicker = false"
-                    >Cancel</v-btn
-                  >
-                  <v-btn flat color="primary" @click="onPickedYearMonth($refs)"
-                    >OK</v-btn
-                  >
-                </v-date-picker>
-              </v-dialog>
-            </v-flex>
+            <v-icon medium color="blue darken-2" @click.prevent="onShowFilters"
+              >settings_input_component</v-icon
+            >
           </v-card-title>
           <v-data-table
             :headers="headers"
@@ -79,6 +47,7 @@
           </v-data-table>
         </v-card>
       </v-flex>
+      <FilterDialog v-model="filterDialog" @on:filter="applyFilters" />
       <OpenPeriodDialog
         v-model="opd"
         :payroll="payroll"
@@ -90,11 +59,12 @@
 
 <script>
 import _ from 'lodash'
-import moment from 'moment'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
+import FilterDialog from '@/components/payroll-periods/FilterDialog'
 import OpenPeriodDialog from '@/components/payroll-periods/OpenPeriodDialog'
 export default {
   components: {
+    FilterDialog,
     OpenPeriodDialog
   },
   mixins: [payslipMixin],
@@ -136,13 +106,9 @@ export default {
       rowsPerPage: [10, 15, 20],
       yearMonthPicker: false,
       year_month: this._now(),
+      filterDialog: false,
       opd: false,
       payroll: {}
-    }
-  },
-  computed: {
-    yearMonthDateFormatted() {
-      return this.year_month ? moment(this.year_month).format('MMMM YYYY') : ''
     }
   },
   async asyncData({ app }) {
@@ -152,18 +118,18 @@ export default {
     }
   },
   methods: {
-    async onPickedYearMonth(refs) {
-      refs.dialog.save(this.year_month)
+    async applyFilters(filters) {
       const loading = this.$loading.show()
       try {
         const response = await this.$axios.$get('payroll-periods', {
-          params: {
-            year_month: this.year_month
-          }
+          params: filters
         })
         loading.hide()
         this.payroll_periods = response.data
       } catch (error) {}
+    },
+    onShowFilters() {
+      this.filterDialog = true
     },
     onShowPaySlip(url) {
       this.payslipDialog(url)
