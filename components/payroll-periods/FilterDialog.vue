@@ -1,3 +1,4 @@
+use App\Http\Requests\PaySlip\PayrollPeriodIndexRequest;
 <template>
   <v-dialog v-model="show" persistent width="700">
     <v-card>
@@ -38,9 +39,12 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     :value="formattedFromDate"
+                    :error-messages="errors.from ? errors.from[0] : ''"
+                    clearable
                     label="From"
                     append-icon="event"
                     readonly
+                    @click:clear="filters.from = null"
                     v-on="on"
                   ></v-text-field>
                 </template>
@@ -65,9 +69,12 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     :value="formattedToDate"
+                    :error-messages="errors.to ? errors.to[0] : ''"
+                    clearable
                     label="To"
                     append-icon="event"
                     readonly
+                    @click:clear="filters.to = null"
                     v-on="on"
                   ></v-text-field>
                 </template>
@@ -81,7 +88,6 @@
           </v-layout>
         </v-container>
       </v-form>
-
       <v-divider></v-divider>
 
       <v-card-actions>
@@ -116,8 +122,8 @@ export default {
       from_picker: false,
       to_picker: false,
       filters: {
-        from: this._now('first-month'),
-        to: this._now(),
+        from: null,
+        to: null,
         locale_id: []
       }
     }
@@ -149,9 +155,15 @@ export default {
     }
   },
   methods: {
-    onFilter() {
-      this.show = false
-      this.$emit('on:filter', this.filteredFilters)
+    async onFilter() {
+      try {
+        await this.$axios.$post(
+          'reports-validator/payroll-periods/filters',
+          this.filteredFilters
+        )
+        this.show = false
+        this.$emit('on:filter', this.filteredFilters)
+      } catch (error) {}
     }
   }
 }
