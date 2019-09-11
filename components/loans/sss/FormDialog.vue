@@ -3,9 +3,7 @@
     <v-dialog v-model="show" width="1000" persistent>
       <v-card>
         <v-card-title class="headline grey lighten-2">
-          {{
-            loanExists ? 'Update Loan - ' + sssLoan.loan_no_dsp : 'Save Loan'
-          }}
+          {{ loanExists ? 'Update Loan - ' + sssLoan.ref_no_dsp : 'Save Loan' }}
         </v-card-title>
 
         <v-card-text>
@@ -29,10 +27,10 @@
               <v-layout row wrap>
                 <v-flex xs12 md4>
                   <v-text-field
-                    v-model="sssLoan.loan_no"
-                    :error-messages="errors.loan_no ? errors.loan_no[0] : ''"
-                    label="Loan No."
-                    placeholder="Loan No."
+                    v-model="sssLoan.ref_no"
+                    :error-messages="errors.ref_no ? errors.ref_no[0] : ''"
+                    label="Reference No."
+                    placeholder="Reference No."
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 md4>
@@ -62,22 +60,6 @@
               </v-layout>
               <v-layout row wrap>
                 <v-flex xs12 md4>
-                  <v-select
-                    v-model="sssLoan.payment_terms"
-                    :error-messages="
-                      errors.payment_terms ? errors.payment_terms[0] : ''
-                    "
-                    :items="[
-                      { value: 12, text: '12 Months' },
-                      { value: 24, text: '24 Months' }
-                    ]"
-                    item-text="text"
-                    item-value="value"
-                    label="Payment Terms"
-                    placeholder="Payment Terms"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 md4>
                   <v-menu
                     v-model="dateMenu"
                     :close-on-content-click="false"
@@ -90,18 +72,18 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        v-model="sssLoan.date_loaned"
-                        label="Loaned Date"
+                        v-model="sssLoan.loaned_at"
+                        label="Loaned at"
                         append-icon="event"
                         :error-messages="
-                          errors.date_loaned ? errors.date_loaned[0] : ''
+                          errors.loaned_at ? errors.loaned_at[0] : ''
                         "
                         readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      v-model="sssLoan.date_loaned"
+                      v-model="sssLoan.loaned_at"
                       :max="_now()"
                       @input="dateMenu = false"
                     ></v-date-picker>
@@ -176,7 +158,7 @@ export default {
         'balance',
         'employee',
         'progress',
-        'loan_no_dsp'
+        'ref_no_dsp'
       ])
       try {
         let response = {}

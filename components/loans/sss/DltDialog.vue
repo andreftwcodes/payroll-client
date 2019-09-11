@@ -5,7 +5,7 @@
         Confirmation
       </v-card-title>
       <v-card-text class="subheading">
-        Do you really want to delete loan #{{ loan.loan_no }} ?
+        Do you really want to delete loan #{{ loan.ref_no }} ?
       </v-card-text>
 
       <v-divider></v-divider>

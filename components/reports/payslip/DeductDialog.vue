@@ -18,9 +18,14 @@
               <v-checkbox
                 v-model="sssLoan"
                 color="error"
-                :label="`SSS Loan | #${payslipFlags.sss_loan.loan_no}`"
+                :label="`SSS Loan | #${payslipFlags.sss_loan.ref_no}`"
                 disabled
               ></v-checkbox>
+              <span
+                v-if="payslipFlags.sss_loan.message"
+                class="ml-5 red--text"
+                >{{ payslipFlags.sss_loan.message }}</span
+              >
             </template>
             <template v-else>
               <v-checkbox

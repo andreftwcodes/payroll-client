@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title class="headline pb-2">
             <v-flex>
-              {{ parent.loan_no }} - {{ parent.employee.fullname }}
+              {{ parent.ref_no }} - {{ parent.employee.fullname }}
             </v-flex>
             <v-spacer></v-spacer>
             <v-icon large color="blue darken-2" @click="onBack"
@@ -14,48 +14,42 @@
           </v-card-title>
           <v-divider class="mb-3"></v-divider>
           <v-card-title class="pt-0 pb-0">
-            <v-layout justify-space-between row wrap>
-              <v-flex xs12 md2>
-                <v-card color="teal lighten-1" class="white--text">
-                  <v-card-title class="pt-2 pb-2">
-                    <div>
-                      <div class="headline">{{ parent.date_loaned }}</div>
-                      <div class="font-weight-black">Loaned Date</div>
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-              <v-flex xs12 md2>
-                <v-card color="teal lighten-1" class="white--text">
-                  <v-card-title class="pt-2 pb-2">
-                    <div>
-                      <div class="headline">{{ parent.amount_loaned }}</div>
-                      <div class="font-weight-black">Loaned Amount</div>
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-              <v-flex xs12 md2>
-                <v-card color="teal lighten-1" class="white--text">
-                  <v-card-title class="pt-2 pb-2">
-                    <div>
-                      <div class="headline">{{ parent.balance }}</div>
-                      <div class="font-weight-black">Balance</div>
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-              <v-flex xs12 md2>
-                <v-card color="teal lighten-1" class="white--text">
-                  <v-card-title class="pt-2 pb-2">
-                    <div>
-                      <div class="headline">{{ parent.progress }}</div>
-                      <div class="font-weight-black">Progress</div>
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-            </v-layout>
+            <v-container fluid grid-list-xl class="pb-0">
+              <v-layout row wrap>
+                <v-flex xs12 md2>
+                  <v-text-field
+                    v-model="parent.loaned_at"
+                    readonly
+                    outline
+                    label="Loaned Date"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 md2>
+                  <v-text-field
+                    v-model="parent.amount_loaned"
+                    readonly
+                    outline
+                    label="Loaned Amount"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 md2>
+                  <v-text-field
+                    v-model="parent.balance"
+                    readonly
+                    outline
+                    label="Balance"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 md2>
+                  <v-text-field
+                    v-model="parent.progress"
+                    readonly
+                    outline
+                    label="Progress"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-card-title>
           <v-divider class="mt-3"></v-divider>
           <v-data-table

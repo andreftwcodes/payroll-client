@@ -28,13 +28,13 @@
           >
             <template v-slot:items="props">
               <td>
-                {{ props.item.loan_no }}
+                {{ props.item.ref_no }}
               </td>
               <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.amount_loaned_dsp }}</td>
               <td>{{ props.item.balance }}</td>
               <td>{{ props.item.progress }}</td>
-              <td>{{ props.item.date_loaned }}</td>
+              <td>{{ props.item.loaned_at }}</td>
               <td>
                 <v-icon
                   class="mr-3"
@@ -82,10 +82,10 @@ export default {
       search: '',
       headers: [
         {
-          text: 'Loan No',
+          text: 'Reference No.',
           align: 'left',
           sortable: false,
-          value: 'loan_no'
+          value: 'ref_no'
         },
         {
           text: 'Fullname',
@@ -112,10 +112,10 @@ export default {
           value: 'progress'
         },
         {
-          text: 'Date Loaned',
+          text: 'Loaned at',
           align: 'left',
           sortable: false,
-          value: 'date_loaned'
+          value: 'loaned_at'
         },
         {
           text: '',
@@ -148,7 +148,7 @@ export default {
       this.sssLoan = !_.isNull(sssLoan)
         ? _.merge(sssLoan, {
             employee_id: sssLoan.employee.id,
-            loan_no_dsp: sssLoan.loan_no
+            ref_no_dsp: sssLoan.ref_no
           })
         : {}
     },
