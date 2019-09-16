@@ -12,10 +12,7 @@
               hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-icon
-              medium
-              color="green darken-2"
-              @click="sssLoanDialogForm(null)"
+            <v-icon medium color="green darken-2" @click="sssLoanDialogForm()"
               >add_circle_outline</v-icon
             >
           </v-card-title>
@@ -32,6 +29,7 @@
               </td>
               <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.amount_loaned_dsp }}</td>
+              <td>{{ props.item.amortization_amount_dsp }}</td>
               <td>{{ props.item.balance }}</td>
               <td>{{ props.item.progress }}</td>
               <td>{{ props.item.loaned_at }}</td>
@@ -42,12 +40,6 @@
                   @click="onShow(props.item.id)"
                   >launch</v-icon
                 >
-                <v-icon
-                  class="mr-3"
-                  color="blue darken-2"
-                  @click="sssLoanDialogForm(props.item)"
-                  >edit</v-icon
-                >
                 <v-icon color="red" @click="onDelete(props.item)"
                   >highlight_off</v-icon
                 >
@@ -57,7 +49,6 @@
         </v-card>
         <FormDialog
           v-model="formDialogVisibility"
-          :sss-loan="sssLoan"
           :employees="employees"
           @saved-updated:loan="savedUpdatedLoan"
         />
@@ -98,6 +89,12 @@ export default {
           align: 'left',
           sortable: false,
           value: 'amount_loaned'
+        },
+        {
+          text: 'Amortization',
+          align: 'left',
+          sortable: false,
+          value: 'amortization_amount'
         },
         {
           text: 'Balance',
@@ -142,26 +139,11 @@ export default {
       setLoan: 'sss-loan/setLoan',
       clearLoan: 'sss-loan/clearLoan'
     }),
-    sssLoanDialogForm(obj = null) {
+    sssLoanDialogForm() {
       this.formDialogVisibility = true
-      const sssLoan = _.clone(obj)
-      this.sssLoan = !_.isNull(sssLoan)
-        ? _.merge(sssLoan, {
-            employee_id: sssLoan.employee.id,
-            ref_no_dsp: sssLoan.ref_no
-          })
-        : {}
     },
     savedUpdatedLoan(loan) {
-      if (_.find(this.loans, ['id', loan.id])) {
-        this.loans.splice(
-          _.findIndex(this.loans, o => o.id === loan.id),
-          1,
-          loan
-        )
-      } else {
-        this.loans.push(loan)
-      }
+      this.loans.push(loan)
     },
     onShow(id) {
       this.$router.push({

@@ -63,20 +63,7 @@
                 {{ props.index + 1 }}
               </td>
               <td>{{ props.item.paid_at }}</td>
-              <td>{{ props.item.transact_by }}</td>
-              <td>
-                <template v-if="!props.item.is_payroll">
-                  <v-icon
-                    class="mr-3"
-                    color="blue darken-2"
-                    @click="onEditPayment(props.item.id)"
-                    >edit</v-icon
-                  >
-                  <v-icon color="red" @click="onDelete(props.item.id)"
-                    >highlight_off</v-icon
-                  >
-                </template>
-              </td>
+              <td>{{ props.item.amortization }}</td>
             </template>
           </v-data-table>
         </v-card>
@@ -103,10 +90,10 @@ export default {
           value: 'paid_at'
         },
         {
-          text: 'Transact by',
+          text: 'Amortization',
           align: 'left',
           sortable: false,
-          value: 'transact_by'
+          value: 'amortization'
         },
         {
           text: '',
