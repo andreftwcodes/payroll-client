@@ -31,8 +31,16 @@
               <td>{{ props.item.amount_loaned_dsp }}</td>
               <td>{{ props.item.amortization_amount_dsp }}</td>
               <td>{{ props.item.balance }}</td>
-              <td>{{ props.item.progress }}</td>
-              <td>{{ props.item.loaned_at }}</td>
+              <td>
+                <v-chip
+                  :color="props.item.balance == 0 ? 'green' : 'red'"
+                  text-color="white"
+                  small
+                >
+                  {{ props.item.progress }}
+                </v-chip>
+              </td>
+              <td>{{ props.item.loaned_dsp }}</td>
               <td>
                 <v-icon
                   class="mr-3"

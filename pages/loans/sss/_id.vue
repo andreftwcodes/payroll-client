@@ -18,7 +18,7 @@
               <v-layout row wrap>
                 <v-flex xs12 md2>
                   <v-text-field
-                    v-model="parent.loaned_at"
+                    v-model="loanedAtDateFormatted"
                     readonly
                     outline
                     label="Loaned Date"
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -108,6 +109,13 @@ export default {
     const response = await app.$axios.$get(`sss-loan/resource/${params.id}`)
     return {
       parent: response.data
+    }
+  },
+  computed: {
+    loanedAtDateFormatted() {
+      return this.parent.loaned_at
+        ? moment(this.parent.loaned_at).format('MMMM Do YYYY')
+        : ''
     }
   },
   methods: {

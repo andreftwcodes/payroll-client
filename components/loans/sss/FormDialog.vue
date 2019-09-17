@@ -76,7 +76,7 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
-                          v-model="sssLoan.loaned_at"
+                          v-model="loanedAtDateFormatted"
                           label="Loaned at"
                           append-icon="event"
                           :error-messages="
@@ -122,6 +122,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 import { mapActions } from 'vuex'
 export default {
   props: {
@@ -151,6 +152,11 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    loanedAtDateFormatted() {
+      return this.sssLoan.loaned_at
+        ? moment(this.sssLoan.loaned_at).format('MMMM Do YYYY')
+        : ''
     }
   },
   methods: {
