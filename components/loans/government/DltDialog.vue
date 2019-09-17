@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loan: 'sss-loan/loan'
+      loan: 'government-loans/loan'
     }),
     show: {
       get() {
@@ -55,12 +55,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      clearLoan: 'sss-loan/clearLoan'
+      clearLoan: 'government-loans/clearLoan'
     }),
     async onConfirm() {
       this.show = false
       try {
-        await this.$axios.$delete(`sss-loan/resource/${this.loan.id}`)
+        await this.$axios.$delete(`loans/government/${this.loan.id}`)
         this.$emit('loan-deleted', this.loan.id)
       } catch (error) {}
     },

@@ -18,6 +18,14 @@
               <v-layout row wrap>
                 <v-flex xs12 md2>
                   <v-text-field
+                    readonly
+                    outline
+                    label="Subject"
+                    value="PagIbig"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 md2>
+                  <v-text-field
                     v-model="loanedAtDateFormatted"
                     readonly
                     outline
@@ -105,12 +113,6 @@ export default {
       ]
     }
   },
-  async asyncData({ app, params }) {
-    const response = await app.$axios.$get(`sss-loan/resource/${params.id}`)
-    return {
-      parent: response.data
-    }
-  },
   computed: {
     loanedAtDateFormatted() {
       return this.parent.loaned_at
@@ -118,17 +120,18 @@ export default {
         : ''
     }
   },
+  async asyncData({ app, params }) {
+    const response = await app.$axios.$get(`loans/government/${params.id}`)
+    return {
+      parent: response.data
+    }
+  },
   methods: {
     onBack() {
       this.$router.push({
-        name: 'loans-sss'
+        name: 'loans-government'
       })
-    },
-    onEdit() {
-      console.log('Edit')
-    },
-    onEditPayment(id) {},
-    onDelete(id) {}
+    }
   }
 }
 </script>

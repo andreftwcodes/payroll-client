@@ -3,7 +3,7 @@
     <v-dialog v-model="show" width="1000" persistent>
       <v-card>
         <v-card-title class="headline grey lighten-2">
-          Create SSS Loan
+          Create Government Loan
         </v-card-title>
 
         <v-card-text>
@@ -12,26 +12,53 @@
               <v-layout row wrap>
                 <v-flex xs12 md4>
                   <v-autocomplete
-                    v-model="sssLoan.employee_id"
+                    v-model="loan.employee_id"
                     :error-messages="
                       errors.employee_id ? errors.employee_id[0] : ''
                     "
                     :items="employees"
-                    :loading="employee_loading"
                     item-text="fullname"
                     item-value="id"
                     clearable
                     label="Employee"
                     placeholder="Employee"
-                    @change="onChangedEmployee"
+                    @change="onChangeFilters"
                   ></v-autocomplete>
                 </v-flex>
+                <v-flex xs12 md4>
+                  <v-autocomplete
+                    v-model="loan.subject"
+                    :error-messages="errors.subject ? errors.subject[0] : ''"
+                    :items="[
+                      { id: 1, subject: 'SSS' },
+                      { id: 2, subject: 'PagIbig' },
+                      { id: 3, subject: 'GSIS' }
+                    ]"
+                    item-text="subject"
+                    item-value="id"
+                    clearable
+                    label="Subject"
+                    placeholder="Subject"
+                    @change="onChangeFilters"
+                  ></v-autocomplete>
+                </v-flex>
+                <v-btn
+                  flat
+                  icon
+                  :color="filterBtn.color"
+                  :disabled="filterBtn.disabled"
+                  class="ml-5 mt-3"
+                  :loading="employee_loading"
+                  @click="onVerify"
+                >
+                  <v-icon>{{ filterBtn.icon }}</v-icon>
+                </v-btn>
               </v-layout>
               <template v-if="fieldset_visible">
                 <v-layout row wrap>
                   <v-flex xs12 md4>
                     <v-text-field
-                      v-model="sssLoan.ref_no"
+                      v-model="loan.ref_no"
                       :error-messages="errors.ref_no ? errors.ref_no[0] : ''"
                       label="Reference No."
                       placeholder="Reference No."
@@ -39,7 +66,7 @@
                   </v-flex>
                   <v-flex xs12 md4>
                     <v-text-field
-                      v-model="sssLoan.amount_loaned"
+                      v-model="loan.amount_loaned"
                       :error-messages="
                         errors.amount_loaned ? errors.amount_loaned[0] : ''
                       "
@@ -50,7 +77,7 @@
                   </v-flex>
                   <v-flex xs12 md4>
                     <v-text-field
-                      v-model="sssLoan.amortization_amount"
+                      v-model="loan.amortization_amount"
                       :error-messages="
                         errors.amortization_amount
                           ? errors.amortization_amount[0]
@@ -78,6 +105,7 @@
                         <v-text-field
                           v-model="loanedAtDateFormatted"
                           label="Loaned at"
+                          placeholder="Loaned at"
                           append-icon="event"
                           :error-messages="
                             errors.loaned_at ? errors.loaned_at[0] : ''
@@ -87,7 +115,7 @@
                         ></v-text-field>
                       </template>
                       <v-date-picker
-                        v-model="sssLoan.loaned_at"
+                        v-model="loan.loaned_at"
                         :max="_now()"
                         @input="dateMenu = false"
                       ></v-date-picker>
@@ -121,7 +149,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 import moment from 'moment'
 import { mapActions } from 'vuex'
 export default {
@@ -138,9 +166,14 @@ export default {
   },
   data() {
     return {
+      filterBtn: {
+        color: 'blue',
+        icon: 'build',
+        disabled: false
+      },
       employee_loading: false,
       fieldset_visible: false,
-      sssLoan: {},
+      loan: {},
       dateMenu: false
     }
   },
@@ -154,8 +187,8 @@ export default {
       }
     },
     loanedAtDateFormatted() {
-      return this.sssLoan.loaned_at
-        ? moment(this.sssLoan.loaned_at).format('MMMM Do YYYY')
+      return this.loan.loaned_at
+        ? moment(this.loan.loaned_at).format('MMMM Do YYYY')
         : ''
     }
   },
@@ -165,40 +198,52 @@ export default {
     }),
     async onSaveUpdate() {
       try {
-        const response = await this.$axios.$post(
-          'sss-loan/resource',
-          this.sssLoan
-        )
+        const response = await this.$axios.$post('loans/government/', this.loan)
 
         this.show = false
-        this.onChangedEmployee(undefined)
+        this.onChangeFilters()
         this.$emit('saved-updated:loan', response.data)
       } catch (error) {}
     },
-    async onChangedEmployee(id) {
-      this.clearErrors()
-      this.employee_loading = true
+    onChangeFilters(action = null) {
+      if (action === 'close') {
+        this.loan = {}
+        this.clearErrors()
+      }
 
-      if (_.isUndefined(id)) {
-        this.sssLoan = {}
-        this.fieldset_visible = false
+      this.filterBtn = {
+        color: 'blue',
+        icon: 'build',
+        disabled: false
+      }
+
+      this.fieldset_visible = false
+    },
+    async onVerify() {
+      this.fieldset_visible = false
+      this.employee_loading = true
+      try {
+        await this.$axios.$post(`loans/government/verify`, {
+          employee_id: this.loan.employee_id,
+          subject: this.loan.subject
+        })
+        this.filterBtn = {
+          color: 'green',
+          icon: 'verified_user',
+          disabled: true
+        }
+        this.fieldset_visible = true
         this.employee_loading = false
-      } else {
-        try {
-          await this.$axios.$get(`sss-loan/check-can-loan/${id}`)
-          this.fieldset_visible = true
+      } catch (error) {
+        if (error.response.status === 422) {
+          this.fieldset_visible = false
           this.employee_loading = false
-        } catch (error) {
-          if (error.response.status === 422) {
-            this.fieldset_visible = false
-            this.employee_loading = false
-          }
         }
       }
     },
     onClose() {
       this.show = false
-      this.onChangedEmployee(undefined)
+      this.onChangeFilters('close')
     }
   }
 }

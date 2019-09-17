@@ -12,7 +12,7 @@
               hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-icon medium color="green darken-2" @click="sssLoanDialogForm()"
+            <v-icon medium color="green darken-2" @click="dialogForm()"
               >add_circle_outline</v-icon
             >
           </v-card-title>
@@ -27,6 +27,7 @@
               <td>
                 {{ props.item.ref_no }}
               </td>
+              <td>SSS</td>
               <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.amount_loaned_dsp }}</td>
               <td>{{ props.item.amortization_amount_dsp }}</td>
@@ -69,8 +70,8 @@
 <script>
 import _ from 'lodash'
 import { mapActions } from 'vuex'
-import FormDialog from '@/components/loans/sss/FormDialog'
-import DltDialog from '@/components/loans/sss/DltDialog'
+import FormDialog from '@/components/loans/government/FormDialog'
+import DltDialog from '@/components/loans/government/DltDialog'
 export default {
   components: {
     FormDialog,
@@ -85,6 +86,12 @@ export default {
           align: 'left',
           sortable: false,
           value: 'ref_no'
+        },
+        {
+          text: 'Subject',
+          align: 'left',
+          sortable: false,
+          value: 'subject'
         },
         {
           text: 'Fullname',
@@ -131,12 +138,11 @@ export default {
       ],
       rowsPerPage: [10, 15, 20],
       formDialogVisibility: false,
-      sssLoan: {},
       dltDialog: false
     }
   },
   async asyncData({ app }) {
-    const response = await app.$axios.$get('sss-loan/resource')
+    const response = await app.$axios.$get('loans/government')
     return {
       loans: response.data,
       employees: response.employees
@@ -144,10 +150,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      setLoan: 'sss-loan/setLoan',
-      clearLoan: 'sss-loan/clearLoan'
+      setLoan: 'government-loans/setLoan',
+      clearLoan: 'government-loans/clearLoan'
     }),
-    sssLoanDialogForm() {
+    dialogForm() {
       this.formDialogVisibility = true
     },
     savedUpdatedLoan(loan) {
@@ -155,7 +161,7 @@ export default {
     },
     onShow(id) {
       this.$router.push({
-        name: 'loans-sss-id',
+        name: 'loans-government-id',
         params: { id: id }
       })
     },
