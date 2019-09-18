@@ -14,26 +14,22 @@
               color="error"
               label="Contributions (SSS, PhilHealth, PagIbig)"
             ></v-checkbox>
-            <template v-if="payslipFlags.sss_loan">
-              <v-checkbox
-                v-model="sssLoan"
-                color="error"
-                :label="`SSS Loan | #${payslipFlags.sss_loan.ref_no}`"
-                disabled
-              ></v-checkbox>
-              <span
-                v-if="payslipFlags.sss_loan.message"
-                class="ml-5 red--text"
-                >{{ payslipFlags.sss_loan.message }}</span
+            <template v-if="payslipFlags.loans">
+              <div
+                v-for="item in payslipFlags.loans"
+                :key="item.id"
+                class="loan-div ml-5"
               >
-            </template>
-            <template v-else>
-              <v-checkbox
-                v-model="sssLoan"
-                color="error"
-                label="SSS Loan | NA"
-                disabled
-              ></v-checkbox>
+                <v-checkbox
+                  v-model="loan"
+                  color="error"
+                  :label="`${item.subject} Loan | #${item.ref_no}`"
+                  disabled
+                ></v-checkbox>
+                <p v-if="item.message" class="loan-message ml-5 red--text">
+                  {{ item.message }}
+                </p>
+              </div>
             </template>
             <template v-if="payslipFlags.cash_advance">
               <v-checkbox
@@ -91,7 +87,7 @@ export default {
         cash_advance: false
       },
       payslipFlags: {},
-      sssLoan: false
+      loan: false
     }
   },
   computed: {
@@ -112,7 +108,7 @@ export default {
       this.payslipFlags = _.cloneDeep(this.flags)
     },
     'filters.contributions': function(newVal) {
-      this.sssLoan = newVal
+      this.loan = newVal
     },
     'filters.cash_advance': function(newVal) {
       if (!newVal) {
@@ -138,8 +134,8 @@ export default {
         ca_amount_deductible: this.filters.cash_advance
           ? this.payslipFlags.cash_advance.amount_deductible
           : 0,
-        sss_loan_id: !_.isNull(this.payslipFlags.sss_loan)
-          ? this.payslipFlags.sss_loan.id
+        loan_id: !_.isNull(this.payslipFlags.loans)
+          ? _.map(this.payslipFlags.loans, 'id')
           : null
       }
 
@@ -164,4 +160,12 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.loan-div {
+  margin: -20px 0;
+}
+.loan-message {
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+</style>

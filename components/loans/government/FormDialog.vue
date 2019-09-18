@@ -3,7 +3,7 @@
     <v-dialog v-model="show" width="1000" persistent>
       <v-card>
         <v-card-title class="headline grey lighten-2">
-          Create Government Loan
+          Create Loan
         </v-card-title>
 
         <v-card-text>
@@ -30,12 +30,11 @@
                     v-model="loan.subject"
                     :error-messages="errors.subject ? errors.subject[0] : ''"
                     :items="[
-                      { id: 1, subject: 'SSS' },
-                      { id: 2, subject: 'PagIbig' },
-                      { id: 3, subject: 'GSIS' }
+                      { value: 'sss', text: 'SSS' },
+                      { value: 'pagibig', text: 'PagIbig' }
                     ]"
-                    item-text="subject"
-                    item-value="id"
+                    item-text="text"
+                    item-value="value"
                     clearable
                     label="Subject"
                     placeholder="Subject"
@@ -77,11 +76,9 @@
                   </v-flex>
                   <v-flex xs12 md4>
                     <v-text-field
-                      v-model="loan.amortization_amount"
+                      v-model="loan.amortization"
                       :error-messages="
-                        errors.amortization_amount
-                          ? errors.amortization_amount[0]
-                          : ''
+                        errors.amortization ? errors.amortization[0] : ''
                       "
                       label="Amortization Amount"
                       placeholder="00.00"
@@ -149,7 +146,6 @@
 </template>
 
 <script>
-// import _ from 'lodash'
 import moment from 'moment'
 import { mapActions } from 'vuex'
 export default {

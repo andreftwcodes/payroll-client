@@ -27,7 +27,7 @@
               <td>
                 {{ props.item.ref_no }}
               </td>
-              <td>SSS</td>
+              <td>{{ props.item.subject }}</td>
               <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.amount_loaned_dsp }}</td>
               <td>{{ props.item.amortization_amount_dsp }}</td>

@@ -118,7 +118,7 @@ export default {
         to: this.filters.dateTo,
         contributions: extraFilters.contributions,
         ca_amount_deductible: extraFilters.ca_amount_deductible,
-        sss_loan_id: extraFilters.sss_loan_id
+        loan_id: extraFilters.loan_id
       }
       try {
         const response = await this.$axios.$get(

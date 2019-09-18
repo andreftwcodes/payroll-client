@@ -18,10 +18,10 @@
               <v-layout row wrap>
                 <v-flex xs12 md2>
                   <v-text-field
+                    v-model="parent.subject"
                     readonly
                     outline
                     label="Subject"
-                    value="PagIbig"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 md2>
