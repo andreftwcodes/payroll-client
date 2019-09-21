@@ -1,42 +1,58 @@
 export const state = () => ({
-  payment_period_loading: false,
-  disabled: false,
-  flags: {}
+  print_button: true,
+  filter_dialog: false,
+  payment_period_items: [
+    {
+      value: 'all',
+      text: 'All'
+    },
+    {
+      value: 'weekly',
+      text: 'Weekly'
+    },
+    {
+      value: 'monthly',
+      text: 'Monthly'
+    }
+  ],
+  disabled: false
 })
 
 export const getters = {
-  payment_period_loading(state) {
-    return state.payment_period_loading
+  print_button(state) {
+    return state.print_button
+  },
+  filter_dialog(state) {
+    return state.filter_dialog
+  },
+  payment_period_items(state) {
+    return state.payment_period_items
   },
   disabled(state) {
     return state.disabled
-  },
-  flags(state) {
-    return state.flags
   }
 }
 
 export const mutations = {
-  SET_PAYMENT_PERIOD_LOADING(state, loading) {
-    state.payment_period_loading = loading
+  PRINT_BUTTON(state, payload) {
+    state.print_button = payload
   },
-  SET_DISABLED(state, disabled) {
-    state.disabled = disabled
+  FILTER_DIALOG(state, payload) {
+    state.filter_dialog = payload
   },
-  SET_FLAGS(state, flags) {
-    state.flags = flags
+  DISABLED(state, payload) {
+    state.disabled = payload
   }
 }
 
 export const actions = {
-  setPaymentPeriodLoading({ commit, dispatch }, payload) {
-    dispatch('setDisabled', payload)
-    commit('SET_PAYMENT_PERIOD_LOADING', payload)
+  printButton({ commit }, payload) {
+    commit('PRINT_BUTTON', payload)
   },
-  setFlags({ commit }, flags) {
-    commit('SET_FLAGS', flags)
+  filterDialog({ commit }, payload) {
+    commit('FILTER_DIALOG', payload)
   },
-  setDisabled({ commit }, payload) {
-    commit('SET_DISABLED', payload)
+  disabled({ commit }, payload) {
+    commit('DISABLED', payload)
   }
 }
