@@ -15,7 +15,8 @@ export const state = () => ({
       text: 'Monthly'
     }
   ],
-  disabled: false
+  disabled: false,
+  payslip: {}
 })
 
 export const getters = {
@@ -30,6 +31,9 @@ export const getters = {
   },
   disabled(state) {
     return state.disabled
+  },
+  payslip(state) {
+    return state.payslip
   }
 }
 
@@ -42,6 +46,9 @@ export const mutations = {
   },
   DISABLED(state, payload) {
     state.disabled = payload
+  },
+  PAYSLIP(state, payload) {
+    state.payslip = payload
   }
 }
 
@@ -54,5 +61,8 @@ export const actions = {
   },
   disabled({ commit }, payload) {
     commit('DISABLED', payload)
+  },
+  setPaySlip({ commit }, payload) {
+    commit('PAYSLIP', payload)
   }
 }

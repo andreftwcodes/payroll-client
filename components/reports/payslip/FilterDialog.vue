@@ -107,7 +107,58 @@
               </template>
             </template>
             <template v-else-if="step === 2">
-              {{ flag }}
+              <v-layout>
+                <v-flex class="pt-0 pb-0">
+                  <v-checkbox
+                    v-model="contributions"
+                    :disabled="!flag.contributions || disabled"
+                    color="error"
+                    label="Contributions (SSS, PhilHealth, PagIbig)"
+                  ></v-checkbox>
+                </v-flex>
+              </v-layout>
+              <v-layout>
+                <v-flex class="pt-0 pb-0">
+                  <v-checkbox
+                    v-model="loans"
+                    :disabled="!flag.loans.length || disabled"
+                    color="error"
+                    label="Loans"
+                  ></v-checkbox>
+
+                  <div v-for="item in flag.loans" :key="item.id" class="ml-5">
+                    <p>
+                      <strong>{{ item.subject }}: </strong> {{ item.ref_no }}
+                    </p>
+                    <p class="ml-3 red--text">{{ item.message }}</p>
+                  </div>
+                </v-flex>
+              </v-layout>
+              <v-layout>
+                <v-flex class="pt-0 pb-0">
+                  <v-checkbox
+                    v-model="cash_advance"
+                    color="error"
+                    :disabled="flag.cash_advance.disabled || disabled"
+                    :label="`Cash Advance ${flag.cash_advance.display}`"
+                    @change="onChangeCashAdvance"
+                  ></v-checkbox>
+                  <v-flex class="ml-5" md6>
+                    <v-text-field
+                      v-show="!flag.cash_advance.disabled"
+                      v-model="flag.cash_advance.amount_deductible"
+                      :disabled="!cash_advance || disabled"
+                      :error-messages="
+                        errors.amount_deductible
+                          ? errors.amount_deductible[0]
+                          : ''
+                      "
+                      label="Amount Deductible"
+                      placeholder="Amount Deductible"
+                    ></v-text-field>
+                  </v-flex>
+                </v-flex>
+              </v-layout>
             </template>
           </v-container>
         </v-form>
@@ -117,13 +168,25 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <template v-if="step === 1">
-            <v-btn color="primary" flat :disabled="disabled" @click="onVerify">
+            <v-btn
+              color="primary"
+              flat
+              :disabled="disabled"
+              :loading="loading_verify"
+              @click="onVerify"
+            >
               Verify
             </v-btn>
           </template>
           <template v-else-if="step === 2">
-            <v-btn color="primary" flat :disabled="disabled" @click="onPickUp">
-              Pick Up
+            <v-btn
+              color="primary"
+              flat
+              :disabled="disabled"
+              :loading="loading_generate"
+              @click="onGenerate"
+            >
+              Generate
             </v-btn>
             <v-btn color="primary" flat :disabled="disabled" @click="step = 1">
               Back
@@ -139,6 +202,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 export default {
@@ -159,7 +223,13 @@ export default {
       },
       fieldset: false,
       flag: {},
-      step: 1
+      step: 1,
+      loading_verify: false,
+      contributions: false,
+      loans: false,
+      cash_advance: false,
+      amount_deductible_backup: null,
+      loading_generate: false
     }
   },
   computed: {
@@ -172,6 +242,29 @@ export default {
     },
     toDateFormatted() {
       return moment(this.to.date).format('MMMM Do YYYY')
+    },
+    dataFilters() {
+      let data = {
+        employee_id: this.employee,
+        from: this.from.date,
+        to: this.to.date,
+        contributions: this.contributions,
+        loans: this.loans
+      }
+
+      if (this.cash_advance) {
+        data = _.assign(
+          {
+            amount_deductible: this.flag.cash_advance.amount_deductible,
+            balance: this.flag.cash_advance.balance
+          },
+          data
+        )
+      } else {
+        _.unset(data, ['amount_deductible', 'balance'])
+      }
+
+      return data
     }
   },
   watch: {
@@ -189,7 +282,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      filterDialog: 'payslip/filterDialog'
+      filterDialog: 'payslip/filterDialog',
+      setPaySlip: 'payslip/setPaySlip',
+      setErrors: 'validation/setErrors'
     }),
     async onChangePaymentPeriod() {
       try {
@@ -222,18 +317,55 @@ export default {
 
       try {
         this.disabled = true
+        this.loading_verify = true
+        this.contributions = false
+        this.loans = false
+        this.cash_advance = false
+        this.amount_deductible_backup = null
         const response = await this.$axios.$get(`payslip/verify-period`, {
           params
         })
         this.step = 2
         this.disabled = false
+        this.loading_verify = false
         this.flag = response.data
       } catch (error) {
         this.disabled = false
+        this.loading_verify = false
       }
     },
-    onPickUp() {
-      console.log(1)
+    async onGenerate() {
+      try {
+        this.disabled = true
+        this.loading_generate = true
+        const response = await this.$axios.$get(
+          `payslip/period/${this.employee}`,
+          {
+            params: this.dataFilters
+          }
+        )
+        this.disabled = false
+        this.loading_generate = false
+        this.setPaySlip(response)
+        this.filterDialog(false)
+      } catch (error) {
+        this.disabled = false
+        this.loading_generate = false
+      }
+    },
+    onChangeCashAdvance() {
+      if (_.isNull(this.amount_deductible_backup)) {
+        this.amount_deductible_backup = this.flag.cash_advance.amount_deductible
+      }
+
+      if (!this.cash_advance) {
+        if (this.errors) {
+          this.setErrors(
+            _.update(this.errors, 'amount_deductible[0]', n => null)
+          )
+        }
+        this.flag.cash_advance.amount_deductible = this.amount_deductible_backup
+      }
     },
     onCancel() {
       this.payment_period = 'all'
