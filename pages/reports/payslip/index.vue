@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ToolBar from '@/components/reports/payslip/ToolBar'
 import FilterDialog from '@/components/reports/payslip/FilterDialog'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
@@ -25,6 +26,16 @@ export default {
   },
   data() {
     return {}
+  },
+  mounted() {
+    this.$nextTick(function() {
+      this.setPaySlip({})
+    })
+  },
+  methods: {
+    ...mapActions({
+      setPaySlip: 'payslip/setPaySlip'
+    })
   }
 }
 </script>

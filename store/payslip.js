@@ -76,9 +76,8 @@ export const actions = {
   disabled({ commit }, payload) {
     commit('DISABLED', payload)
   },
-  setPaySlip({ commit, dispatch }, payload) {
+  setPaySlip({ commit }, payload) {
     commit('PAYSLIP', payload)
-    dispatch('printButton', false)
   },
   closePeriodDialog({ commit }, payload) {
     commit('CLOSE_PERIOD_DIALOG', payload)

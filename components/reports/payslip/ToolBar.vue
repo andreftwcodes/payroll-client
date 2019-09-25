@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
@@ -19,11 +20,19 @@ export default {
   },
   computed: {
     ...mapGetters({
+      payslip: 'payslip/payslip',
       print_button: 'payslip/print_button'
     })
   },
+  watch: {
+    payslip: function(value) {
+      console.log(_.isEmpty(value))
+      this.printButton(_.isEmpty(value))
+    }
+  },
   methods: {
     ...mapActions({
+      printButton: 'payslip/printButton',
       filterDialog: 'payslip/filterDialog',
       closePeriodDialog: 'payslip/closePeriodDialog'
     }),
