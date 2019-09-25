@@ -101,7 +101,7 @@
                 </v-layout>
                 <v-layout v-if="errors.period">
                   <v-flex>
-                    <span class="red--text">{{ errors.period[0] }}</span>
+                    <span class="red--text ml-3">{{ errors.period[0] }}</span>
                   </v-flex>
                 </v-layout>
               </template>
@@ -248,8 +248,13 @@ export default {
         employee_id: this.employee,
         from: this.from.date,
         to: this.to.date,
-        contributions: this.contributions,
-        loans: this.loans
+        contributions: this.contributions
+      }
+
+      if (this.loans) {
+        data = _.assign({ loan_ids: _.map(this.flag.loans, 'id') }, data)
+      } else {
+        _.unset(data, ['loan_ids'])
       }
 
       if (this.cash_advance) {
@@ -284,6 +289,7 @@ export default {
     ...mapActions({
       filterDialog: 'payslip/filterDialog',
       setPaySlip: 'payslip/setPaySlip',
+      setDataFilters: 'payslip/setDataFilters',
       setErrors: 'validation/setErrors'
     }),
     async onChangePaymentPeriod() {
@@ -347,6 +353,7 @@ export default {
         this.disabled = false
         this.loading_generate = false
         this.setPaySlip(response)
+        this.setDataFilters(this.dataFilters)
         this.filterDialog(false)
       } catch (error) {
         this.disabled = false

@@ -1,21 +1,27 @@
 <template>
-  <v-dialog v-model="show" persistent width="500">
+  <v-dialog v-model="close_period_dialog" persistent width="500">
     <v-card>
       <v-card-title class="headline grey lighten-2">
         Confirmation
       </v-card-title>
       <v-card-text class="subheading">
-        Do you want to close the period?
+        Do you want to close this period ?
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click.prevent="onClosePeriod">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          :loading="loading_confirm"
+          @click.prevent="onClosePeriod"
+        >
           Confirm
         </v-btn>
-        <v-btn color="primary" flat @click="show = false">
+        <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -24,39 +30,50 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import { payslipMixin } from '@/plugins/mixins/payslip.js'
 export default {
-  props: {
-    value: {
-      type: Boolean
-    },
-    filterParams: {
-      type: Object,
-      default: () => {}
-    }
-  },
+  mixins: [payslipMixin],
   data() {
-    return {}
+    return {
+      disabled: false,
+      loading_confirm: false
+    }
   },
   computed: {
-    show: {
-      get() {
-        return this.value
-      },
-      set(value) {
-        this.$emit('input', value)
-      }
-    }
+    ...mapGetters({
+      payslip: 'payslip/payslip',
+      close_period_dialog: 'payslip/close_period_dialog',
+      data_filters: 'payslip/data_filters'
+    })
   },
   methods: {
+    ...mapActions({
+      setPaySlip: 'payslip/setPaySlip',
+      printButton: 'payslip/printButton',
+      closePeriodDialog: 'payslip/closePeriodDialog'
+    }),
+    onCancel() {
+      this.closePeriodDialog(false)
+    },
     async onClosePeriod() {
-      this.show = false
       try {
-        const response = await this.$axios.$post(
-          `payslip/close-period/${this.filterParams.employee_id}`,
-          this.filterParams
+        this.disabled = true
+        this.loading_confirm = true
+        await this.$axios.$post(
+          `payslip/close-period/${this.data_filters.employee_id}`,
+          this.data_filters
         )
-        this.$emit('closed:period', response.data)
-      } catch (error) {}
+        this.disabled = false
+        this.loading_confirm = false
+        this.payslipDialog(this.payslip.extra.print_url)
+        this.setPaySlip({})
+        this.printButton(true)
+        this.closePeriodDialog(false)
+      } catch (error) {
+        this.disabled = false
+        this.loading_confirm = false
+      }
     }
   }
 }

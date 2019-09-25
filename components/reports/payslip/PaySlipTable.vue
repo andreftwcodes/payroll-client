@@ -1,23 +1,25 @@
 <template>
-  <div class="v-table__overflow">
+  <div v-if="isNotEmptyPaySlip" class="v-table__overflow mt-3">
     <table class="v-datatable v-table theme--light">
       <tbody>
         <tr>
           <td colspan="2" class="td__name">
-            <strong>Name:</strong> {{ payslip.fullname }}
+            <strong>Name:</strong> {{ payslip.data.fullname }}
           </td>
           <td colspan="2" class="td__date text-xs-right">
-            <strong>Date:</strong> {{ payslip.date_issued }}
+            <strong>Date:</strong> {{ payslip.data.date_issued }}
           </td>
         </tr>
         <tr>
-          <td colspan="4"><strong>Period:</strong> {{ payslip.period }}</td>
+          <td colspan="4">
+            <strong>Period:</strong> {{ payslip.data.period }}
+          </td>
         </tr>
         <tr>
           <td><strong>Basic Rate</strong></td>
           <td style="border-top-style: hidden;"></td>
           <td style="border-top-style: hidden;" class="text-xs-right">
-            <strong>{{ payslip.basic_rate }}</strong>
+            <strong>{{ payslip.data.basic_rate }}</strong>
           </td>
           <td style="border-top-style: hidden;"></td>
         </tr>
@@ -30,17 +32,17 @@
         <tr>
           <td><strong>Overtime | Hours</strong></td>
           <td class="text-xs-right">
-            {{ payslip.overtime.hours }}
+            {{ payslip.data.overtime.hours }}
           </td>
           <td class="text-xs-right">
-            {{ payslip.overtime.amount }}
+            {{ payslip.data.overtime.amount }}
           </td>
           <td></td>
         </tr>
         <tr>
           <td><strong>Undertime | Hours</strong></td>
-          <td class="text-xs-right">- {{ payslip.undertime.hours }}</td>
-          <td class="text-xs-right">- {{ payslip.undertime.amount }}</td>
+          <td class="text-xs-right">- {{ payslip.data.undertime.hours }}</td>
+          <td class="text-xs-right">- {{ payslip.data.undertime.amount }}</td>
           <td></td>
         </tr>
         <tr>
@@ -48,7 +50,7 @@
           <td></td>
           <td></td>
           <td class="text-xs-right">
-            <strong>{{ payslip.gross_pay }}</strong>
+            <strong>{{ payslip.data.gross_pay }}</strong>
           </td>
         </tr>
         <tr>
@@ -57,7 +59,7 @@
           <td></td>
           <td></td>
         </tr>
-        <tr v-for="(item, index) in payslip.less" :key="index">
+        <tr v-for="(item, index) in payslip.data.less" :key="index">
           <td class="pl-5">{{ item.name }}</td>
           <td></td>
           <td class="text-xs-right">{{ item.amount }}</td>
@@ -68,7 +70,7 @@
           <td></td>
           <td></td>
           <td class="text-xs-right">
-            <strong>{{ payslip.total_deductions }}</strong>
+            <strong>{{ payslip.data.total_deductions }}</strong>
           </td>
         </tr>
         <tr>
@@ -76,7 +78,7 @@
           <td></td>
           <td></td>
           <td class="text-xs-right">
-            <strong>{{ payslip.net_pay }}</strong>
+            <strong>{{ payslip.data.net_pay }}</strong>
           </td>
         </tr>
       </tbody>
@@ -85,15 +87,19 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapGetters } from 'vuex'
 export default {
-  props: {
-    payslip: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {}
+  },
+  computed: {
+    ...mapGetters({
+      payslip: 'payslip/payslip'
+    }),
+    isNotEmptyPaySlip() {
+      return !_.isEmpty(this.payslip)
+    }
   }
 }
 </script>

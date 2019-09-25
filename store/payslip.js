@@ -16,7 +16,9 @@ export const state = () => ({
     }
   ],
   disabled: false,
-  payslip: {}
+  payslip: {},
+  close_period_dialog: false,
+  data_filters: {}
 })
 
 export const getters = {
@@ -34,6 +36,12 @@ export const getters = {
   },
   payslip(state) {
     return state.payslip
+  },
+  close_period_dialog(state) {
+    return state.close_period_dialog
+  },
+  data_filters(state) {
+    return state.data_filters
   }
 }
 
@@ -49,6 +57,12 @@ export const mutations = {
   },
   PAYSLIP(state, payload) {
     state.payslip = payload
+  },
+  CLOSE_PERIOD_DIALOG(state, payload) {
+    state.close_period_dialog = payload
+  },
+  DATA_FILTERS(state, payload) {
+    state.data_filters = payload
   }
 }
 
@@ -62,7 +76,14 @@ export const actions = {
   disabled({ commit }, payload) {
     commit('DISABLED', payload)
   },
-  setPaySlip({ commit }, payload) {
+  setPaySlip({ commit, dispatch }, payload) {
     commit('PAYSLIP', payload)
+    dispatch('printButton', false)
+  },
+  closePeriodDialog({ commit }, payload) {
+    commit('CLOSE_PERIOD_DIALOG', payload)
+  },
+  setDataFilters({ commit }, payload) {
+    commit('DATA_FILTERS', payload)
   }
 }

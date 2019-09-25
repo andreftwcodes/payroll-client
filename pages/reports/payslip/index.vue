@@ -4,6 +4,8 @@
       <v-flex>
         <ToolBar />
         <FilterDialog />
+        <PaySlipTable />
+        <ConfirmationDialog />
       </v-flex>
     </v-layout>
   </v-container>
@@ -12,10 +14,14 @@
 <script>
 import ToolBar from '@/components/reports/payslip/ToolBar'
 import FilterDialog from '@/components/reports/payslip/FilterDialog'
+import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
+import ConfirmationDialog from '@/components/reports/payslip/ConfirmationDialog'
 export default {
   components: {
     ToolBar,
-    FilterDialog
+    FilterDialog,
+    PaySlipTable,
+    ConfirmationDialog
   },
   data() {
     return {}

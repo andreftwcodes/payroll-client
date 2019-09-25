@@ -2,7 +2,7 @@
   <v-toolbar dense>
     <v-spacer></v-spacer>
     <v-btn icon>
-      <v-icon :disabled="print_button">print</v-icon>
+      <v-icon :disabled="print_button" @click="onPrint">print</v-icon>
     </v-btn>
 
     <v-btn icon>
@@ -24,8 +24,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      filterDialog: 'payslip/filterDialog'
+      filterDialog: 'payslip/filterDialog',
+      closePeriodDialog: 'payslip/closePeriodDialog'
     }),
+    onPrint() {
+      this.closePeriodDialog(true)
+    },
     openDialogFilters() {
       this.filterDialog(true)
     }
