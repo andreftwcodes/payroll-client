@@ -32,6 +32,7 @@
                       item-text="fullname"
                       item-value="id"
                       label="Employee"
+                      append-icon="supervisor_account"
                       :disabled="disabled"
                       :error-messages="
                         errors.employee_id ? errors.employee_id[0] : ''
@@ -107,7 +108,7 @@
               </template>
             </template>
             <template v-else-if="step === 2">
-              <v-layout>
+              <v-layout class="payslip__layout">
                 <v-flex class="pt-0 pb-0">
                   <v-checkbox
                     v-model="contributions"
@@ -117,7 +118,7 @@
                   ></v-checkbox>
                 </v-flex>
               </v-layout>
-              <v-layout>
+              <v-layout class="payslip__layout">
                 <v-flex class="pt-0 pb-0">
                   <v-checkbox
                     v-model="loans"
@@ -126,15 +127,20 @@
                     label="Loans"
                   ></v-checkbox>
 
-                  <div v-for="item in flag.loans" :key="item.id" class="ml-5">
-                    <p>
-                      <strong>{{ item.subject }}: </strong> {{ item.ref_no }}
+                  <div
+                    v-for="item in flag.loans"
+                    :key="item.id"
+                    class="ml-5 loan__items"
+                  >
+                    <p class="mb-2">
+                      <strong>{{ item.subject }}: </strong> -
+                      {{ item.amortization }}
                     </p>
                     <p class="ml-3 red--text">{{ item.message }}</p>
                   </div>
                 </v-flex>
               </v-layout>
-              <v-layout>
+              <v-layout class="payslip__layout">
                 <v-flex class="pt-0 pb-0">
                   <v-checkbox
                     v-model="cash_advance"
@@ -155,6 +161,7 @@
                       "
                       label="Amount Deductible"
                       placeholder="Amount Deductible"
+                      class="pt-0"
                     ></v-text-field>
                   </v-flex>
                 </v-flex>
@@ -352,6 +359,7 @@ export default {
         )
         this.disabled = false
         this.loading_generate = false
+        this.payment_period = 'all'
         this.setPaySlip(response)
         this.setDataFilters(this.dataFilters)
         this.filterDialog(false)
@@ -384,4 +392,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.payslip__layout {
+  margin: -20px -8px !important;
+}
+.loan__items:last-child {
+  margin-bottom: 25px;
+}
+</style>

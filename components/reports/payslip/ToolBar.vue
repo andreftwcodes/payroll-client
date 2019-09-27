@@ -1,5 +1,6 @@
 <template>
   <v-toolbar dense>
+    <v-toolbar-title>Payslip</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>
       <v-icon :disabled="print_button" @click="onPrint">print</v-icon>
@@ -26,7 +27,6 @@ export default {
   },
   watch: {
     payslip: function(value) {
-      console.log(_.isEmpty(value))
       this.printButton(_.isEmpty(value))
     }
   },

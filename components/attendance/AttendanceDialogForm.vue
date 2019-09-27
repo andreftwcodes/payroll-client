@@ -31,6 +31,7 @@
                       :items="locales"
                       :item-text="'name'"
                       :item-value="'id'"
+                      :disabled="disabled"
                       label="Locale"
                       placeholder="Locale"
                     ></v-select>
@@ -41,6 +42,7 @@
                       class="mt-3"
                       medium
                       color="green darken-2"
+                      :disabled="disabled"
                       @click="addRow"
                       >add_circle_outline</v-icon
                     >
@@ -67,6 +69,7 @@
                         "
                         :min="minimum_datetime"
                         :max="maximum_datetime"
+                        :disabled="disabled"
                         display-format="MMMM Do YYYY, h:mm A"
                         label="Time In"
                         placeholder="Placeholder"
@@ -88,6 +91,7 @@
                         "
                         :min="minimum_datetime"
                         :max="maximum_datetime"
+                        :disabled="disabled"
                         display-format="MMMM Do YYYY, h:mm A"
                         label="Time Out"
                         placeholder="Placeholder"
@@ -101,6 +105,7 @@
                         class="delete_icon"
                         color="red"
                         medium
+                        :disabled="disabled"
                         @click.prevent="onDelete(index)"
                         >highlight_off</v-icon
                       >
@@ -129,10 +134,16 @@
           <v-spacer></v-spacer>
 
           <template v-if="attendance.schedule_display">
-            <v-btn color="primary" flat @click.prevent="saveUpdateTimeLogs">
+            <v-btn
+              color="primary"
+              flat
+              :disabled="disabled"
+              :loading="loading_save_update_btn"
+              @click.prevent="saveUpdateTimeLogs"
+            >
               {{ hasId ? 'Update' : 'Save' }}
             </v-btn>
-            <v-btn color="primary" flat @click="onCancel">
+            <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
               Cancel
             </v-btn>
           </template>
@@ -164,7 +175,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      disabled: false,
+      loading_save_update_btn: false
+    }
   },
   computed: {
     ...mapGetters({
@@ -216,6 +230,8 @@ export default {
     },
     async saveUpdateTimeLogs() {
       try {
+        this.disabled = true
+        this.loading_save_update_btn = true
         if (this.hasId) {
           const response = await this.$axios.$patch(
             `attendances/${this.attendance.id}`,
@@ -224,6 +240,8 @@ export default {
               time_logs: this.attendance.time_logs
             }
           )
+          this.disabled = false
+          this.loading_save_update_btn = false
           this.$emit('attendance:updated', response.data)
         } else {
           const response = await this.$axios.$post('attendances', {
@@ -232,11 +250,16 @@ export default {
             locale_id: this.mappedLocale(),
             time_logs: this.attendance.time_logs
           })
+          this.disabled = false
+          this.loading_save_update_btn = false
           this.$emit('attendance:saved', response.data)
         }
 
         this.show = false
-      } catch (error) {}
+      } catch (error) {
+        this.disabled = false
+        this.loading_save_update_btn = false
+      }
     }
   }
 }
