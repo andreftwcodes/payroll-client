@@ -161,7 +161,7 @@
                       "
                       label="Amount Deductible"
                       placeholder="Amount Deductible"
-                      class="pt-0"
+                      class="pt-0 mb-3"
                     ></v-text-field>
                   </v-flex>
                 </v-flex>
