@@ -205,7 +205,7 @@ export default {
       try {
         this.disabled = true
         this.loading_save_btn = true
-        const response = await this.$axios.$post('loans/government/', this.loan)
+        const response = await this.$axios.$post('loans/government', this.loan)
 
         this.show = false
         this.disabled = false
