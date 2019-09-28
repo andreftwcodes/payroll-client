@@ -12,10 +12,16 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click.prevent="onConfirm">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          :loading="loading_confirm_btn"
+          @click.prevent="onConfirm"
+        >
           Confirm
         </v-btn>
-        <v-btn color="primary" flat @click="show = false">
+        <v-btn color="primary" flat :disabled="disabled" @click="show = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -37,7 +43,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      disabled: false,
+      loading_confirm_btn: false
+    }
   },
   computed: {
     show: {
@@ -51,13 +60,20 @@ export default {
   },
   methods: {
     async onConfirm() {
-      this.show = false
+      this.disabled = true
+      this.loading_confirm_btn = true
       try {
         const response = await this.$axios.$delete(
           `cash-advance/delete/${this.child.id}`
         )
+        this.show = false
+        this.disabled = false
+        this.loading_confirm_btn = false
         this.$emit('deleted:ca-child', response.data)
-      } catch (error) {}
+      } catch (error) {
+        this.disabled = false
+        this.loading_confirm_btn = false
+      }
     }
   }
 }

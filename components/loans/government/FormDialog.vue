@@ -13,6 +13,7 @@
                 <v-flex xs12 md4>
                   <v-autocomplete
                     v-model="loan.employee_id"
+                    :disabled="disabled"
                     :error-messages="
                       errors.employee_id ? errors.employee_id[0] : ''
                     "
@@ -28,6 +29,7 @@
                 <v-flex xs12 md4>
                   <v-autocomplete
                     v-model="loan.subject"
+                    :disabled="disabled"
                     :error-messages="errors.subject ? errors.subject[0] : ''"
                     :items="[
                       { value: 'sss', text: 'SSS' },
@@ -46,7 +48,7 @@
                   icon
                   :color="filterBtn.color"
                   :disabled="filterBtn.disabled"
-                  class="ml-5 mt-3"
+                  class="ml-5 mt-4"
                   :loading="employee_loading"
                   @click="onVerify"
                 >
@@ -58,6 +60,7 @@
                   <v-flex xs12 md4>
                     <v-text-field
                       v-model="loan.ref_no"
+                      :disabled="disabled"
                       :error-messages="errors.ref_no ? errors.ref_no[0] : ''"
                       label="Reference No."
                       placeholder="Reference No."
@@ -66,6 +69,7 @@
                   <v-flex xs12 md4>
                     <v-text-field
                       v-model="loan.amount_loaned"
+                      :disabled="disabled"
                       :error-messages="
                         errors.amount_loaned ? errors.amount_loaned[0] : ''
                       "
@@ -77,6 +81,7 @@
                   <v-flex xs12 md4>
                     <v-text-field
                       v-model="loan.amortization"
+                      :disabled="disabled"
                       :error-messages="
                         errors.amortization ? errors.amortization[0] : ''
                       "
@@ -101,6 +106,7 @@
                       <template v-slot:activator="{ on }">
                         <v-text-field
                           v-model="loanedAtDateFormatted"
+                          :disabled="disabled"
                           label="Loaned at"
                           placeholder="Loaned at"
                           append-icon="event"
@@ -130,13 +136,14 @@
           <v-spacer></v-spacer>
           <v-btn
             v-show="fieldset_visible"
+            :loading="loading_save_btn"
             color="primary"
             flat
             @click="onSaveUpdate"
           >
             Save
           </v-btn>
-          <v-btn color="primary" flat @click="onClose">
+          <v-btn color="primary" flat :disabled="disabled" @click="onClose">
             Close
           </v-btn>
         </v-card-actions>
@@ -162,6 +169,8 @@ export default {
   },
   data() {
     return {
+      disabled: false,
+      loading_save_btn: false,
       filterBtn: {
         color: 'blue',
         icon: 'build',
@@ -194,12 +203,19 @@ export default {
     }),
     async onSaveUpdate() {
       try {
+        this.disabled = true
+        this.loading_save_btn = true
         const response = await this.$axios.$post('loans/government/', this.loan)
 
         this.show = false
-        this.onChangeFilters()
+        this.disabled = false
+        this.loading_save_btn = false
+        this.onChangeFilters('close')
         this.$emit('saved-updated:loan', response.data)
-      } catch (error) {}
+      } catch (error) {
+        this.disabled = false
+        this.loading_save_btn = false
+      }
     },
     onChangeFilters(action = null) {
       if (action === 'close') {
@@ -216,6 +232,7 @@ export default {
       this.fieldset_visible = false
     },
     async onVerify() {
+      this.disabled = true
       this.fieldset_visible = false
       this.employee_loading = true
       try {
@@ -228,10 +245,12 @@ export default {
           icon: 'verified_user',
           disabled: true
         }
+        this.disabled = false
         this.fieldset_visible = true
         this.employee_loading = false
       } catch (error) {
         if (error.response.status === 422) {
+          this.disabled = false
           this.fieldset_visible = false
           this.employee_loading = false
         }

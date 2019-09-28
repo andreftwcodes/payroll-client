@@ -10,6 +10,7 @@
             <v-flex xs6>
               <v-select
                 v-model="filters.employee_id"
+                :disabled="disabled"
                 :error-messages="
                   errors.employee_id ? errors.employee_id[0] : ''
                 "
@@ -39,6 +40,7 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     :value="formattedFromDate"
+                    :disabled="disabled"
                     label="From"
                     append-icon="event"
                     readonly
@@ -66,6 +68,7 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     :value="formattedToDate"
+                    :disabled="disabled"
                     label="To"
                     append-icon="event"
                     readonly
@@ -87,10 +90,21 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click.prevent="onFilter">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          :loading="loading_filter_btn"
+          @click.prevent="onFilter"
+        >
           Filter
         </v-btn>
-        <v-btn color="primary" flat @click.prevent="onCancel">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          @click.prevent="onCancel"
+        >
           Cancel
         </v-btn>
       </v-card-actions>
@@ -113,6 +127,8 @@ export default {
   },
   data() {
     return {
+      disabled: false,
+      loading_filter_btn: false,
       from_picker: false,
       to_picker: false,
       filters: {
@@ -147,16 +163,19 @@ export default {
       clearErrors: 'validation/clearErrors'
     }),
     async onFilter() {
-      const loading = this.$loading.show()
       try {
+        this.disabled = true
+        this.loading_filter_btn = true
         const response = await this.$axios.$get(`reports/get-timesheet`, {
           params: this.filters
         })
-        loading.hide()
         this.show = false
+        this.disabled = false
+        this.loading_filter_btn = false
         this.$emit('filtered:timesheet', response.data)
       } catch (error) {
-        loading.hide()
+        this.disabled = false
+        this.loading_filter_btn = false
       }
     },
     onCancel() {

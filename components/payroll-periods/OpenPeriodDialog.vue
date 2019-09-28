@@ -13,10 +13,16 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click.prevent="onConfirmOpenPeriod">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          :loading="loading_btn_confirm"
+          @click.prevent="onConfirmOpenPeriod"
+        >
           Confirm
         </v-btn>
-        <v-btn color="primary" flat @click="show = false">
+        <v-btn color="primary" flat :disabled="disabled" @click="show = false">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -36,7 +42,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      disabled: false,
+      loading_btn_confirm: false
+    }
   },
   computed: {
     show: {
@@ -51,10 +60,17 @@ export default {
   methods: {
     async onConfirmOpenPeriod() {
       try {
+        this.disabled = true
+        this.loading_btn_confirm = true
         await this.$axios.$delete(`payroll-periods/${this.payroll.id}`)
         this.show = false
+        this.disabled = false
+        this.loading_btn_confirm = false
         this.$emit('opened:period', this.payroll.id)
-      } catch (error) {}
+      } catch (error) {
+        this.disabled = false
+        this.loading_btn_confirm = false
+      }
     }
   }
 }

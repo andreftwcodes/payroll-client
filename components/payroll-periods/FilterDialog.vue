@@ -1,4 +1,3 @@
-use App\Http\Requests\PaySlip\PayrollPeriodIndexRequest;
 <template>
   <v-dialog v-model="show" persistent width="700">
     <v-card>
@@ -11,6 +10,7 @@ use App\Http\Requests\PaySlip\PayrollPeriodIndexRequest;
             <v-flex xs6>
               <v-select
                 v-model="filters.locale_id"
+                :disabled="disabled"
                 chips
                 multiple
                 clearable
@@ -40,6 +40,7 @@ use App\Http\Requests\PaySlip\PayrollPeriodIndexRequest;
                   <v-text-field
                     :value="formattedFromDate"
                     :error-messages="errors.from ? errors.from[0] : ''"
+                    :disabled="disabled"
                     clearable
                     label="From"
                     append-icon="event"
@@ -70,6 +71,7 @@ use App\Http\Requests\PaySlip\PayrollPeriodIndexRequest;
                   <v-text-field
                     :value="formattedToDate"
                     :error-messages="errors.to ? errors.to[0] : ''"
+                    :disabled="disabled"
                     clearable
                     label="To"
                     append-icon="event"
@@ -92,10 +94,21 @@ use App\Http\Requests\PaySlip\PayrollPeriodIndexRequest;
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click.prevent="onFilter">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          :loading="loading_filter_btn"
+          @click.prevent="onFilter"
+        >
           Filter
         </v-btn>
-        <v-btn color="primary" flat @click.prevent="show = false">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          @click.prevent="show = false"
+        >
           Cancel
         </v-btn>
       </v-card-actions>
@@ -119,6 +132,8 @@ export default {
   },
   data() {
     return {
+      disabled: false,
+      loading_filter_btn: false,
       from_picker: false,
       to_picker: false,
       filters: {
@@ -157,13 +172,20 @@ export default {
   methods: {
     async onFilter() {
       try {
+        this.disabled = true
+        this.loading_filter_btn = true
         await this.$axios.$post(
           'reports-validator/payroll-periods/filters',
           this.filteredFilters
         )
         this.show = false
+        this.disabled = false
+        this.loading_filter_btn = false
         this.$emit('on:filter', this.filteredFilters)
-      } catch (error) {}
+      } catch (error) {
+        this.disabled = false
+        this.loading_filter_btn = false
+      }
     }
   }
 }

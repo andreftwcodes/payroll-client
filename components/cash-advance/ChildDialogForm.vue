@@ -22,6 +22,7 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="child.date"
+                      :disabled="disabled"
                       label="Date"
                       append-icon="event"
                       readonly
@@ -38,6 +39,7 @@
               <v-flex xs12 md4>
                 <v-text-field
                   v-model="child.credit"
+                  :disabled="disabled"
                   label="Credit"
                   append-icon="money"
                   placeholder="00.00"
@@ -47,6 +49,7 @@
               <v-flex xs12 md4>
                 <v-text-field
                   v-model="child.debit"
+                  :disabled="disabled"
                   label="Debit"
                   append-icon="money"
                   placeholder="00.00"
@@ -60,10 +63,16 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click="onSaveUpdate">
+        <v-btn
+          color="primary"
+          flat
+          :disabled="disabled"
+          :loading="loading_save_update_btn"
+          @click="onSaveUpdate"
+        >
           {{ hasId ? 'Update' : 'Save' }}
         </v-btn>
-        <v-btn color="primary" flat @click="onCancel">
+        <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
           Cancel
         </v-btn>
       </v-card-actions>
@@ -88,7 +97,9 @@ export default {
   },
   data() {
     return {
-      dateMenu: false
+      disabled: false,
+      dateMenu: false,
+      loading_save_update_btn: false
     }
   },
   computed: {
@@ -112,6 +123,8 @@ export default {
       let response = null
 
       try {
+        this.disabled = true
+        this.loading_save_update_btn = true
         if (this.hasId) {
           response = await this.$axios.$patch(
             `cash-advance/update/${this.child.id}`,
@@ -121,9 +134,15 @@ export default {
           response = await this.$axios.$post('cash-advance/store', this.child)
         }
 
+        this.disabled = false
+        this.loading_save_update_btn = false
+
         this.show = false
         this.$emit('save-update:child', response)
-      } catch (error) {}
+      } catch (error) {
+        this.disabled = false
+        this.loading_save_update_btn = false
+      }
     },
     onCancel() {
       this.show = false
