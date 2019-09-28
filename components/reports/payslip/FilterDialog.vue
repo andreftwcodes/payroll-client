@@ -120,24 +120,27 @@
               </v-layout>
               <v-layout class="payslip__layout">
                 <v-flex class="pt-0 pb-0">
-                  <v-checkbox
-                    v-model="loans"
-                    :disabled="!flag.loans.length || disabled"
-                    color="error"
-                    label="Loans"
-                  ></v-checkbox>
-
-                  <div
-                    v-for="item in flag.loans"
-                    :key="item.id"
-                    class="ml-5 loan__items"
-                  >
-                    <p class="mb-2">
-                      <strong>{{ item.subject }}: </strong> -
-                      {{ item.amortization }}
-                    </p>
-                    <p class="ml-3 red--text">{{ item.message }}</p>
-                  </div>
+                  <p class="subheading mt-3 ml-1">Loans</p>
+                  <template v-if="flag.loans.length">
+                    <div
+                      v-for="item in flag.loans"
+                      :key="item.id"
+                      class="ml-5 loan__items"
+                    >
+                      <v-checkbox
+                        v-model="loans"
+                        :value="item.id"
+                        :label="`${item.subject} - ${item.amortization}`"
+                        :disabled="disabled"
+                        class="loan_checkboxes"
+                        color="error"
+                      ></v-checkbox>
+                      <p class="ml-5 red--text mt-3">{{ item.message }}</p>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <p class="ml-5 red--text">- NA</p>
+                  </template>
                 </v-flex>
               </v-layout>
               <v-layout class="payslip__layout">
@@ -233,7 +236,7 @@ export default {
       step: 1,
       loading_verify: false,
       contributions: false,
-      loans: false,
+      loans: [],
       cash_advance: false,
       amount_deductible_backup: null,
       loading_generate: false
@@ -258,8 +261,8 @@ export default {
         contributions: this.contributions
       }
 
-      if (this.loans) {
-        data = _.assign({ loan_ids: _.map(this.flag.loans, 'id') }, data)
+      if (this.loans.length) {
+        data = _.assign({ loan_ids: this.loans }, data)
       } else {
         _.unset(data, ['loan_ids'])
       }
@@ -332,7 +335,7 @@ export default {
         this.disabled = true
         this.loading_verify = true
         this.contributions = false
-        this.loans = false
+        this.loans = []
         this.cash_advance = false
         this.amount_deductible_backup = null
         const response = await this.$axios.$get(`payslip/verify-period`, {
@@ -396,7 +399,13 @@ export default {
 .payslip__layout {
   margin: -20px -8px !important;
 }
+.loan__items:first-of-type {
+  margin-top: -10px;
+}
 .loan__items:last-child {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+}
+.loan_checkboxes {
+  margin-bottom: -25px;
 }
 </style>
