@@ -131,7 +131,7 @@
                         v-model="loans"
                         :value="item.id"
                         :label="`${item.subject} - ${item.amortization}`"
-                        :disabled="disabled"
+                        :disabled="item.disabled || disabled"
                         class="loan_checkboxes"
                         color="error"
                       ></v-checkbox>
