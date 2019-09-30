@@ -59,15 +59,6 @@
                 <v-layout row wrap>
                   <v-flex xs12 md4>
                     <v-text-field
-                      v-model="loan.ref_no"
-                      :disabled="disabled"
-                      :error-messages="errors.ref_no ? errors.ref_no[0] : ''"
-                      label="Reference No."
-                      placeholder="Reference No."
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 md4>
-                    <v-text-field
                       v-model="loan.amount_loaned"
                       :disabled="disabled"
                       :error-messages="
@@ -90,8 +81,6 @@
                       append-icon="money"
                     ></v-text-field>
                   </v-flex>
-                </v-layout>
-                <v-layout row wrap>
                   <v-flex xs12 md4>
                     <v-menu
                       v-model="dateMenu"
