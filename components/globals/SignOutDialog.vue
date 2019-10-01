@@ -14,10 +14,21 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="onSignOut">
+          <v-btn
+            color="primary"
+            :disabled="disabled"
+            :loading="loading_continue_btn"
+            flat
+            @click="onSignOut"
+          >
             Continue
           </v-btn>
-          <v-btn color="primary" flat @click="show = false">
+          <v-btn
+            color="primary"
+            :disabled="disabled"
+            flat
+            @click="show = false"
+          >
             Cancel
           </v-btn>
         </v-card-actions>
@@ -34,7 +45,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      disabled: false,
+      loading_continue_btn: false
+    }
   },
   computed: {
     show: {
@@ -47,9 +61,16 @@ export default {
     }
   },
   methods: {
-    onSignOut() {
-      this.show = false
-      this.$auth.logout()
+    async onSignOut() {
+      try {
+        this.disabled = true
+        this.loading_continue_btn = true
+        await this.$auth.logout()
+      } catch (error) {
+        this.show = false
+        this.disabled = false
+        this.loading_continue_btn = false
+      }
     }
   }
 }

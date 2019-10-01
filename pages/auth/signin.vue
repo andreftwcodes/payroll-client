@@ -7,6 +7,7 @@
       <v-form @submit.prevent="submit">
         <v-text-field
           v-model="form.email"
+          :disabled="disabled"
           :error-messages="errors.email ? errors.email[0] : ''"
           prepend-icon="person"
           label="Username"
@@ -14,13 +15,21 @@
         ></v-text-field>
         <v-text-field
           v-model="form.password"
+          :disabled="disabled"
           :error-messages="errors.password ? errors.password[0] : ''"
           prepend-icon="lock"
           label="Password"
           type="password"
         ></v-text-field>
         <v-spacer></v-spacer>
-        <v-btn block color="primary" type="submit">Login</v-btn>
+        <v-btn
+          block
+          color="primary"
+          type="submit"
+          :disabled="disabled"
+          :loading="loading_login_btn"
+          >Login</v-btn
+        >
       </v-form>
     </v-card-text>
   </v-card>
@@ -32,6 +41,8 @@ export default {
   middleware: 'guest',
   data() {
     return {
+      disabled: false,
+      loading_login_btn: false,
       form: {
         email: '',
         password: ''
@@ -41,10 +52,17 @@ export default {
   methods: {
     async submit() {
       try {
+        this.disabled = true
+        this.loading_login_btn = true
         await this.$auth.loginWith('local', {
           data: this.form
         })
-      } catch (error) {}
+        this.disabled = false
+        this.loading_login_btn = false
+      } catch (error) {
+        this.disabled = false
+        this.loading_login_btn = false
+      }
     }
   }
 }
