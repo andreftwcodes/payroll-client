@@ -48,7 +48,7 @@
                     >
                   </v-flex>
                 </v-layout>
-                <template v-if="attendance.time_logs.length">
+                <template v-if="hasTimeLogs">
                   <v-layout
                     v-for="(item, index) in attendance.time_logs"
                     :key="item.id"
@@ -141,7 +141,7 @@
               :loading="loading_save_update_btn"
               @click.prevent="saveUpdateTimeLogs"
             >
-              {{ hasId ? 'Update' : 'Save' }}
+              {{ hasTimeLogs ? (hasId ? 'Update' : 'Save') : 'Absent' }}
             </v-btn>
             <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
               Cancel
@@ -192,6 +192,9 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    hasTimeLogs() {
+      return !_.isEmpty(this.attendance.time_logs)
     },
     hasId() {
       return _.has(this.attendance, 'id')

@@ -84,8 +84,14 @@
                 <template v-if="props.item.status">
                   <v-icon
                     color="blue darken-2"
+                    class="mr-3"
                     @click="showAttendanceDialogForm(props.item)"
                     >edit</v-icon
+                  >
+                  <v-icon
+                    color="red"
+                    @click="showAttendanceDltDialog(props.item)"
+                    >highlight_off</v-icon
                   >
                 </template>
                 <template v-else>
@@ -95,6 +101,7 @@
             </template>
           </v-data-table>
         </v-card>
+        <DltDialog v-model="deleteDialog" :attendance="attendance" />
         <MessageDialog
           v-model="msgDialog"
           @msg-dialog:closed="employee = null"
@@ -115,11 +122,13 @@
 import _ from 'lodash'
 import moment from 'moment'
 import { mapActions } from 'vuex'
+import DltDialog from '@/components/attendance/DltDialog'
 import MessageDialog from '@/components/attendance/MessageDialog'
 import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 export default {
   middleware: 'auth',
   components: {
+    DltDialog,
     MessageDialog,
     AttendanceDialogForm
   },
@@ -174,6 +183,7 @@ export default {
       date: this._now(),
       dateMenu: false,
       msgDialog: false,
+      deleteDialog: false,
       dialogForm: false,
       swap: false,
       swap_btn: false,
@@ -287,6 +297,10 @@ export default {
         this.attendances = response.data
         this.employees = response.employees
       } catch (error) {}
+    },
+    showAttendanceDltDialog(attendance) {
+      this.deleteDialog = true
+      this.attendance = attendance
     }
   }
 }

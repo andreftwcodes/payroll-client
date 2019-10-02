@@ -78,7 +78,7 @@ export default {
           value: ''
         }
       ],
-      rowsPerPage: [5, 10, 15]
+      rowsPerPage: [10, 15, 20]
     }
   },
   async asyncData({ app }) {

@@ -112,7 +112,8 @@
                 <v-flex class="pt-0 pb-0">
                   <v-checkbox
                     v-model="contributions"
-                    :disabled="!flag.contributions || disabled"
+                    :disabled="!flag.contributions.disabled"
+                    :readonly="flag.contributions.disabled"
                     color="error"
                     label="Contributions (SSS, PhilHealth, PagIbig)"
                   ></v-checkbox>
@@ -135,7 +136,21 @@
                         class="loan_checkboxes"
                         color="error"
                       ></v-checkbox>
-                      <p class="ml-5 red--text mt-3">{{ item.message }}</p>
+                      <p class="ml-5 mt-3 font-weight-bold">
+                        <template v-if="isObject(item.message)">
+                          {{ item.message.label }} :
+                          <v-icon
+                            style="margin-bottom: -5px;"
+                            :color="item.message.response ? 'green' : 'red'"
+                            >{{
+                              item.message.response ? 'done' : 'clear'
+                            }}</v-icon
+                          >
+                        </template>
+                        <template v-else>
+                          {{ item.message }}
+                        </template>
+                      </p>
                     </div>
                   </template>
                   <template v-else>
@@ -293,6 +308,9 @@ export default {
     },
     employee: function(value) {
       this.resetDateFilter()
+    },
+    'flag.contributions.checked': function(truthy) {
+      this.contributions = truthy
     }
   },
   methods: {
@@ -334,10 +352,12 @@ export default {
       try {
         this.disabled = true
         this.loading_verify = true
+        this.flag = {}
         this.contributions = false
         this.loans = []
         this.cash_advance = false
         this.amount_deductible_backup = null
+
         const response = await this.$axios.$get(`payslip/verify-period`, {
           params
         })
@@ -390,6 +410,9 @@ export default {
       this.employee = null
       this.resetDateFilter()
       this.filterDialog(false)
+    },
+    isObject(value) {
+      return _.isObject(value)
     }
   }
 }
