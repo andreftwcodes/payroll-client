@@ -101,7 +101,11 @@
             </template>
           </v-data-table>
         </v-card>
-        <DltDialog v-model="deleteDialog" :attendance="attendance" />
+        <DltDialog
+          v-model="deleteDialog"
+          :attendance="attendance"
+          @attendance:deleted="attendanceDeleted"
+        />
         <MessageDialog
           v-model="msgDialog"
           @msg-dialog:closed="employee = null"
@@ -301,6 +305,13 @@ export default {
     showAttendanceDltDialog(attendance) {
       this.deleteDialog = true
       this.attendance = attendance
+    },
+    attendanceDeleted(obj) {
+      this.attendances.splice(
+        _.findIndex(this.attendances, o => o.id === obj.id),
+        1
+      )
+      this.employees.unshift(obj.employee)
     }
   }
 }

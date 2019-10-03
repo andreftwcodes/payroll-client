@@ -37,6 +37,10 @@ export default {
   props: {
     value: {
       type: Boolean
+    },
+    attendance: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -56,9 +60,24 @@ export default {
     }
   },
   methods: {
-    onConfirm() {
-      this.disabled = true
-      this.loading_confirm_btn = true
+    async onConfirm() {
+      try {
+        this.disabled = true
+        this.loading_confirm_btn = true
+        const response = await this.$axios.$delete(
+          `attendances/${this.attendance.id}`
+        )
+        this.show = false
+        this.disabled = false
+        this.loading_confirm_btn = false
+        this.$emit('attendance:deleted', {
+          id: this.attendance.id,
+          employee: response.data
+        })
+      } catch (error) {
+        this.disabled = false
+        this.loading_confirm_btn = false
+      }
     },
     onClose() {
       this.show = false
