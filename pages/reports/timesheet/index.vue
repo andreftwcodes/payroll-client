@@ -47,30 +47,28 @@
           </v-card-title>
           <v-divider></v-divider>
           <v-card>
-            <v-card-text>
-              <v-data-table
-                :headers="headers"
-                :items="timesheet.attendances"
-                :rows-per-page-items="rowsPerPage"
-                hide-actions
-                class="elevation-1"
-              >
-                <template v-slot:items="props">
-                  <td>{{ props.item.date }}</td>
-                  <td>{{ props.item.locale.name }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[0]).time_in }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[0]).time_out }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[1]).time_in }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[1]).time_out }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[2]).time_in }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[2]).time_out }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[3]).time_in }}</td>
-                  <td>{{ mappedTime(props.item.time_logs[3]).time_out }}</td>
-                  <td>{{ props.item.hours_dsp }}</td>
-                  <td>{{ props.item.remarks }}</td>
-                </template>
-              </v-data-table>
-            </v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="timesheet.attendances"
+              :rows-per-page-items="rowsPerPage"
+              hide-actions
+              class="elevation-1"
+            >
+              <template v-slot:items="props">
+                <td>{{ props.item.date }}</td>
+                <td>{{ props.item.locale.name }}</td>
+                <td>{{ mappedTime(props.item.time_logs[0]).time_in }}</td>
+                <td>{{ mappedTime(props.item.time_logs[0]).time_out }}</td>
+                <td>{{ mappedTime(props.item.time_logs[1]).time_in }}</td>
+                <td>{{ mappedTime(props.item.time_logs[1]).time_out }}</td>
+                <td>{{ mappedTime(props.item.time_logs[2]).time_in }}</td>
+                <td>{{ mappedTime(props.item.time_logs[2]).time_out }}</td>
+                <td>{{ mappedTime(props.item.time_logs[3]).time_in }}</td>
+                <td>{{ mappedTime(props.item.time_logs[3]).time_out }}</td>
+                <td>{{ props.item.hours_dsp }}</td>
+                <td>{{ props.item.remarks }}</td>
+              </template>
+            </v-data-table>
           </v-card>
         </v-card>
       </v-flex>
