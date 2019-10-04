@@ -103,12 +103,6 @@ export default {
           align: 'left',
           sortable: false,
           value: 'amortization'
-        },
-        {
-          text: '',
-          align: 'left',
-          sortable: false,
-          value: ''
         }
       ]
     }

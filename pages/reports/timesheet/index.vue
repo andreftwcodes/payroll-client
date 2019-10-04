@@ -58,8 +58,7 @@
                 <template v-slot:items="props">
                   <td>{{ props.item.date }}</td>
                   <td>{{ props.item.locale.name }}</td>
-                  <td>{{ props.item.time_in }}</td>
-                  <td>{{ props.item.time_out }}</td>
+                  <td>{{ props.item.time_logs.items }}</td>
                   <td>{{ props.item.hours_dsp }}</td>
                   <td>{{ props.item.remarks }}</td>
                 </template>
@@ -99,19 +98,13 @@ export default {
           text: 'Locale',
           align: 'left',
           sortable: false,
-          value: 'locale'
+          value: 'name'
         },
         {
-          text: 'Time In',
+          text: 'Time In & Time Out',
           align: 'left',
           sortable: false,
-          value: 'time_in'
-        },
-        {
-          text: 'Time Out',
-          align: 'left',
-          sortable: false,
-          value: 'time_out'
+          value: 'items'
         },
         {
           text: 'Hours',
