@@ -58,7 +58,14 @@
                 <template v-slot:items="props">
                   <td>{{ props.item.date }}</td>
                   <td>{{ props.item.locale.name }}</td>
-                  <td>{{ props.item.time_logs.items }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[0]).time_in }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[0]).time_out }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[1]).time_in }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[1]).time_out }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[2]).time_in }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[2]).time_out }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[3]).time_in }}</td>
+                  <td>{{ mappedTime(props.item.time_logs[3]).time_out }}</td>
                   <td>{{ props.item.hours_dsp }}</td>
                   <td>{{ props.item.remarks }}</td>
                 </template>
@@ -77,6 +84,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import FilterDialog from '@/components/reports/timesheet/FilterDialog'
 export default {
@@ -101,10 +109,52 @@ export default {
           value: 'name'
         },
         {
-          text: 'Time In & Time Out',
+          text: 'Time In',
           align: 'left',
           sortable: false,
-          value: 'items'
+          value: 'time_in'
+        },
+        {
+          text: 'Time Out',
+          align: 'left',
+          sortable: false,
+          value: 'time_out'
+        },
+        {
+          text: 'Time In',
+          align: 'left',
+          sortable: false,
+          value: 'time_in'
+        },
+        {
+          text: 'Time Out',
+          align: 'left',
+          sortable: false,
+          value: 'time_out'
+        },
+        {
+          text: 'Time In',
+          align: 'left',
+          sortable: false,
+          value: 'time_in'
+        },
+        {
+          text: 'Time Out',
+          align: 'left',
+          sortable: false,
+          value: 'time_out'
+        },
+        {
+          text: 'Time In',
+          align: 'left',
+          sortable: false,
+          value: 'time_in'
+        },
+        {
+          text: 'Time Out',
+          align: 'left',
+          sortable: false,
+          value: 'time_out'
         },
         {
           text: 'Hours',
@@ -133,6 +183,9 @@ export default {
     }
   },
   methods: {
+    mappedTime(time) {
+      return !_.isUndefined(time) ? time : {}
+    },
     openFilterDialog() {
       this.filterDialog = true
     },
