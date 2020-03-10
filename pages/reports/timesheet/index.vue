@@ -32,15 +32,15 @@
               <v-spacer></v-spacer>
               <v-icon
                 v-show="timesheet.attendances.length"
+                @click="onPrint"
                 color="red darken-2"
                 class="pa-2"
-                @click="onPrint"
                 >print</v-icon
               >
               <v-icon
+                @click="openFilterDialog"
                 color="blue darken-2"
                 class="pa-2"
-                @click="openFilterDialog"
                 >settings_input_component</v-icon
               >
             </v-layout>

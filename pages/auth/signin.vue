@@ -23,11 +23,11 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-btn
+          :disabled="disabled"
+          :loading="loading_login_btn"
           block
           color="primary"
           type="submit"
-          :disabled="disabled"
-          :loading="loading_login_btn"
           >Login</v-btn
         >
       </v-form>

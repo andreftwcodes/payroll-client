@@ -1,16 +1,16 @@
 <template>
   <div>
-    <input v-show="false" id="file" ref="file" type="file" @change="onUpload" />
+    <input id="file" ref="file" v-show="false" @change="onUpload" type="file" />
     <v-badge v-model="badge" color="success" right overlap>
       <template v-slot:badge>
         <v-icon dark small>
           done
         </v-icon>
       </template>
-      <v-btn small @click.prevent="$refs.file.click()">Choose File</v-btn>
+      <v-btn @click.prevent="$refs.file.click()" small>Choose File</v-btn>
     </v-badge>
-    <v-btn small @click.prevent="onValidate">Validate</v-btn>
-    <v-btn small :disabled="canSaveRanges" @click.prevent="confirmDialog = true"
+    <v-btn @click.prevent="onValidate" small>Validate</v-btn>
+    <v-btn :disabled="canSaveRanges" @click.prevent="confirmDialog = true" small
       >Save</v-btn
     >
     <ConfirmationDialog v-model="confirmDialog" @confirm-save="onSave" />

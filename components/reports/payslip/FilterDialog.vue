@@ -14,12 +14,12 @@
                   <v-select
                     v-model="payment_period"
                     :items="payment_period_items"
-                    item-text="text"
-                    item-value="value"
-                    label="Payment Period"
                     :disabled="disabled"
                     :loading="loading_payment_period"
                     @change="onChangePaymentPeriod"
+                    item-text="text"
+                    item-value="value"
+                    label="Payment Period"
                   ></v-select>
                 </v-flex>
               </v-layout>
@@ -29,14 +29,14 @@
                     <v-autocomplete
                       v-model="employee"
                       :items="employees"
-                      item-text="fullname"
-                      item-value="id"
-                      label="Employee"
-                      append-icon="supervisor_account"
                       :disabled="disabled"
                       :error-messages="
                         errors.employee_id ? errors.employee_id[0] : ''
                       "
+                      item-text="fullname"
+                      item-value="id"
+                      label="Employee"
+                      append-icon="supervisor_account"
                     ></v-autocomplete>
                   </v-flex>
                 </v-layout>
@@ -55,12 +55,12 @@
                       <template v-slot:activator="{ on }">
                         <v-text-field
                           v-model="fromDateFormatted"
-                          label="From"
-                          append-icon="event"
-                          readonly
                           :disabled="disabled"
                           :error-messages="errors.from ? errors.from[0] : ''"
                           v-on="on"
+                          label="From"
+                          append-icon="event"
+                          readonly
                         ></v-text-field>
                       </template>
                       <v-date-picker
@@ -84,12 +84,12 @@
                       <template v-slot:activator="{ on }">
                         <v-text-field
                           v-model="toDateFormatted"
-                          label="To"
-                          append-icon="event"
-                          readonly
                           :disabled="disabled"
                           :error-messages="errors.to ? errors.to[0] : ''"
                           v-on="on"
+                          label="To"
+                          append-icon="event"
+                          readonly
                         ></v-text-field>
                       </template>
                       <v-date-picker
@@ -110,9 +110,9 @@
             <template v-else-if="step === 2">
               <v-layout class="payslip__layout">
                 <v-flex class="pt-0 pb-0">
+                  <!-- Removed => :disabled="!flag.contributions.disabled" (20200309) -->
                   <v-checkbox
                     v-model="contributions"
-                    :disabled="!flag.contributions.disabled"
                     :readonly="flag.contributions.disabled"
                     color="error"
                     label="Contributions (SSS, PhilHealth, PagIbig)"
@@ -140,8 +140,8 @@
                         <template v-if="isObject(item.message)">
                           {{ item.message.label }} :
                           <v-icon
-                            style="margin-bottom: -5px;"
                             :color="item.message.response ? 'green' : 'red'"
+                            style="margin-bottom: -5px;"
                             >{{
                               item.message.response ? 'done' : 'clear'
                             }}</v-icon
@@ -162,10 +162,10 @@
                 <v-flex class="pt-0 pb-0">
                   <v-checkbox
                     v-model="cash_advance"
-                    color="error"
                     :disabled="flag.cash_advance.disabled || disabled"
                     :label="`Cash Advance ${flag.cash_advance.display}`"
                     @change="onChangeCashAdvance"
+                    color="error"
                   ></v-checkbox>
                   <v-flex class="ml-5" md6>
                     <v-text-field
@@ -194,30 +194,30 @@
           <v-spacer></v-spacer>
           <template v-if="step === 1">
             <v-btn
-              color="primary"
-              flat
               :disabled="disabled"
               :loading="loading_verify"
               @click="onVerify"
+              color="primary"
+              flat
             >
               Verify
             </v-btn>
           </template>
           <template v-else-if="step === 2">
             <v-btn
-              color="primary"
-              flat
               :disabled="disabled"
               :loading="loading_generate"
               @click="onGenerate"
+              color="primary"
+              flat
             >
               Generate
             </v-btn>
-            <v-btn color="primary" flat :disabled="disabled" @click="step = 1">
+            <v-btn :disabled="disabled" @click="step = 1" color="primary" flat>
               Back
             </v-btn>
           </template>
-          <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
+          <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
             Cancel
           </v-btn>
         </v-card-actions>

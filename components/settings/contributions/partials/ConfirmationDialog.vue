@@ -14,10 +14,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="onConfirmSave">
+          <v-btn @click="onConfirmSave" color="primary" flat>
             Confirm
           </v-btn>
-          <v-btn color="primary" flat @click="show = false">
+          <v-btn @click="show = false" color="primary" flat>
             Cancel
           </v-btn>
         </v-card-actions>

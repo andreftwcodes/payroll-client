@@ -15,19 +15,19 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
             :disabled="disabled"
             :loading="loading_continue_btn"
-            flat
             @click="onSignOut"
+            color="primary"
+            flat
           >
             Continue
           </v-btn>
           <v-btn
-            color="primary"
             :disabled="disabled"
-            flat
             @click="show = false"
+            color="primary"
+            flat
           >
             Cancel
           </v-btn>

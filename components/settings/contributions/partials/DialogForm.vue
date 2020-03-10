@@ -28,19 +28,19 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    label="Date use"
-                    append-icon="event"
                     :value="usedAtDisplay"
                     :error-messages="errors.used_at ? errors.used_at[0] : ''"
-                    readonly
                     v-on="on"
+                    label="Date use"
+                    append-icon="event"
+                    readonly
                   ></v-text-field>
                 </template>
                 <v-date-picker
                   v-model="form.used_at"
-                  type="month"
                   :max="_now()"
                   @input="dateMenu = false"
+                  type="month"
                 ></v-date-picker>
               </v-menu>
             </v-flex>
@@ -53,7 +53,7 @@
             <v-btn color="primary" flat type="submit">
               {{ hasExists ? 'Update' : 'Save' }}
             </v-btn>
-            <v-btn color="primary" flat @click="onCancel">
+            <v-btn @click="onCancel" color="primary" flat>
               Cancel
             </v-btn>
           </v-card-actions>

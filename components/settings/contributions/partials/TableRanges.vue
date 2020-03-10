@@ -3,7 +3,7 @@
     <v-card-title>
       <h2 class="text-md-center">{{ ranges.title }}</h2>
       <v-spacer></v-spacer>
-      <v-btn small @click="onBack">Back</v-btn>
+      <v-btn @click="onBack" small>Back</v-btn>
       <FileUploader />
     </v-card-title>
     <v-flex xs12>

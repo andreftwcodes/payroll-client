@@ -15,7 +15,7 @@
                 ></v-text-field>
               </v-flex>
               <v-spacer></v-spacer>
-              <v-icon color="blue darken-2" @click.prevent="onShowFilters"
+              <v-icon @click.prevent="onShowFilters" color="blue darken-2"
                 >settings_input_component</v-icon
               >
             </v-layout>
@@ -36,12 +36,12 @@
               <td>{{ props.item.created_at }}</td>
               <td>
                 <v-icon
+                  @click="onShowPaySlip(props.item.print_url)"
                   class="mr-3"
                   color="blue darken-2"
-                  @click="onShowPaySlip(props.item.print_url)"
                   >receipt</v-icon
                 >
-                <v-icon color="green" @click="onOpenPeriod(props.item)"
+                <v-icon @click="onOpenPeriod(props.item)" color="green"
                   >lock_open</v-icon
                 >
               </td>

@@ -23,10 +23,10 @@
                     <v-text-field
                       v-model="child.date"
                       :disabled="disabled"
+                      v-on="on"
                       label="Date"
                       append-icon="event"
                       readonly
-                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -40,20 +40,20 @@
                 <v-text-field
                   v-model="child.credit"
                   :disabled="disabled"
+                  :error-messages="errors.credit ? errors.credit[0] : ''"
                   label="Credit"
                   append-icon="money"
                   placeholder="00.00"
-                  :error-messages="errors.credit ? errors.credit[0] : ''"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
                 <v-text-field
                   v-model="child.debit"
                   :disabled="disabled"
+                  :error-messages="errors.debit ? errors.debit[0] : ''"
                   label="Debit"
                   append-icon="money"
                   placeholder="00.00"
-                  :error-messages="errors.debit ? errors.debit[0] : ''"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -64,15 +64,15 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="primary"
-          flat
           :disabled="disabled"
           :loading="loading_save_update_btn"
           @click="onSaveUpdate"
+          color="primary"
+          flat
         >
           {{ hasId ? 'Update' : 'Save' }}
         </v-btn>
-        <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
+        <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
           Cancel
         </v-btn>
       </v-card-actions>

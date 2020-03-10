@@ -5,7 +5,7 @@
         <v-card>
           <DetailForm @sumbit-user="submit">
             <template v-slot:buttons>
-              <v-btn color="primary" nuxt :to="{ name: 'users' }">Back</v-btn>
+              <v-btn :to="{ name: 'users' }" color="primary" nuxt>Back</v-btn>
               <v-btn color="primary" type="submit">Save</v-btn>
             </template>
           </DetailForm>

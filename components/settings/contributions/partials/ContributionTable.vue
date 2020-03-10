@@ -9,7 +9,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-btn color="success" depressed small @click="addNew">Add New</v-btn>
+      <v-btn @click="addNew" color="success" depressed small>Add New</v-btn>
     </v-card-title>
     <v-data-table :headers="headers" :items="contributions" class="elevation-1">
       <template v-slot:items="props">
@@ -17,10 +17,10 @@
         <td>{{ props.item.title }}</td>
         <td>{{ props.item.used_at_dsp }}</td>
         <td>
-          <v-icon class="pr-2" color="blue darken-2" @click="onEdit(props.item)"
+          <v-icon @click="onEdit(props.item)" class="pr-2" color="blue darken-2"
             >edit</v-icon
           >
-          <v-icon color="blue darken-2" @click="onView(props.item)"
+          <v-icon @click="onView(props.item)" color="blue darken-2"
             >view_module</v-icon
           >
         </td>

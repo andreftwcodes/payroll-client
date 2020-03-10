@@ -1,8 +1,8 @@
 <template>
   <div>
     <span
-      class="bg-payroll"
       :style="{ backgroundImage: 'url(' + system_theme.background + ')' }"
+      class="bg-payroll"
     ></span>
     <v-app light>
       <v-toolbar

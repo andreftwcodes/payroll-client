@@ -14,10 +14,10 @@
                 :error-messages="
                   errors.employee_id ? errors.employee_id[0] : ''
                 "
-                clearable
                 :items="employees"
                 :item-text="'fullname'"
                 :item-value="'id'"
+                clearable
                 label="Employee"
                 append-icon="people_alt"
                 placeholder="Employee"
@@ -41,10 +41,10 @@
                   <v-text-field
                     :value="formattedFromDate"
                     :disabled="disabled"
+                    v-on="on"
                     label="From"
                     append-icon="event"
                     readonly
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -69,10 +69,10 @@
                   <v-text-field
                     :value="formattedToDate"
                     :disabled="disabled"
+                    v-on="on"
                     label="To"
                     append-icon="event"
                     readonly
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -91,19 +91,19 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="primary"
-          flat
           :disabled="disabled"
           :loading="loading_filter_btn"
           @click.prevent="onFilter"
+          color="primary"
+          flat
         >
           Filter
         </v-btn>
         <v-btn
-          color="primary"
-          flat
           :disabled="disabled"
           @click.prevent="onCancel"
+          color="primary"
+          flat
         >
           Cancel
         </v-btn>

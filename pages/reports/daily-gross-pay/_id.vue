@@ -4,7 +4,7 @@
       <v-card-title>
         <h1>{{ extra.fullname }}</h1>
         <v-spacer></v-spacer>
-        <v-btn color="primary" nuxt :to="{ name: 'reports-daily-gross-pay' }"
+        <v-btn :to="{ name: 'reports-daily-gross-pay' }" color="primary" nuxt
           >Back</v-btn
         >
       </v-card-title>

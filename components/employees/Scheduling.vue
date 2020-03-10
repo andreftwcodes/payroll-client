@@ -7,22 +7,22 @@
             <v-flex xs12 md3>
               <v-autocomplete
                 v-model="schedule"
-                label="Schedules"
-                placeholder="Select a schedule"
                 :item-text="'description'"
                 :item-value="'id'"
                 :items="schedule_presets"
                 @change="onChangedSchedule"
+                label="Schedules"
+                placeholder="Select a schedule"
               ></v-autocomplete>
             </v-flex>
             <v-spacer />
             <v-btn
               v-show="resetBtnVisibility"
+              @click="onReset"
               small
               round
               color="info"
               class="mt-4"
-              @click="onReset"
               >Reset</v-btn
             >
           </v-layout>
@@ -38,41 +38,41 @@
                 <td>
                   <v-text-field
                     v-model="props.item.start_1"
+                    :disabled="!props.item.status"
                     type="time"
                     label="Time In"
                     placeholder="Placeholder"
                     class="mt-3"
-                    :disabled="!props.item.status"
                   ></v-text-field>
                 </td>
                 <td>
                   <v-text-field
                     v-model="props.item.end_1"
+                    :disabled="!props.item.status"
                     type="time"
                     label="Time Out"
                     placeholder="Placeholder"
                     class="mt-3"
-                    :disabled="!props.item.status"
                   ></v-text-field>
                 </td>
                 <td>
                   <v-text-field
                     v-model="props.item.start_2"
+                    :disabled="!props.item.status"
                     type="time"
                     label="Time In"
                     placeholder="Placeholder"
                     class="mt-3"
-                    :disabled="!props.item.status"
                   ></v-text-field>
                 </td>
                 <td>
                   <v-text-field
                     v-model="props.item.end_2"
+                    :disabled="!props.item.status"
                     type="time"
                     label="Time Out"
                     placeholder="Placeholder"
                     class="mt-3"
-                    :disabled="!props.item.status"
                   ></v-text-field>
                 </td>
                 <td>

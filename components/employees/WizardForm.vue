@@ -25,7 +25,7 @@
         <PersonalDetails :profile="profile" @saved:employee="savedEmployee">
           <template v-slot:buttons>
             <v-spacer></v-spacer>
-            <v-btn color="error" nuxt :to="{ name: 'employees' }">Back</v-btn>
+            <v-btn :to="{ name: 'employees' }" color="error" nuxt>Back</v-btn>
             <v-btn color="primary" type="submit">
               Next
             </v-btn>
@@ -40,7 +40,7 @@
         >
           <template v-slot:buttons>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click.prevent="step = 1">Back</v-btn>
+            <v-btn @click.prevent="step = 1" color="error">Back</v-btn>
             <v-btn color="primary" type="submit">
               Next
             </v-btn>
@@ -55,7 +55,7 @@
         >
           <template v-slot:buttons>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click.prevent="step = 2">Back</v-btn>
+            <v-btn @click.prevent="step = 2" color="error">Back</v-btn>
             <v-btn color="primary" type="submit">
               Next
             </v-btn>
@@ -67,7 +67,7 @@
         <Finish>
           <template v-slot:buttons>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click.prevent="step = 3">Back</v-btn>
+            <v-btn @click.prevent="step = 3" color="error">Back</v-btn>
             <v-btn color="primary" type="submit">
               Finish
             </v-btn>

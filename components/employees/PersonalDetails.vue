@@ -15,25 +15,25 @@
             <v-flex md3>
               <v-text-field
                 v-model="form.firstname"
+                :error-messages="errors.firstname ? errors.firstname[0] : ''"
                 label="Firstname"
                 placeholder="Firstname"
-                :error-messages="errors.firstname ? errors.firstname[0] : ''"
               ></v-text-field>
             </v-flex>
             <v-flex md3>
               <v-text-field
                 v-model="form.middlename"
+                :error-messages="errors.middlename ? errors.middlename[0] : ''"
                 label="Middlename"
                 placeholder="Middlename"
-                :error-messages="errors.middlename ? errors.middlename[0] : ''"
               ></v-text-field>
             </v-flex>
             <v-flex md3>
               <v-text-field
                 v-model="form.lastname"
+                :error-messages="errors.lastname ? errors.lastname[0] : ''"
                 label="Lastname"
                 placeholder="Lastname"
-                :error-messages="errors.lastname ? errors.lastname[0] : ''"
               ></v-text-field>
             </v-flex>
             <v-flex md3>
@@ -42,17 +42,17 @@
                 :items="genders"
                 :item-text="'text'"
                 :item-value="'value'"
+                :error-messages="errors.gender ? errors.gender[0] : ''"
                 label="Gender"
                 placeholder="Gender"
-                :error-messages="errors.gender ? errors.gender[0] : ''"
               ></v-select>
             </v-flex>
             <v-flex md3>
               <v-text-field
                 v-model="form.contact"
+                :error-messages="errors.contact ? errors.contact[0] : ''"
                 label="Contact"
                 placeholder="Contact"
-                :error-messages="errors.contact ? errors.contact[0] : ''"
               ></v-text-field>
             </v-flex>
             <v-flex md3>
@@ -68,10 +68,10 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     v-model="form.birthdate"
+                    v-on="on"
                     label="Birthdate"
                     append-icon="event"
                     readonly
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -80,13 +80,13 @@
                   scrollable
                 >
                   <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="birthdateMenu = false"
+                  <v-btn @click="birthdateMenu = false" flat color="primary"
                     >Cancel</v-btn
                   >
                   <v-btn
+                    @click="$refs.dialog.save(form.birthdate)"
                     flat
                     color="primary"
-                    @click="$refs.dialog.save(form.birthdate)"
                     >OK</v-btn
                   >
                 </v-date-picker>

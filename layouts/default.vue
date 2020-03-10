@@ -30,7 +30,7 @@
             </v-list-tile>
           </template>
           <template v-else-if="item.list_group">
-            <v-list-group no-action :prepend-icon="item.icon">
+            <v-list-group :prepend-icon="item.icon" no-action>
               <template v-slot:activator>
                 <v-list-tile>
                   <v-list-tile-title>{{ item.title }}</v-list-tile-title>
@@ -62,7 +62,7 @@
       <v-spacer />
       <template v-if="authenticated">
         <v-toolbar-title class="mr-3">{{ user.name }}</v-toolbar-title>
-        <v-icon large @click.prevent="sodVisibility = true">exit_to_app</v-icon>
+        <v-icon @click.prevent="sodVisibility = true" large>exit_to_app</v-icon>
       </template>
       <template v-if="!authenticated">
         <div>

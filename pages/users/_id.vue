@@ -5,9 +5,9 @@
         <v-card>
           <DetailForm :single-user="singleUser" @sumbit-user="submit">
             <template v-slot:buttons>
-              <v-btn color="primary" @click.prevent="back">Back</v-btn>
+              <v-btn @click.prevent="back" color="primary">Back</v-btn>
               <template v-if="disabled">
-                <v-btn class="primary" @click.prevent="edit">Edit</v-btn>
+                <v-btn @click.prevent="edit" class="primary">Edit</v-btn>
               </template>
               <template v-else>
                 <v-btn class="primary" type="submit">Update</v-btn>

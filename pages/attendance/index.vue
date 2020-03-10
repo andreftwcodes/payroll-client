@@ -10,12 +10,12 @@
                   <v-autocomplete
                     v-model="employee"
                     :items="employees"
-                    item-text="fullname"
-                    item-value="id"
-                    label="Select"
                     :loading="employee_autocomplete_loading"
                     :readonly="employee_autocomplete"
                     @change="onChangedEmployee"
+                    item-text="fullname"
+                    item-value="id"
+                    label="Select"
                   ></v-autocomplete>
                 </template>
                 <template v-else>
@@ -29,11 +29,11 @@
                 </template>
               </v-flex>
               <v-icon
-                large
-                class="ml-3"
                 :color="swap ? 'blue darken-2' : ''"
                 :disabled="swap_btn"
                 @click="onSwap"
+                large
+                class="ml-3"
                 >swap_horiz</v-icon
               >
               <v-spacer></v-spacer>
@@ -52,10 +52,10 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       :value="attendedAtDateFormatted"
+                      v-on="on"
                       label="Filter date"
                       append-icon="event"
                       readonly
-                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -83,14 +83,14 @@
               <td>
                 <template v-if="props.item.status">
                   <v-icon
+                    @click="showAttendanceDialogForm(props.item)"
                     color="blue darken-2"
                     class="mr-3"
-                    @click="showAttendanceDialogForm(props.item)"
                     >edit</v-icon
                   >
                   <v-icon
-                    color="red"
                     @click="showAttendanceDltDialog(props.item)"
+                    color="red"
                     >highlight_off</v-icon
                   >
                 </template>

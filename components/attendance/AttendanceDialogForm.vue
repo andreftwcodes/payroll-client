@@ -2,8 +2,8 @@
   <div v-if="attendance">
     <v-dialog
       v-model="show"
-      persistent
       :width="attendance.schedule_display ? 850 : 500"
+      persistent
     >
       <v-card>
         <v-card-title class="headline grey lighten-2">
@@ -39,11 +39,11 @@
                   <v-spacer></v-spacer>
                   <v-flex xs12 md1>
                     <v-icon
+                      :disabled="disabled"
+                      @click="addRow"
                       class="mt-3"
                       medium
                       color="green darken-2"
-                      :disabled="disabled"
-                      @click="addRow"
                       >add_circle_outline</v-icon
                     >
                   </v-flex>
@@ -102,11 +102,11 @@
                     <v-flex xs12 md1></v-flex>
                     <v-flex xs12 md1>
                       <v-icon
+                        :disabled="disabled"
+                        @click.prevent="onDelete(index)"
                         class="delete_icon"
                         color="red"
                         medium
-                        :disabled="disabled"
-                        @click.prevent="onDelete(index)"
                         >highlight_off</v-icon
                       >
                     </v-flex>
@@ -135,20 +135,20 @@
 
           <template v-if="attendance.schedule_display">
             <v-btn
-              color="primary"
-              flat
               :disabled="disabled"
               :loading="loading_save_update_btn"
               @click.prevent="saveUpdateTimeLogs"
+              color="primary"
+              flat
             >
               {{ hasTimeLogs ? (hasId ? 'Update' : 'Save') : 'Absent' }}
             </v-btn>
-            <v-btn color="primary" flat :disabled="disabled" @click="onCancel">
+            <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
               Cancel
             </v-btn>
           </template>
           <template v-else>
-            <v-btn color="primary" flat @click="onCancel">
+            <v-btn @click="onCancel" color="primary" flat>
               Close
             </v-btn>
           </template>

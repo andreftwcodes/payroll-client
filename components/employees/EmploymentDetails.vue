@@ -5,9 +5,9 @@
         <v-flex md2>
           <v-text-field
             v-model="form.rate"
+            :error-messages="errors.rate ? errors.rate[0] : ''"
             label="Rate"
             placeholder="00.00"
-            :error-messages="errors.rate ? errors.rate[0] : ''"
           ></v-text-field>
         </v-flex>
         <v-flex md1 class="pt-3 pr-5">
@@ -51,21 +51,21 @@
               <v-text-field
                 v-model="form.hired_at"
                 :error-messages="errors.hired_at ? errors.hired_at[0] : ''"
+                v-on="on"
                 label="Date Hired"
                 append-icon="event"
                 readonly
-                v-on="on"
               ></v-text-field>
             </template>
             <v-date-picker v-model="form.hired_at" :max="_now()" scrollable>
               <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="hired_at_dialog = false"
+              <v-btn @click="hired_at_dialog = false" flat color="primary"
                 >Cancel</v-btn
               >
               <v-btn
+                @click="$refs.dialog.save(form.hired_at)"
                 flat
                 color="primary"
-                @click="$refs.dialog.save(form.hired_at)"
                 >OK</v-btn
               >
             </v-date-picker>

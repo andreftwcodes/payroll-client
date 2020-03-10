@@ -15,25 +15,25 @@
             <v-flex md3>
               <v-text-field
                 v-model="form.name"
+                :disabled="disabled"
                 label="Fullname"
                 placeholder="Fullname"
-                :disabled="disabled"
               ></v-text-field>
             </v-flex>
             <v-flex md3>
               <v-text-field
                 v-model="form.email"
+                :disabled="disabled"
                 label="Username"
                 placeholder="Username"
-                :disabled="disabled"
               ></v-text-field>
             </v-flex>
             <v-flex md3>
               <v-text-field
                 v-model="form.password"
+                :disabled="disabled"
                 label="Password"
                 placeholder="Password"
-                :disabled="disabled"
               ></v-text-field>
             </v-flex>
           </v-layout>

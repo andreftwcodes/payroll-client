@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="display" full-width :width="width" :disabled="disabled">
+  <v-dialog v-model="display" :width="width" :disabled="disabled" full-width>
     <template v-slot:activator="{ on }">
       <v-text-field
         :label="label"
@@ -12,8 +12,8 @@
         :hide-details="hideDetails"
         :append-icon="appendIcon"
         :prepend-icon="prependIcon"
-        readonly
         v-on="on"
+        readonly
       >
       </v-text-field>
     </template>
@@ -34,11 +34,11 @@
           <v-tab-item key="calendar">
             <v-date-picker
               v-model="datePart"
-              full-width
-              scrollable
               :locale="locale"
               :min="min"
               :max="max"
+              full-width
+              scrollable
               actions
             ></v-date-picker>
           </v-tab-item>
@@ -46,12 +46,12 @@
             <v-time-picker
               ref="timer"
               v-model="timePart"
+              :format="timePickerFormat"
+              :use-seconds="useSeconds"
               full-width
               class="v-time-picker-custom"
               scrollable
-              :format="timePickerFormat"
               actions
-              :use-seconds="useSeconds"
             >
             </v-time-picker>
           </v-tab-item>
@@ -59,11 +59,11 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <slot name="actions" :parent="this">
-          <v-btn color="grey lighten-1" text @click.native="clearHandler">{{
+        <slot :parent="this" name="actions">
+          <v-btn @click.native="clearHandler" color="grey lighten-1" text>{{
             clearText
           }}</v-btn>
-          <v-btn color="green darken-1" text @click="okHandler">{{
+          <v-btn @click="okHandler" color="green darken-1" text>{{
             okText
           }}</v-btn>
         </slot>

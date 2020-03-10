@@ -8,7 +8,7 @@
               {{ parent.ref_no }} - {{ parent.employee.fullname }}
             </v-flex>
             <v-spacer></v-spacer>
-            <v-icon large color="blue darken-2" @click="onBack"
+            <v-icon @click="onBack" large color="blue darken-2"
               >keyboard_backspace</v-icon
             >
           </v-card-title>

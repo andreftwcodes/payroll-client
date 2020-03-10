@@ -11,9 +11,9 @@
             </v-tabs>
             <template v-if="isRangesEmpty">
               <ContributionTable
-                class="mt-3"
                 :contributions="contributions"
                 :tabs="tabs"
+                class="mt-3"
               />
             </template>
             <template v-else>

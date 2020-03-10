@@ -3,11 +3,11 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-icon
-          large
-          color="primary"
           :disabled="canViewRateHistory"
           @click.prevent="viewRateHistory"
           v-on="on"
+          large
+          color="primary"
           >pageview</v-icon
         >
       </template>
@@ -37,7 +37,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="show = false">
+          <v-btn @click="show = false" color="primary" flat>
             Close
           </v-btn>
         </v-card-actions>

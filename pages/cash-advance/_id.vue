@@ -9,7 +9,7 @@
             </v-flex>
             <v-spacer></v-spacer>
 
-            <v-icon large color="blue darken-2" @click.prevent="onBack"
+            <v-icon @click.prevent="onBack" large color="blue darken-2"
               >keyboard_backspace</v-icon
             >
           </v-card-title>
@@ -17,33 +17,33 @@
             <v-flex class="md2">
               <v-text-field
                 v-model="parent.amount_deductible"
+                :disabled="amount_deductible_disable"
                 label="Amount Deductible"
                 placeholder="Amount Deductible"
-                :disabled="amount_deductible_disable"
               ></v-text-field>
             </v-flex>
             <v-flex class="md2">
               <div class="ml-3">
                 <v-icon
                   v-show="buttons.edit"
-                  color="blue darken-2"
                   @click="onEdit"
+                  color="blue darken-2"
                   >edit</v-icon
                 >
                 <v-icon
                   v-show="buttons.saveUpdate"
-                  color="blue darken-2"
                   @click="onSaveUpdateParent"
+                  color="blue darken-2"
                   >save</v-icon
                 >
               </div>
             </v-flex>
             <v-flex class="md8 text-xs-right">
               <v-icon
+                @click="openCashAdvanceChildForm(null)"
                 class="text-xs-right"
                 color="green darken-2"
                 medium
-                @click="openCashAdvanceChildForm(null)"
                 >add_circle_outline</v-icon
               >
             </v-flex>
@@ -64,12 +64,12 @@
               <td class="text-xs-right">
                 <template v-if="!props.item.is_payroll">
                   <v-icon
+                    @click="openCashAdvanceChildForm(props.item)"
                     class="mr-3"
                     color="blue darken-2"
-                    @click="openCashAdvanceChildForm(props.item)"
                     >edit</v-icon
                   >
-                  <v-icon color="red" @click="onDelete(props.item)"
+                  <v-icon @click="onDelete(props.item)" color="red"
                     >highlight_off</v-icon
                   >
                 </template>

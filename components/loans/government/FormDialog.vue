@@ -18,12 +18,12 @@
                       errors.employee_id ? errors.employee_id[0] : ''
                     "
                     :items="employees"
+                    @change="onChangeFilters"
                     item-text="fullname"
                     item-value="id"
                     clearable
                     label="Employee"
                     placeholder="Employee"
-                    @change="onChangeFilters"
                   ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12 md4>
@@ -35,22 +35,22 @@
                       { value: 'sss', text: 'SSS' },
                       { value: 'pagibig', text: 'PagIbig' }
                     ]"
+                    @change="onChangeFilters"
                     item-text="text"
                     item-value="value"
                     clearable
                     label="Subject"
                     placeholder="Subject"
-                    @change="onChangeFilters"
                   ></v-autocomplete>
                 </v-flex>
                 <v-btn
-                  flat
-                  icon
                   :color="filterBtn.color"
                   :disabled="filterBtn.disabled"
-                  class="ml-5 mt-4"
                   :loading="employee_loading"
                   @click="onVerify"
+                  flat
+                  icon
+                  class="ml-5 mt-4"
                 >
                   <v-icon>{{ filterBtn.icon }}</v-icon>
                 </v-btn>
@@ -96,14 +96,14 @@
                         <v-text-field
                           v-model="loanedAtDateFormatted"
                           :disabled="disabled"
-                          label="Loaned at"
-                          placeholder="Loaned at"
-                          append-icon="event"
                           :error-messages="
                             errors.loaned_at ? errors.loaned_at[0] : ''
                           "
-                          readonly
                           v-on="on"
+                          label="Loaned at"
+                          placeholder="Loaned at"
+                          append-icon="event"
+                          readonly
                         ></v-text-field>
                       </template>
                       <v-date-picker
@@ -126,13 +126,13 @@
           <v-btn
             v-show="fieldset_visible"
             :loading="loading_save_btn"
+            @click="onSaveUpdate"
             color="primary"
             flat
-            @click="onSaveUpdate"
           >
             Save
           </v-btn>
-          <v-btn color="primary" flat :disabled="disabled" @click="onClose">
+          <v-btn :disabled="disabled" @click="onClose" color="primary" flat>
             Close
           </v-btn>
         </v-card-actions>
