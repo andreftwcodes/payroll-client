@@ -1,6 +1,6 @@
+import pkg from './package'
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import webpack from 'webpack'
-import pkg from './package'
 
 export default {
   mode: 'universal',

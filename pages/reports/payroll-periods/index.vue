@@ -60,10 +60,10 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import FilterDialog from '@/components/payroll-periods/FilterDialog'
 import OpenPeriodDialog from '@/components/payroll-periods/OpenPeriodDialog'
+import _ from 'lodash'
 export default {
   components: {
     FilterDialog,

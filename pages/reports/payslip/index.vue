@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import ToolBar from '@/components/reports/payslip/ToolBar'
 import FilterDialog from '@/components/reports/payslip/FilterDialog'
 import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 import ConfirmationDialog from '@/components/reports/payslip/ConfirmationDialog'
+import { mapActions } from 'vuex'
 export default {
   components: {
     ToolBar,

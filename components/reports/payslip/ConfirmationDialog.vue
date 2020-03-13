@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   mixins: [payslipMixin],
   data() {

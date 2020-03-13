@@ -68,10 +68,10 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import { mapActions } from 'vuex'
 import FormDialog from '@/components/loans/government/FormDialog'
 import DltDialog from '@/components/loans/government/DltDialog'
+import _ from 'lodash'
+import { mapActions } from 'vuex'
 export default {
   components: {
     FormDialog,

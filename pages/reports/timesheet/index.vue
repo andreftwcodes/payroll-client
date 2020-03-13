@@ -82,9 +82,9 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import FilterDialog from '@/components/reports/timesheet/FilterDialog'
+import _ from 'lodash'
 export default {
   components: {
     FilterDialog

@@ -123,12 +123,12 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import moment from 'moment'
-import { mapActions } from 'vuex'
 import DltDialog from '@/components/attendance/DltDialog'
 import MessageDialog from '@/components/attendance/MessageDialog'
 import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
+import _ from 'lodash'
+import moment from 'moment'
+import { mapActions } from 'vuex'
 export default {
   middleware: 'auth',
   components: {

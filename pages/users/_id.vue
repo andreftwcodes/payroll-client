@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
 import DetailForm from '@/components/users/DetailForm'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   middleware: 'auth',
   components: {

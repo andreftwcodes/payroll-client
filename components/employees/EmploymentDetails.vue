@@ -115,9 +115,9 @@
 </template>
 
 <script>
+import RateHistoryDialog from '@/components/employees/RateHistoryDialog'
 import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
-import RateHistoryDialog from '@/components/employees/RateHistoryDialog'
 export default {
   components: {
     RateHistoryDialog

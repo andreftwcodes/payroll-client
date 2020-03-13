@@ -35,9 +35,9 @@
 </template>
 
 <script>
+import DialogForm from '@/components/settings/contributions/partials/DialogForm'
 import _ from 'lodash'
 import { mapActions } from 'vuex'
-import DialogForm from '@/components/settings/contributions/partials/DialogForm'
 export default {
   components: {
     DialogForm

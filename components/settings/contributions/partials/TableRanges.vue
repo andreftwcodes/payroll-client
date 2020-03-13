@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import FileUploader from '@/components/settings/contributions/partials/FileUploader'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     FileUploader

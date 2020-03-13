@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import DetailForm from '@/components/users/DetailForm'
+import { mapMutations } from 'vuex'
 export default {
   middleware: 'auth',
   components: {
