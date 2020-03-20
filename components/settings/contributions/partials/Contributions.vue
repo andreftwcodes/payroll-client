@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import ContributionTable from '@/components/settings/contributions/partials/ContributionTable'
-import TableRanges from '@/components/settings/contributions/partials/TableRanges'
 import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
+import ContributionTable from '@/components/settings/contributions/partials/ContributionTable'
+import TableRanges from '@/components/settings/contributions/partials/TableRanges'
 export default {
   components: {
     ContributionTable,

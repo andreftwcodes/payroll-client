@@ -3,7 +3,7 @@
     <v-card-title>
       <h2 class="text-md-center">{{ ranges.title }}</h2>
       <v-spacer></v-spacer>
-      <v-btn @click="onBack" small>Back</v-btn>
+      <v-btn small @click="onBack">Back</v-btn>
       <FileUploader />
     </v-card-title>
     <v-flex xs12>
@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import FileUploader from '@/components/settings/contributions/partials/FileUploader'
 import { mapGetters, mapActions } from 'vuex'
+import FileUploader from '@/components/settings/contributions/partials/FileUploader'
 export default {
   components: {
     FileUploader

@@ -15,7 +15,7 @@
                 ></v-text-field>
               </v-flex>
               <v-spacer></v-spacer>
-              <v-icon @click.prevent="onShowFilters" color="blue darken-2"
+              <v-icon color="blue darken-2" @click.prevent="onShowFilters"
                 >settings_input_component</v-icon
               >
             </v-layout>
@@ -36,12 +36,12 @@
               <td>{{ props.item.created_at }}</td>
               <td>
                 <v-icon
-                  @click="onShowPaySlip(props.item.print_url)"
                   class="mr-3"
                   color="blue darken-2"
+                  @click="onShowPaySlip(props.item.print_url)"
                   >receipt</v-icon
                 >
-                <v-icon @click="onOpenPeriod(props.item)" color="green"
+                <v-icon color="green" @click="onOpenPeriod(props.item)"
                   >lock_open</v-icon
                 >
               </td>
@@ -60,10 +60,10 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import FilterDialog from '@/components/payroll-periods/FilterDialog'
 import OpenPeriodDialog from '@/components/payroll-periods/OpenPeriodDialog'
-import _ from 'lodash'
 export default {
   components: {
     FilterDialog,

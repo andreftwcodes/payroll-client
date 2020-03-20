@@ -13,7 +13,7 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-icon @click="onAddNew" medium color="green darken-2"
+              <v-icon medium color="green darken-2" @click="onAddNew"
                 >add_circle_outline</v-icon
               >
             </v-card-title>
@@ -34,13 +34,13 @@
                 <td>
                   <v-switch
                     v-model="props.item.status"
-                    @change="onChangedStatus(props.item.id, $event)"
                     color="success"
                     hide-details
+                    @change="onChangedStatus(props.item.id, $event)"
                   ></v-switch>
                 </td>
                 <td>
-                  <v-icon @click="onView(props.item.id)" color="blue darken-2"
+                  <v-icon color="blue darken-2" @click="onView(props.item.id)"
                     >launch</v-icon
                   >
                 </td>

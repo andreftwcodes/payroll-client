@@ -14,7 +14,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onClose" color="primary" flat>
+          <v-btn color="primary" flat @click="onClose">
             Close
           </v-btn>
         </v-card-actions>

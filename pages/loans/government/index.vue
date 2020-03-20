@@ -12,7 +12,7 @@
               hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-icon @click="dialogForm()" medium color="green darken-2"
+            <v-icon medium color="green darken-2" @click="dialogForm()"
               >add_circle_outline</v-icon
             >
           </v-card-title>
@@ -44,12 +44,12 @@
               <td>{{ props.item.loaned_dsp }}</td>
               <td>
                 <v-icon
-                  @click="onShow(props.item.id)"
                   class="mr-3"
                   color="blue darken-2"
+                  @click="onShow(props.item.id)"
                   >launch</v-icon
                 >
-                <v-icon @click="onDelete(props.item)" color="red"
+                <v-icon color="red" @click="onDelete(props.item)"
                   >highlight_off</v-icon
                 >
               </td>
@@ -68,10 +68,10 @@
 </template>
 
 <script>
-import FormDialog from '@/components/loans/government/FormDialog'
-import DltDialog from '@/components/loans/government/DltDialog'
 import _ from 'lodash'
 import { mapActions } from 'vuex'
+import FormDialog from '@/components/loans/government/FormDialog'
+import DltDialog from '@/components/loans/government/DltDialog'
 export default {
   components: {
     FormDialog,

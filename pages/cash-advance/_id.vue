@@ -9,7 +9,7 @@
             </v-flex>
             <v-spacer></v-spacer>
 
-            <v-icon @click.prevent="onBack" large color="blue darken-2"
+            <v-icon large color="blue darken-2" @click.prevent="onBack"
               >keyboard_backspace</v-icon
             >
           </v-card-title>
@@ -26,24 +26,24 @@
               <div class="ml-3">
                 <v-icon
                   v-show="buttons.edit"
-                  @click="onEdit"
                   color="blue darken-2"
+                  @click="onEdit"
                   >edit</v-icon
                 >
                 <v-icon
                   v-show="buttons.saveUpdate"
-                  @click="onSaveUpdateParent"
                   color="blue darken-2"
+                  @click="onSaveUpdateParent"
                   >save</v-icon
                 >
               </div>
             </v-flex>
             <v-flex class="md8 text-xs-right">
               <v-icon
-                @click="openCashAdvanceChildForm(null)"
                 class="text-xs-right"
                 color="green darken-2"
                 medium
+                @click="openCashAdvanceChildForm(null)"
                 >add_circle_outline</v-icon
               >
             </v-flex>
@@ -64,12 +64,12 @@
               <td class="text-xs-right">
                 <template v-if="!props.item.is_payroll">
                   <v-icon
-                    @click="openCashAdvanceChildForm(props.item)"
                     class="mr-3"
                     color="blue darken-2"
+                    @click="openCashAdvanceChildForm(props.item)"
                     >edit</v-icon
                   >
-                  <v-icon @click="onDelete(props.item)" color="red"
+                  <v-icon color="red" @click="onDelete(props.item)"
                     >highlight_off</v-icon
                   >
                 </template>
@@ -94,9 +94,9 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import ChildDialogForm from '@/components/cash-advance/ChildDialogForm'
 import DltChildDialog from '@/components/cash-advance/DltChildDialog'
-import _ from 'lodash'
 export default {
   middleware: 'auth',
   components: {

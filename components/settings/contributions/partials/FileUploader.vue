@@ -1,16 +1,16 @@
 <template>
   <div>
-    <input id="file" ref="file" v-show="false" @change="onUpload" type="file" />
+    <input v-show="false" id="file" ref="file" type="file" @change="onUpload" />
     <v-badge v-model="badge" color="success" right overlap>
       <template v-slot:badge>
         <v-icon dark small>
           done
         </v-icon>
       </template>
-      <v-btn @click.prevent="$refs.file.click()" small>Choose File</v-btn>
+      <v-btn small @click.prevent="$refs.file.click()">Choose File</v-btn>
     </v-badge>
-    <v-btn @click.prevent="onValidate" small>Validate</v-btn>
-    <v-btn :disabled="canSaveRanges" @click.prevent="confirmDialog = true" small
+    <v-btn small @click.prevent="onValidate">Validate</v-btn>
+    <v-btn :disabled="canSaveRanges" small @click.prevent="confirmDialog = true"
       >Save</v-btn
     >
     <ConfirmationDialog v-model="confirmDialog" @confirm-save="onSave" />
@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import ConfirmationDialog from '@/components/settings/contributions/partials/ConfirmationDialog'
 import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
+import ConfirmationDialog from '@/components/settings/contributions/partials/ConfirmationDialog'
 export default {
   components: {
     ConfirmationDialog

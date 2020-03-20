@@ -40,10 +40,10 @@
                   <v-flex xs12 md1>
                     <v-icon
                       :disabled="disabled"
-                      @click="addRow"
                       class="mt-3"
                       medium
                       color="green darken-2"
+                      @click="addRow"
                       >add_circle_outline</v-icon
                     >
                   </v-flex>
@@ -103,10 +103,10 @@
                     <v-flex xs12 md1>
                       <v-icon
                         :disabled="disabled"
-                        @click.prevent="onDelete(index)"
                         class="delete_icon"
                         color="red"
                         medium
+                        @click.prevent="onDelete(index)"
                         >highlight_off</v-icon
                       >
                     </v-flex>
@@ -137,18 +137,18 @@
             <v-btn
               :disabled="disabled"
               :loading="loading_save_update_btn"
-              @click.prevent="saveUpdateTimeLogs"
               color="primary"
               flat
+              @click.prevent="saveUpdateTimeLogs"
             >
               {{ hasTimeLogs ? (hasId ? 'Update' : 'Save') : 'Absent' }}
             </v-btn>
-            <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
+            <v-btn :disabled="disabled" color="primary" flat @click="onCancel">
               Cancel
             </v-btn>
           </template>
           <template v-else>
-            <v-btn @click="onCancel" color="primary" flat>
+            <v-btn color="primary" flat @click="onCancel">
               Close
             </v-btn>
           </template>

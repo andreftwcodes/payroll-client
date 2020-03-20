@@ -32,15 +32,15 @@
               <v-spacer></v-spacer>
               <v-icon
                 v-show="timesheet.attendances.length"
-                @click="onPrint"
                 color="red darken-2"
                 class="pa-2"
+                @click="onPrint"
                 >print</v-icon
               >
               <v-icon
-                @click="openFilterDialog"
                 color="blue darken-2"
                 class="pa-2"
+                @click="openFilterDialog"
                 >settings_input_component</v-icon
               >
             </v-layout>
@@ -82,9 +82,9 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 import FilterDialog from '@/components/reports/timesheet/FilterDialog'
-import _ from 'lodash'
 export default {
   components: {
     FilterDialog

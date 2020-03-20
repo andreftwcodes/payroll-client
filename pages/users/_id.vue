@@ -5,9 +5,9 @@
         <v-card>
           <DetailForm :single-user="singleUser" @sumbit-user="submit">
             <template v-slot:buttons>
-              <v-btn @click.prevent="back" color="primary">Back</v-btn>
+              <v-btn color="primary" @click.prevent="back">Back</v-btn>
               <template v-if="disabled">
-                <v-btn @click.prevent="edit" class="primary">Edit</v-btn>
+                <v-btn class="primary" @click.prevent="edit">Edit</v-btn>
               </template>
               <template v-else>
                 <v-btn class="primary" type="submit">Update</v-btn>
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import DetailForm from '@/components/users/DetailForm'
 import { mapGetters, mapMutations } from 'vuex'
+import DetailForm from '@/components/users/DetailForm'
 export default {
   middleware: 'auth',
   components: {

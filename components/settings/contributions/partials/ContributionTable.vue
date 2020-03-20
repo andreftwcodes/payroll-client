@@ -9,7 +9,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-btn @click="addNew" color="success" depressed small>Add New</v-btn>
+      <v-btn color="success" depressed small @click="addNew">Add New</v-btn>
     </v-card-title>
     <v-data-table :headers="headers" :items="contributions" class="elevation-1">
       <template v-slot:items="props">
@@ -17,10 +17,10 @@
         <td>{{ props.item.title }}</td>
         <td>{{ props.item.used_at_dsp }}</td>
         <td>
-          <v-icon @click="onEdit(props.item)" class="pr-2" color="blue darken-2"
+          <v-icon class="pr-2" color="blue darken-2" @click="onEdit(props.item)"
             >edit</v-icon
           >
-          <v-icon @click="onView(props.item)" color="blue darken-2"
+          <v-icon color="blue darken-2" @click="onView(props.item)"
             >view_module</v-icon
           >
         </td>
@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import DialogForm from '@/components/settings/contributions/partials/DialogForm'
 import _ from 'lodash'
 import { mapActions } from 'vuex'
+import DialogForm from '@/components/settings/contributions/partials/DialogForm'
 export default {
   components: {
     DialogForm

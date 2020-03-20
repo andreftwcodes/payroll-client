@@ -12,10 +12,10 @@
                     :items="employees"
                     :loading="employee_autocomplete_loading"
                     :readonly="employee_autocomplete"
-                    @change="onChangedEmployee"
                     item-text="fullname"
                     item-value="id"
                     label="Select"
+                    @change="onChangedEmployee"
                   ></v-autocomplete>
                 </template>
                 <template v-else>
@@ -31,9 +31,9 @@
               <v-icon
                 :color="swap ? 'blue darken-2' : ''"
                 :disabled="swap_btn"
-                @click="onSwap"
                 large
                 class="ml-3"
+                @click="onSwap"
                 >swap_horiz</v-icon
               >
               <v-spacer></v-spacer>
@@ -52,10 +52,10 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       :value="attendedAtDateFormatted"
-                      v-on="on"
                       label="Filter date"
                       append-icon="event"
                       readonly
+                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -83,14 +83,14 @@
               <td>
                 <template v-if="props.item.status">
                   <v-icon
-                    @click="showAttendanceDialogForm(props.item)"
                     color="blue darken-2"
                     class="mr-3"
+                    @click="showAttendanceDialogForm(props.item)"
                     >edit</v-icon
                   >
                   <v-icon
-                    @click="showAttendanceDltDialog(props.item)"
                     color="red"
+                    @click="showAttendanceDltDialog(props.item)"
                     >highlight_off</v-icon
                   >
                 </template>
@@ -123,12 +123,12 @@
 </template>
 
 <script>
-import DltDialog from '@/components/attendance/DltDialog'
-import MessageDialog from '@/components/attendance/MessageDialog'
-import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 import _ from 'lodash'
 import moment from 'moment'
 import { mapActions } from 'vuex'
+import DltDialog from '@/components/attendance/DltDialog'
+import MessageDialog from '@/components/attendance/MessageDialog'
+import AttendanceDialogForm from '@/components/attendance/AttendanceDialogForm'
 export default {
   middleware: 'auth',
   components: {

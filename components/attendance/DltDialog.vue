@@ -17,13 +17,13 @@
           <v-btn
             :disabled="disabled"
             :loading="loading_confirm_btn"
-            @click="onConfirm"
             color="primary"
             flat
+            @click="onConfirm"
           >
             Confirm
           </v-btn>
-          <v-btn :disabled="disabled" @click="onClose" color="primary" flat>
+          <v-btn :disabled="disabled" color="primary" flat @click="onClose">
             Close
           </v-btn>
         </v-card-actions>

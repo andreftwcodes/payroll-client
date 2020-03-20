@@ -13,7 +13,7 @@
                 hide-details
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-icon @click="onAddNew" medium color="green darken-2"
+              <v-icon medium color="green darken-2" @click="onAddNew"
                 >add_circle_outline</v-icon
               >
             </v-card-title>
@@ -30,9 +30,9 @@
                 <td>active</td>
                 <td>
                   <v-icon
-                    @click="onView(props.item.id)"
                     medium
                     color="blue darken-2"
+                    @click="onView(props.item.id)"
                     >remove_red_eye</v-icon
                   >
                 </td>

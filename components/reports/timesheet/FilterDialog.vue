@@ -41,10 +41,10 @@
                   <v-text-field
                     :value="formattedFromDate"
                     :disabled="disabled"
-                    v-on="on"
                     label="From"
                     append-icon="event"
                     readonly
+                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -69,10 +69,10 @@
                   <v-text-field
                     :value="formattedToDate"
                     :disabled="disabled"
-                    v-on="on"
                     label="To"
                     append-icon="event"
                     readonly
+                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -93,17 +93,17 @@
         <v-btn
           :disabled="disabled"
           :loading="loading_filter_btn"
-          @click.prevent="onFilter"
           color="primary"
           flat
+          @click.prevent="onFilter"
         >
           Filter
         </v-btn>
         <v-btn
           :disabled="disabled"
-          @click.prevent="onCancel"
           color="primary"
           flat
+          @click.prevent="onCancel"
         >
           Cancel
         </v-btn>

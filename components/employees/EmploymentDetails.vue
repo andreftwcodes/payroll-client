@@ -51,21 +51,21 @@
               <v-text-field
                 v-model="form.hired_at"
                 :error-messages="errors.hired_at ? errors.hired_at[0] : ''"
-                v-on="on"
                 label="Date Hired"
                 append-icon="event"
                 readonly
+                v-on="on"
               ></v-text-field>
             </template>
             <v-date-picker v-model="form.hired_at" :max="_now()" scrollable>
               <v-spacer></v-spacer>
-              <v-btn @click="hired_at_dialog = false" flat color="primary"
+              <v-btn flat color="primary" @click="hired_at_dialog = false"
                 >Cancel</v-btn
               >
               <v-btn
-                @click="$refs.dialog.save(form.hired_at)"
                 flat
                 color="primary"
+                @click="$refs.dialog.save(form.hired_at)"
                 >OK</v-btn
               >
             </v-date-picker>
@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import RateHistoryDialog from '@/components/employees/RateHistoryDialog'
 import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
+import RateHistoryDialog from '@/components/employees/RateHistoryDialog'
 export default {
   components: {
     RateHistoryDialog

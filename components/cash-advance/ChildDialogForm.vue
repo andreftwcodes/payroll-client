@@ -23,10 +23,10 @@
                     <v-text-field
                       v-model="child.date"
                       :disabled="disabled"
-                      v-on="on"
                       label="Date"
                       append-icon="event"
                       readonly
+                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -66,13 +66,13 @@
         <v-btn
           :disabled="disabled"
           :loading="loading_save_update_btn"
-          @click="onSaveUpdate"
           color="primary"
           flat
+          @click="onSaveUpdate"
         >
           {{ hasId ? 'Update' : 'Save' }}
         </v-btn>
-        <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
+        <v-btn :disabled="disabled" color="primary" flat @click="onCancel">
           Cancel
         </v-btn>
       </v-card-actions>
