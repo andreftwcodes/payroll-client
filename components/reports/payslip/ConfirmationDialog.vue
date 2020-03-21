@@ -15,13 +15,13 @@
         <v-btn
           :disabled="disabled"
           :loading="loading_confirm"
+          @click.prevent="onClosePeriod"
           color="primary"
           flat
-          @click.prevent="onClosePeriod"
         >
           Confirm
         </v-btn>
-        <v-btn :disabled="disabled" color="primary" flat @click="onCancel">
+        <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
           Cancel
         </v-btn>
       </v-card-actions>
@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   mixins: [payslipMixin],
   data() {

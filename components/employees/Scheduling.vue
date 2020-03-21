@@ -10,19 +10,19 @@
                 :item-text="'description'"
                 :item-value="'id'"
                 :items="schedule_presets"
+                @change="onChangedSchedule"
                 label="Schedules"
                 placeholder="Select a schedule"
-                @change="onChangedSchedule"
               ></v-autocomplete>
             </v-flex>
             <v-spacer />
             <v-btn
               v-show="resetBtnVisibility"
+              @click="onReset"
               small
               round
               color="info"
               class="mt-4"
-              @click="onReset"
               >Reset</v-btn
             >
           </v-layout>

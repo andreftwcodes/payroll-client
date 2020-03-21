@@ -68,10 +68,10 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     v-model="form.birthdate"
+                    v-on="on"
                     label="Birthdate"
                     append-icon="event"
                     readonly
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -80,13 +80,13 @@
                   scrollable
                 >
                   <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="birthdateMenu = false"
+                  <v-btn @click="birthdateMenu = false" flat color="primary"
                     >Cancel</v-btn
                   >
                   <v-btn
+                    @click="$refs.dialog.save(form.birthdate)"
                     flat
                     color="primary"
-                    @click="$refs.dialog.save(form.birthdate)"
                     >OK</v-btn
                   >
                 </v-date-picker>

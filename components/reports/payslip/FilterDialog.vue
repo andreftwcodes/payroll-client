@@ -16,10 +16,10 @@
                     :items="payment_period_items"
                     :disabled="disabled"
                     :loading="loading_payment_period"
+                    @change="onChangePaymentPeriod"
                     item-text="text"
                     item-value="value"
                     label="Payment Period"
-                    @change="onChangePaymentPeriod"
                   ></v-select>
                 </v-flex>
               </v-layout>
@@ -57,10 +57,10 @@
                           v-model="fromDateFormatted"
                           :disabled="disabled"
                           :error-messages="errors.from ? errors.from[0] : ''"
+                          v-on="on"
                           label="From"
                           append-icon="event"
                           readonly
-                          v-on="on"
                         ></v-text-field>
                       </template>
                       <v-date-picker
@@ -86,10 +86,10 @@
                           v-model="toDateFormatted"
                           :disabled="disabled"
                           :error-messages="errors.to ? errors.to[0] : ''"
+                          v-on="on"
                           label="To"
                           append-icon="event"
                           readonly
-                          v-on="on"
                         ></v-text-field>
                       </template>
                       <v-date-picker
@@ -164,8 +164,8 @@
                     v-model="cash_advance"
                     :disabled="flag.cash_advance.disabled || disabled"
                     :label="`Cash Advance ${flag.cash_advance.display}`"
-                    color="error"
                     @change="onChangeCashAdvance"
+                    color="error"
                   ></v-checkbox>
                   <v-flex class="ml-5" md6>
                     <v-text-field
@@ -196,9 +196,9 @@
             <v-btn
               :disabled="disabled"
               :loading="loading_verify"
+              @click="onVerify"
               color="primary"
               flat
-              @click="onVerify"
             >
               Verify
             </v-btn>
@@ -207,17 +207,17 @@
             <v-btn
               :disabled="disabled"
               :loading="loading_generate"
+              @click="onGenerate"
               color="primary"
               flat
-              @click="onGenerate"
             >
               Generate
             </v-btn>
-            <v-btn :disabled="disabled" color="primary" flat @click="step = 1">
+            <v-btn :disabled="disabled" @click="step = 1" color="primary" flat>
               Back
             </v-btn>
           </template>
-          <v-btn :disabled="disabled" color="primary" flat @click="onCancel">
+          <v-btn :disabled="disabled" @click="onCancel" color="primary" flat>
             Cancel
           </v-btn>
         </v-card-actions>

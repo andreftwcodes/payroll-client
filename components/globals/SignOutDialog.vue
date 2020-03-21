@@ -17,17 +17,17 @@
           <v-btn
             :disabled="disabled"
             :loading="loading_continue_btn"
+            @click="onSignOut"
             color="primary"
             flat
-            @click="onSignOut"
           >
             Continue
           </v-btn>
           <v-btn
             :disabled="disabled"
+            @click="show = false"
             color="primary"
             flat
-            @click="show = false"
           >
             Cancel
           </v-btn>

@@ -62,7 +62,7 @@
       <v-spacer />
       <template v-if="authenticated">
         <v-toolbar-title class="mr-3">{{ user.name }}</v-toolbar-title>
-        <v-icon large @click.prevent="sodVisibility = true">exit_to_app</v-icon>
+        <v-icon @click.prevent="sodVisibility = true" large>exit_to_app</v-icon>
       </template>
       <template v-if="!authenticated">
         <div>

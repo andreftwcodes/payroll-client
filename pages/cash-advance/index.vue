@@ -33,7 +33,7 @@
                 <td>NA</td>
               </template>
               <td>
-                <v-icon color="blue darken-2" @click="onShow(props.item.id)"
+                <v-icon @click="onShow(props.item.id)" color="blue darken-2"
                   >launch</v-icon
                 >
               </td>

@@ -4,10 +4,10 @@
       <template v-slot:activator="{ on }">
         <v-icon
           :disabled="canViewRateHistory"
-          large
-          color="primary"
           @click.prevent="viewRateHistory"
           v-on="on"
+          large
+          color="primary"
           >pageview</v-icon
         >
       </template>
@@ -37,7 +37,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="show = false">
+          <v-btn @click="show = false" color="primary" flat>
             Close
           </v-btn>
         </v-card-actions>

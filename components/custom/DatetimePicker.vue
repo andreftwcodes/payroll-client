@@ -12,8 +12,8 @@
         :hide-details="hideDetails"
         :append-icon="appendIcon"
         :prepend-icon="prependIcon"
-        readonly
         v-on="on"
+        readonly
       >
       </v-text-field>
     </template>
@@ -60,10 +60,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <slot :parent="this" name="actions">
-          <v-btn color="grey lighten-1" text @click.native="clearHandler">{{
+          <v-btn @click.native="clearHandler" color="grey lighten-1" text>{{
             clearText
           }}</v-btn>
-          <v-btn color="green darken-1" text @click="okHandler">{{
+          <v-btn @click="okHandler" color="green darken-1" text>{{
             okText
           }}</v-btn>
         </slot>

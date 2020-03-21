@@ -15,13 +15,13 @@
         <v-btn
           :disabled="disabled"
           :loading="loading_confirm_btn"
+          @click.prevent="onConfirm"
           color="primary"
           flat
-          @click.prevent="onConfirm"
         >
           Confirm
         </v-btn>
-        <v-btn :disabled="disabled" color="primary" flat @click="show = false">
+        <v-btn :disabled="disabled" @click="show = false" color="primary" flat>
           Cancel
         </v-btn>
       </v-card-actions>

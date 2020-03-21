@@ -41,12 +41,12 @@
                     :value="formattedFromDate"
                     :error-messages="errors.from ? errors.from[0] : ''"
                     :disabled="disabled"
+                    @click:clear="filters.from = null"
+                    v-on="on"
                     clearable
                     label="From"
                     append-icon="event"
                     readonly
-                    @click:clear="filters.from = null"
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -72,12 +72,12 @@
                     :value="formattedToDate"
                     :error-messages="errors.to ? errors.to[0] : ''"
                     :disabled="disabled"
+                    @click:clear="filters.to = null"
+                    v-on="on"
                     clearable
                     label="To"
                     append-icon="event"
                     readonly
-                    @click:clear="filters.to = null"
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -97,17 +97,17 @@
         <v-btn
           :disabled="disabled"
           :loading="loading_filter_btn"
+          @click.prevent="onFilter"
           color="primary"
           flat
-          @click.prevent="onFilter"
         >
           Filter
         </v-btn>
         <v-btn
           :disabled="disabled"
+          @click.prevent="show = false"
           color="primary"
           flat
-          @click.prevent="show = false"
         >
           Cancel
         </v-btn>

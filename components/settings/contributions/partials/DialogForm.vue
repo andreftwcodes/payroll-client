@@ -30,17 +30,17 @@
                   <v-text-field
                     :value="usedAtDisplay"
                     :error-messages="errors.used_at ? errors.used_at[0] : ''"
+                    v-on="on"
                     label="Date use"
                     append-icon="event"
                     readonly
-                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker
                   v-model="form.used_at"
                   :max="_now()"
-                  type="month"
                   @input="dateMenu = false"
+                  type="month"
                 ></v-date-picker>
               </v-menu>
             </v-flex>
@@ -53,7 +53,7 @@
             <v-btn color="primary" flat type="submit">
               {{ hasExists ? 'Update' : 'Save' }}
             </v-btn>
-            <v-btn color="primary" flat @click="onCancel">
+            <v-btn @click="onCancel" color="primary" flat>
               Cancel
             </v-btn>
           </v-card-actions>
