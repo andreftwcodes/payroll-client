@@ -2,13 +2,13 @@
   <div class="text-xs-center">
     <v-dialog v-model="show" persistent width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2">
-          Confirmation
-        </v-card-title>
+        <v-card-title class="headline grey lighten-2"
+          >Confirmation</v-card-title
+        >
 
-        <v-card-text class="subheading">
-          Do you really want to sign out ?
-        </v-card-text>
+        <v-card-text class="subheading"
+          >Do you really want to sign out ?</v-card-text
+        >
 
         <v-divider></v-divider>
 
@@ -20,17 +20,11 @@
             @click="onSignOut"
             color="primary"
             flat
+            >Continue</v-btn
           >
-            Continue
-          </v-btn>
-          <v-btn
-            :disabled="disabled"
-            @click="show = false"
-            color="primary"
-            flat
+          <v-btn :disabled="disabled" @click="show = false" color="primary" flat
+            >Cancel</v-btn
           >
-            Cancel
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

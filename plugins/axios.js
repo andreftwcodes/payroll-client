@@ -4,6 +4,12 @@ export default function({ $axios, store }) {
       store.dispatch('validation/setErrors', error.response.data.errors)
     }
 
+    if (store.getters['auth/authenticated']) {
+      if (error.response.status === 401) {
+        store.dispatch('auth/logout')
+      }
+    }
+
     return Promise.reject(error)
   })
 

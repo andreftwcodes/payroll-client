@@ -32,6 +32,7 @@ import TableRanges from '@/components/settings/contributions/partials/TableRange
 import _ from 'lodash'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
+  middleware: 'auth',
   components: {
     ContributionTable,
     TableRanges

@@ -6,3 +6,9 @@ export const getters = {
     return state.user
   }
 }
+
+export const actions = {
+  async logout() {
+    await this.$auth.logout()
+  }
+}

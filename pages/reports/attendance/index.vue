@@ -17,6 +17,7 @@
 <script>
 import { payslipMixin } from '@/plugins/mixins/payslip.js'
 export default {
+  middleware: 'auth',
   components: {},
   mixins: [payslipMixin],
   data() {

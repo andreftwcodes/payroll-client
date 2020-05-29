@@ -18,6 +18,7 @@ import PaySlipTable from '@/components/reports/payslip/PaySlipTable'
 import ConfirmationDialog from '@/components/reports/payslip/ConfirmationDialog'
 import { mapActions } from 'vuex'
 export default {
+  middleware: 'auth',
   components: {
     ToolBar,
     FilterDialog,

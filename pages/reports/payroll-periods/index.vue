@@ -28,9 +28,7 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>
-                {{ props.item.period_dsp }}
-              </td>
+              <td>{{ props.item.period_dsp }}</td>
               <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.employee.locale.name }}</td>
               <td>{{ props.item.created_at }}</td>
@@ -65,6 +63,7 @@ import FilterDialog from '@/components/payroll-periods/FilterDialog'
 import OpenPeriodDialog from '@/components/payroll-periods/OpenPeriodDialog'
 import _ from 'lodash'
 export default {
+  middleware: 'auth',
   components: {
     FilterDialog,
     OpenPeriodDialog

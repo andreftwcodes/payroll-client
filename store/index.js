@@ -58,11 +58,17 @@ export const actions = {
       'SET_SYSTEM_THEME',
       (await this.$axios.$get('system-theme/theme-data')).data
     )
-    commit('SET_ROLES', (await this.$axios.$get('roles')).data)
-    commit('SET_LOCALES', (await this.$axios.$get('locales')).data)
-    commit(
-      'SET_SCHEDULES',
-      (await this.$axios.$get('employee/dropdown-schedules')).data
-    )
+
+    await dispatch('mainInit')
+  },
+  async mainInit({ commit }) {
+    if (this.$auth.loggedIn) {
+      commit('SET_ROLES', (await this.$axios.$get('roles')).data)
+      commit('SET_LOCALES', (await this.$axios.$get('locales')).data)
+      commit(
+        'SET_SCHEDULES',
+        (await this.$axios.$get('employee/dropdown-schedules')).data
+      )
+    }
   }
 }

@@ -24,9 +24,7 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>
-                {{ props.item.ref_no }}
-              </td>
+              <td>{{ props.item.ref_no }}</td>
               <td>{{ props.item.subject }}</td>
               <td>{{ props.item.employee.fullname }}</td>
               <td>{{ props.item.amount_loaned_dsp }}</td>
@@ -37,9 +35,8 @@
                   :color="props.item.balance == 0 ? 'green' : 'red'"
                   text-color="white"
                   small
+                  >{{ props.item.progress }}</v-chip
                 >
-                  {{ props.item.progress }}
-                </v-chip>
               </td>
               <td>{{ props.item.loaned_dsp }}</td>
               <td>
@@ -73,6 +70,7 @@ import DltDialog from '@/components/loans/government/DltDialog'
 import _ from 'lodash'
 import { mapActions } from 'vuex'
 export default {
+  middleware: 'auth',
   components: {
     FormDialog,
     DltDialog

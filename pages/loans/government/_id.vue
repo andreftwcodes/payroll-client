@@ -4,9 +4,9 @@
       <v-flex>
         <v-card>
           <v-card-title class="headline pb-2">
-            <v-flex>
-              {{ parent.ref_no }} - {{ parent.employee.fullname }}
-            </v-flex>
+            <v-flex
+              >{{ parent.ref_no }} - {{ parent.employee.fullname }}</v-flex
+            >
             <v-spacer></v-spacer>
             <v-icon @click="onBack" large color="blue darken-2"
               >keyboard_backspace</v-icon
@@ -67,9 +67,7 @@
             class="elevation-1"
           >
             <template v-slot:items="props">
-              <td>
-                {{ props.index + 1 }}
-              </td>
+              <td>{{ props.index + 1 }}</td>
               <td>{{ props.item.paid_at }}</td>
               <td>{{ props.item.amortization }}</td>
             </template>
@@ -83,6 +81,7 @@
 <script>
 import moment from 'moment'
 export default {
+  middleware: 'auth',
   data() {
     return {
       headers: [

@@ -300,7 +300,9 @@ export default {
         this.setSelectedDate(this.date)
         this.attendances = response.data
         this.employees = response.employees
-      } catch (error) {}
+      } catch (error) {
+        loading.hide()
+      }
     },
     showAttendanceDltDialog(attendance) {
       this.deleteDialog = true

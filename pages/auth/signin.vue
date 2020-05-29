@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   layout: 'auth',
   middleware: 'guest',
@@ -50,6 +51,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      mainInit: 'mainInit'
+    }),
     async submit() {
       try {
         this.disabled = true
@@ -59,6 +63,7 @@ export default {
         })
         this.disabled = false
         this.loading_login_btn = false
+        this.mainInit()
       } catch (error) {
         this.disabled = false
         this.loading_login_btn = false
